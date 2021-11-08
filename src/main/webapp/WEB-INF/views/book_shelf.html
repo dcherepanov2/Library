@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My book shelf</title>
+    <style>
+        #root_container {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #books {
+            width: 50%;
+            border-collapse: collapse;
+        }
+
+        table {
+            margin: 25px;
+        }
+
+        th {
+            text-align: left;
+        }
+
+        th, td {
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+<div id="root_container">
+    <form method="post" th:action="@{/books/save}" th:object="${book}">
+        <table>
+            <tr>
+                <td>
+                    <input type="text" placeholder="author" th:field="*{author}">
+                </td>
+                <td>
+                    <input type="text" placeholder="book_title" th:field="*{title}">
+                </td>
+                <td>
+                    <input type="text" placeholder="size (pages)" th:field="*{size}">
+                </td>
+                <td>
+                    <input type="submit" value="save">
+                </td>
+                <td th:if="${error == 'Addled book has errors, please try again'}">
+                        <div>Addled book has errors, please try again</div>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <form method="post" th:action="@{/books/uploadFile}" enctype="multipart/form-data">
+        <table>
+            <tr>
+                <td>
+                    <input type="file" name="file"/>
+                </td>
+                <td>
+                    <input type="submit" value="Upload">
+                </td>
+            </tr>
+        </table>
+    </form>
+    <form method="post" th:action="@{/books/removeToAuthor}" th:object="${placeholderToRemove}">
+        <table>
+            <tr>
+                <td>
+                    <input type="text" placeholder="Author name" th:field="*{string}">
+                </td>
+                <td>
+                    <input type="submit" value="remove">
+                </td>
+                <td th:if="${error == 'Removed author has errors in placeholder, please try again'}">
+                    <div th:text="${error}"></div>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <form method="post" th:action="@{/books/removeToTittle}" th:object="${placeholderToRemove}">
+        <table>
+            <tr>
+                <td>
+                    <input type="text" placeholder="Tittle name" th:field="*{string}">
+                </td>
+                <td>
+                    <input type="submit" value="remove">
+                </td>
+                <td th:if="${error == 'Removed title has errors in placeholder, please try again'}">
+                    <div th:text="${error}"></div>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <form method="post" th:action="@{/books/remove}" th:object="${placeholderToRemove}">
+        <table>
+            <tr>
+                <td>
+                    <input type="text" placeholder="id number" th:name="*{string}">
+                </td>
+                <td>
+                    <input type="submit" value="remove">
+                </td>
+                <td th:if="${error == 'Removed id has errors in placeholder, please try again'}">
+                    <div th:text="${error}"></div>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <form method="post" th:action="@{/books/findId}" th:object="${id}">
+        <table>
+            <tr>
+                <td>
+                    <input type="text" placeholder="id number" th:field="*{string}">
+                </td>
+                <td>
+                    <input type="submit" value="find">
+                </td>
+                <td th:if="${error == 'Invalid id in placeholder, please try again'}">
+                    <div th:text="${error}"></div>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <form method="post" th:action="@{/books/findTitle}" th:object="${id}">
+        <table>
+            <tr>
+                <td>
+                    <input type="text" placeholder="title" th:field="*{string}">
+                </td>
+                <td>
+                    <input type="submit" value="find">
+                </td>
+                <td th:if="${error == 'Invalid title in placeholder, please try again'}">
+                    <div th:text="${error}"></div>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <form method="post" th:action="@{/books/findAuthor}" th:object="${id}">
+        <table>
+            <tr>
+                <td>
+                    <input type="text" placeholder="author" th:field="*{string}">
+                </td>
+                <td>
+                    <input type="submit" value="find">
+                </td>
+                <td th:if="${error == 'Invalid author in placeholder, please try again'}">
+                    <div th:text="${error}"></div>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <form method="post" th:action="@{/books/deleteAuthorRegex}" th:object="${regex}">
+        <table>
+            <tr>
+                <td>
+                    <input type="text" placeholder="regex author to remove" th:field="*{string}">
+                </td>
+                <td>
+                    <input type="submit" value="remove">
+                </td>
+                <td th:if="${error == 'Invalid regex author to remove or not found'}">
+                    <div th:text="${error}"></div>
+                </td>
+            <tr>
+        </table>
+    </form>
+    <form method="post" th:action="@{/books/deleteTitleRegex}" th:object="${regex}">
+        <table>
+            <tr>
+                <td>
+                    <input type="text" placeholder="regex title to remove" th:field="*{string}">
+                </td>
+                <td>
+                    <input type="submit" value="remove">
+                </td>
+                <td th:if="${error == 'Invalid title author to remove or not found'}">
+                    <div th:text="${error}"></div>
+                </td>
+            <tr>
+        </table>
+    </form>
+    <form method="post" th:action="@{/books/deleteSizeRegex}" th:object="${regex}">
+        <table>
+            <tr>
+                <td>
+                    <input type="text" placeholder="regex size to remove" th:field="*{string}">
+                </td>
+                <td>
+                    <input type="submit" value="remove">
+                </td>
+                <td th:if="${error == 'Invalid size author to remove or not found'}">
+                    <div th:text="${error}"></div>
+                </td>
+            <tr>
+        </table>
+    </form>
+<!--    <form method="post" th:action="@{/books/findSizeRegex}" th:object="${regex}">-->
+<!--        <table>-->
+<!--            <tr>-->
+<!--                <td>-->
+<!--                    <input type="text" placeholder="regex size to find" th:field="*{string}">-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                    <input type="submit" value="find">-->
+<!--                </td>-->
+<!--                <td th:if="${error == 'Invalid size author to find or not found'}">-->
+<!--                    <div th:text="${error}"></div>-->
+<!--                </td>-->
+<!--            <tr>-->
+<!--        </table>-->
+<!--    </form>-->
+<!--    <form method="post" th:action="@{/books/findTitleRegex}" th:object="${regex}">-->
+<!--        <table>-->
+<!--            <tr>-->
+<!--                <td>-->
+<!--                    <input type="text" placeholder="regex title to find" th:field="*{string}">-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                    <input type="submit" value="find">-->
+<!--                </td>-->
+<!--                <td th:if="${error == 'Invalid title author to find or not found'}">-->
+<!--                    <div th:text="${error}"></div>-->
+<!--                </td>-->
+<!--            <tr>-->
+<!--        </table>-->
+<!--    </form>-->
+<!--    <form method="post" th:action="@{/books/findAuthorRegex}" th:object="${regex}">-->
+<!--        <table>-->
+<!--            <tr>-->
+<!--                <td>-->
+<!--                    <input type="text" placeholder="regex author to remove" th:field="*{string}">-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                    <input type="submit" value="find">-->
+<!--                </td>-->
+<!--                <td th:if="${error == 'Invalid regex author to find or not found'}">-->
+<!--                    <div th:text="${error}"></div>-->
+<!--                </td>-->
+<!--            <tr>-->
+<!--        </table>-->
+<!--    </form>-->
+    <table id="books">
+        <tr>
+            <th>id</th>
+            <th>author</th>
+            <th>title</th>
+            <th>size</th>
+        </tr>
+        <form method="post">
+            <table>
+                <tr th:if= "${findList.size() == 0}"th:each="book : ${bookList}">
+                    <td th:text="${book.id}"></td>
+                    <td th:text="${book.author}"></td>
+                    <td th:text="${book.title}"></td>
+                    <td th:text="${book.size}"></td>
+                    <td>
+                        <a th:href="@{|file/downloadFile?id=${book.id}|}">Download</a>
+                    </td>
+                    <td>
+                    </td>
+
+                </tr>
+            </table>
+        </form>
+
+        <tr th:if= "${findList.size() > 0}"th:each="book : ${findList}">
+            <td th:text="${book.id}"></td>
+            <td th:text="${book.author}"></td>
+            <td th:text="${book.title}"></td>
+            <td th:text="${book.size}"></td>
+            <td>
+                <a th:href="@{|file/downloadFile?id=${book.id}|}">Download</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
