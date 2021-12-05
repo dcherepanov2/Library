@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<footer class="Footer" th:fragment="footer">
+    <div class="wrap">
+        <div class="row Footer-main">
+            <div class="row-block"
+                 th:replace="~{fragments/footer_left_side_info_block_fragment :: block}"></div>
+            <div class="row-block">
+                <ul class="menu menu_vt Footer-menu">
+                    <li class="menu-item"><a class="menu-link" th:href="@{/}" href="/index.html" th:text="#{topbar.main}">Главная</a>
+                    </li>
+                    <li class="menu-item"><a class="menu-link" th:href="@{/genres/}" th:text="#{topbar.genres}">Жанры</a>
+                    </li>
+                    <li class="menu-item"><a class="menu-link" th:href="@{/books/recent}" th:text="#{topbar.news}">Новинки</a>
+                    </li>
+                    <li class="menu-item"><a class="menu-link" th:href="@{/books/popular}" th:text="#{topbar.popular}">Популярное</a>
+                    </li>
+                    <li class="menu-item"><a class="menu-link" th:href="@{/authors}" th:text="#{topbar.authors}">Авторы</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="row-block">
+                <ul class="menu menu_vt Footer-menu">
+                    <li class="menu-item"><a class="menu-link" th:href="@{/user/signin}" th:text="#{buttombar.signin}">Войти</a>
+                    </li>
+                    <li class="menu-item"><a class="menu-link" th:href="@{/documents/}" th:text="#{buttombar.documents}">Документы</a>
+                    </li>
+                    <li class="menu-item"><a class="menu-link" th:href="@{/about/}" th:text="#{buttombar.about}">О компании</a>
+                    </li>
+                    <li class="menu-item"><a class="menu-link" th:href="@{/faq/}" th:text="#{buttombar.faq}">Помощь</a>
+                    </li>
+                    <li class="menu-item"><a class="menu-link" th:href="@{/contacts/}" th:text="#{buttombar.contacs}">Контакты</a>
+                    </li>
+                    <p>
+                        <span th:text="#{lang.selectbar}">Выбор языка</span>
+                        <select id="locales" onclick="getLocale()">
+                            <option value=" "></option>
+                            <option value="en">English</option>
+                            <option value="ru">Русский</option>
+                        </select>
+                    </p>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="Footer-copy">
+        <div class="wrap">© 2021 Bookshop Pty Ltd. ALL RIGHTS RESERVED
+        </div>
+    </div>
+    <script src="/assets/plg/jQuery/jquery-3.5.1.min.js"></script>
+    <script>
+        function getLocale() {
+            if (document.getElementById("locales").value === 'en') {
+                window.location.replace('?lang=en','?lang=en')
+            }
+            else if(document.getElementById("locales").value === 'ru'){
+                window.location.replace('?lang=ru','?lang=ru')
+            }
+        }
+    </script>
+</footer>
+</html>
