@@ -1,0 +1,20 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="Danya (generated)" id="25">
+        <createTable tableName="book2file">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="book_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

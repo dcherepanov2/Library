@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="Danya (generated)" id="1637757118061-1">
+        <createSequence sequenceName="document_id_seq"/>
+    </changeSet>
+    <changeSet author="Danya (generated)" id="1637757118061-2">
+        <createSequence sequenceName="faq_question_id_seq"/>
+    </changeSet>
+    <changeSet author="Danya (generated)" id="1637757118061-3">
+        <createSequence sequenceName="genre_id_seq"/>
+    </changeSet>
+    <changeSet author="Danya (generated)" id="1637757118061-4">
+        <createSequence sequenceName="hibernate_sequence"/>
+    </changeSet>
+    <changeSet author="Danya (generated)" id="1637757118061-5">
+        <createTable tableName="author">
+            <column name="id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="biography_preview" type="VARCHAR(5000)"/>
+            <column name="biography_second_part" type="VARCHAR(5000)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Danya (generated)" id="1637757118061-6">
+        <createTable tableName="book">
+            <column name="id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="VARCHAR(255)"/>
+            <column name="price_old" type="VARCHAR(255)"/>
+            <column name="title" type="VARCHAR(255)"/>
+            <column name="author_id" type="INT"/>
+            <column name="new_book" type="BOOL"/>
+            <column name="recommended" type="BOOL"/>
+            <column name="description" type="VARCHAR(10000)"/>
+            <column name="date_public" type="TIMESTAMP(6) WITHOUT TIME ZONE"/>
+            <column name="popular" type="FLOAT8"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Danya (generated)" id="1637757118061-7">
+        <createTable tableName="book_genres">
+            <column name="book_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="genres_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="genre_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="books_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Danya (generated)" id="1637757118061-8">
+        <createTable tableName="document">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" primaryKeyName="document_pkey"/>
+            </column>
+            <column name="description" type="VARCHAR(10000)"/>
+            <column name="name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Danya (generated)" id="1637757118061-9">
+        <createTable tableName="faq_question">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" primaryKeyName="faq_question_pkey"/>
+            </column>
+            <column name="description" type="VARCHAR(1000)"/>
+            <column name="name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Danya (generated)" id="1637757118061-10">
+        <createTable tableName="genre">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" primaryKeyName="genre_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="type" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Danya (generated)" id="1637757118061-11">
+        <addPrimaryKey columnNames="id" constraintName="author_pkey" tableName="author"/>
+    </changeSet>
+    <changeSet author="Danya (generated)" id="1637757118061-12">
+        <addPrimaryKey columnNames="id" constraintName="book_pkey" tableName="book"/>
+    </changeSet>
+    <changeSet author="Danya (generated)" id="1637757118061-13">
+        <addForeignKeyConstraint baseColumnNames="book_id" baseTableName="book_genres" constraintName="fk6soimqwnss59p5wt6m3afnuoo" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="book"/>
+    </changeSet>
+    <changeSet author="Danya (generated)" id="1637757118061-14">
+        <addForeignKeyConstraint baseColumnNames="genre_id" baseTableName="book_genres" constraintName="fk9h3nddtxgapfvc95fjt1x146m" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="genre"/>
+    </changeSet>
+    <changeSet author="Danya (generated)" id="1637757118061-15">
+        <addForeignKeyConstraint baseColumnNames="genres_id" baseTableName="book_genres" constraintName="fkkemwddl6cxkebe21lsqa2ob4q" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="genre"/>
+    </changeSet>
+    <changeSet author="Danya (generated)" id="1637757118061-16">
+        <addForeignKeyConstraint baseColumnNames="author_id" baseTableName="book" constraintName="fkklnrv3weler2ftkweewlky958" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="author"/>
+    </changeSet>
+    <changeSet author="Danya (generated)" id="1637757118061-17">
+        <addForeignKeyConstraint baseColumnNames="books_id" baseTableName="book_genres" constraintName="fklbdkit5k0gr9g1w5l791qcamg" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="book"/>
+    </changeSet>
+</databaseChangeLog>

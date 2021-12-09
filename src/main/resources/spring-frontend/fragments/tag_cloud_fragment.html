@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<a class="Tags" id="tags" th:fragment="cloud">
+    <nobr th:each="tag :${allTags}">
+        <nobr th:if="${tag.size} == 0">
+            <a class="Tag Tag_xs" th:text="${tag.name}" th:href="@{'/tags/'+${tag.slug}}"></a>
+        </nobr>
+        <nobr th:if="${tag.size} == 1">
+            <a class="Tag Tag_sm" th:text="${tag.name}" th:href="@{'/tags/'+${tag.slug}}"></a>
+        </nobr>
+        <nobr th:if="${tag.size} == 2">
+            <a class="Tag" th:text="${tag.name}" th:href="@{'/tags/'+${tag.slug}}"></a>
+        </nobr>
+        <nobr th:if="${tag.size} == 3">
+            <a class="Tag Tag_md" th:text="${tag.name}" th:href="@{'/tags/'+${tag.slug}}"></a>
+        </nobr>
+        <nobr th:if="${tag.size} == 4">
+            <a class="Tag Tag_lg" th:text="${tag.name}" th:href="@{'/tags/'+${tag.slug}}"></a>
+        </nobr>
+    </nobr>
+</div>
+</html>

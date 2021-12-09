@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<style>
+    #myPopup{
+        width: 300px;
+        height: 220px;
+        padding: 18px 9px;
+        border-radius: 4px;
+        background: #fafafa;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        display: none;
+        opacity: 0;
+        z-index: 2;
+        text-align: center;
+    }
+
+    #myPopup #myPopup__close{
+        width: 21px;
+        height: 21px;
+        position: absolute;
+        top: 10px;
+        right: 11px;
+        cursor: pointer;
+        display: block;
+        font-size: 29px;
+    }
+
+    #myOverlay{
+        z-index: 1;
+        position: fixed;
+        background-color: rgba(0,0,0, .7);
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+        display: none;
+    }
+</style>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="panel">
+    <div class="ProductCard-cart">
+        <div class="ProductCard-cartElement">
+            <button class="btn btn_primary btn_outline" data-sendstatus="KEPT" data-bookid="[1111]"
+                    th:attr="data-bookid = ${book.slug}"
+                    data-btntype="check" data-btnradio="buyblock" data-check="false"
+                    data-alttext="Отложена"><span class="btn-icon"><img
+                    src="/assets/img/icons/heart.svg" alt="heart.svg"/></span><span
+                    class="btn-content" >Отложить<a ></a></span>
+            </button>
+
+        </div>
+        <div class="ProductCard-cartElement">
+            <button class="btn btn_primary btn_outline" data-sendstatus="CART"
+                    th:attr="data-bookid = ${book.slug}" data-btntype="check" data-btnradio="buyblock" data-check="false"
+                    onclick="keptBook()" data-alttext="В корзине"><span class="btn-icon"><img
+                    src="/assets/img/icons/shopping-basket.svg"
+                    alt="shopping-basket.svg"/></span><span class="btn-content">Купить</span>
+            </button>
+        </div>
+    </div>
+    <div class="ProductCard-cart">
+        <div class="ProductCard-cartElement" id="downloadButton" onclick="showPanelDownload()"><a class="btn btn_primary btn_outline"><span
+                class="btn-icon"><img src="/assets/img/icons/download.svg"
+                                      alt="download.svg"/></span><span
+                class="btn-content" >Скачать</span></a>
+        </div>
+        <div id="myPopup" style="display: none">
+            <p>Ссылки для скачивания</p>
+            <span id="myPopup__close" class="close" onclick="closePanelDownload()">❌</span>
+            <div>
+                <div>
+                    <a th:href="@{'/api/books/download/'+${book.slug}+'?type=0'}">PDF</a><br><!--th:href="${'/api/books/download'+${book.slug}+'?type=0'}"-->
+                    <a th:href="@{'/api/books/download/'+${book.slug}+'?type=1'}">EPUB</a><br>
+                    <a th:href="@{'/api/books/download/'+${book.slug}+'?type=2'}" >FB2</a><br><!--th:href="${'/api/books/download'+${book.slug}+'?type=2'}"-->
+                </div>
+            </div>
+        </div>
+        <div id="myOverlay"></div>
+        <div class="ProductCard-cartElement">
+            <button class="btn btn_primary btn_outline" data-sendstatus="ARCHIVED"
+                    data-bookid="[1111]" data-btntype="check" data-btnradio="buyblock"
+                    data-check="false" data-alttext="Вернуть из архива"><span class="btn-icon"><img
+                    src="/assets/img/icons/archive.svg" alt="archive.svg"/></span><span
+                    class="btn-content">В архив</span>
+            </button>
+        </div>
+    </div>
+</div>
+</html>
