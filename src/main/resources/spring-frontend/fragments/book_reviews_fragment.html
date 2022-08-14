@@ -57,7 +57,7 @@
                     </div>
                 </header>
                 <div class="Comment-content">
-                   <form method="post" th:action="@{'/books/comment/'+${bookBySelect.slug}}" th:object="${comment}">
+                   <form method="post" th:action="@{'/books/comment/'+${slugBook.slug}}" th:object="${comment}">
                        <input class="Spoiler-visible" style="width: 890px; height: 250px; text-align:left;" type="text" placeholder="Мне так понравилась эта книга... Хочу купить весь магазин" th:field="*{description}">
                        <input  class="Spoiler-trigger btn btn_primary btn_nr" style="background-color: #01FC31; align-items: revert    " type="submit" value="Отправить">
                    </form>

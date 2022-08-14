@@ -24,6 +24,7 @@
         <main class="Middle-main">
             <h1 class="Middle-title" th:text="#{cart.user.postponed}">Отложенное
             </h1>
+            <h3 th:if="${isCartEmpty}"> Корзина пуста </h3>
             <form class="form Cart Cart_postponed" action="#" method="post">
                 <div class="Cart-product" th:each="book: ${bookCartKept}">
                     <div class="Cart-block Cart-block_row">
@@ -33,7 +34,7 @@
                         </div>
                         <div class="Cart-block Cart-block_row">
                             <div class="Cart-block Cart-block_info">
-                                <div class="Cart-author"><a href="#" th:text="${book.authors}">Борис Васильевич Бедный</a>
+                                <div class="Cart-author"><div href="#" th:text="${book.authors}">Борис Васильевич Бедный</div>
                                 </div>
                                 <div class="Cart-title"><a href="#" th:text="${book.title}">Жизнь</a>
                                 </div>
@@ -83,14 +84,14 @@
                                 <div class="Cart-buttons">
                                     <div class="Cart-btn">
                                         <button class="btn btn_primary btn_outline" data-sendstatus="CART"
-                                                data-bookid="[1122]"><span class="btn-icon"><img
+                                                th:attr="data-bookid=${book.slug}"><span class="btn-icon"><img
                                                 src="/assets/img/icons/shopping-basket.svg" alt="shopping-basket.svg"/></span><span
                                                 class="btn-content">Купить</span>
                                         </button>
                                     </div>
                                     <div class="Cart-btn">
                                         <button class="btn btn_danger btn_outline" data-sendstatus="UNLINK"
-                                                data-bookid="[1122]"><span class="btn-icon"><img
+                                                th:attr="data-bookid=${''+book.slug}"><span class="btn-icon"><img
                                                 src="/assets/img/icons/trash.svg" alt="trash.svg"/></span><span
                                                 class="btn-content">Удалить</span>
                                         </button>
@@ -100,7 +101,7 @@
                             <div class="Cart-block Cart-block_price">
                                 <div class="Cart-priceTitle">Цена:
                                 </div>
-                                <div class="Cart-price">254 р.
+                                <div class="Cart-price" th:text="${book.price}">254 р.
                                 </div>
                             </div>
                         </div>

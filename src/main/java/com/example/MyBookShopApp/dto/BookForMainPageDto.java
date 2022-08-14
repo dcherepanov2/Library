@@ -53,6 +53,7 @@ public class BookForMainPageDto {
         this.title = book.getTitle();
         this.image = book.getImage();
         this.authors = this.setAuthors(book.getAuthors());
+        this.authors = this.authors.substring(0,this.authors.length()-2);
         this.discount = book.getDiscount();
         this.isBestseller = book.getIsBestseller();
         this.rating = 5;

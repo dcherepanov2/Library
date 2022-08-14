@@ -20,7 +20,7 @@ public class UserContactEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id",referencedColumnName = "id", columnDefinition = "INT NOT NULL")
-    private UserEntity userId;
+    private User userId;
 
     @Column(columnDefinition = "TINYINT NOT NULL")
     private ContactType type;
@@ -96,11 +96,11 @@ public class UserContactEntity {
         this.contact = contact;
     }
 
-    public UserEntity getUserId() {
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(UserEntity userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
 }

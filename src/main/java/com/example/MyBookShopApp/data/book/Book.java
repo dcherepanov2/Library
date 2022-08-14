@@ -6,7 +6,7 @@ import com.example.MyBookShopApp.data.book.file.FileDownloadEntity;
 import com.example.MyBookShopApp.data.book.review.BookReview;
 import com.example.MyBookShopApp.data.genre.GenreEntity;
 import com.example.MyBookShopApp.data.tags.Tag;
-import com.example.MyBookShopApp.data.user.UserEntity;
+import com.example.MyBookShopApp.data.user.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -80,7 +80,7 @@ public class Book {
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<UserEntity> bookJoinUsers = new ArrayList<>();
+    private List<User> bookJoinUsers = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -210,11 +210,11 @@ public class Book {
         this.fileDownloadEntities = fileDownloadEntities;
     }
 
-    public List<UserEntity> getBookJoinUsers() {
+    public List<User> getBookJoinUsers() {
         return bookJoinUsers;
     }
 
-    public void setBookJoinUsers(List<UserEntity> bookJoinUsers) {
+    public void setBookJoinUsers(List<User> bookJoinUsers) {
         this.bookJoinUsers = bookJoinUsers;
     }
 

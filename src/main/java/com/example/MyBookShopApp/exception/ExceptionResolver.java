@@ -47,4 +47,18 @@ public class ExceptionResolver {
         return response;
     }
 
+    @ExceptionHandler({
+            NullPointerException.class
+    })
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public HashMap<String, String> errorServer(Exception ex, HttpServletRequest request) throws ParseException {
+        HashMap<String, String> response = new HashMap<>();
+        String error = null;
+        RecentBookException recentBookException = new RecentBookException(request);
+        response.put("errorPath",request.getRequestURI());
+        response.put("result", "true");
+        response.put("error", error);
+        return response;
+    }
+
 }

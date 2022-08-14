@@ -1,7 +1,6 @@
 package com.example.MyBookShopApp.data.book.file;
 
 import com.example.MyBookShopApp.data.book.Book;
-import liquibase.pro.packaged.S;
 
 import javax.persistence.*;
 import java.util.ArrayList;
