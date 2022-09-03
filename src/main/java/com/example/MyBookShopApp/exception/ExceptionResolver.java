@@ -10,6 +10,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.BadRequestException;
 import java.text.ParseException;
 import java.util.HashMap;
 
@@ -31,7 +32,8 @@ public class ExceptionResolver {
             HttpMessageNotReadableException.class,
             MethodArgumentTypeMismatchException.class,
             HttpMediaTypeNotSupportedException.class,
-            RecentBookException.class
+            RecentBookException.class,
+            BadRequestException.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public HashMap<String, String> badRequest(Exception ex, HttpServletRequest request) throws ParseException {
@@ -53,11 +55,9 @@ public class ExceptionResolver {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public HashMap<String, String> errorServer(Exception ex, HttpServletRequest request) throws ParseException {
         HashMap<String, String> response = new HashMap<>();
-        String error = null;
-        RecentBookException recentBookException = new RecentBookException(request);
         response.put("errorPath",request.getRequestURI());
         response.put("result", "true");
-        response.put("error", error);
+        response.put("error", "null");
         return response;
     }
 

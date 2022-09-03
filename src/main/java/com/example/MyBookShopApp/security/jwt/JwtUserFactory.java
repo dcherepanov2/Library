@@ -19,10 +19,9 @@ public final class JwtUserFactory {
         return new JwtUser(
                 user.getId(),
                 user.getUsername(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail(),
-                user.getPassword(),
+                user.getBalance(),
+                user.getDateRegistration(),
+                user.getHash(),
                 mapToGrantedAuthorities(new ArrayList<>(user.getRoles())),
                 true
         );

@@ -2,8 +2,12 @@ package com.example.MyBookShopApp.repo.userrepos;
 
 import com.example.MyBookShopApp.data.user.UserContactEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface UserContactRepo extends JpaRepository<UserContactEntity, Integer> {
     //TODO: написать свой Query этот работает некорректно
-    UserContactEntity findByCodeAndContactOrderByCodeTimeDesc(Long code, String contact);
+    @Query(value = "SELECT * FROM user_contact WHERE contact = :contact AND code = :code"
+          ,nativeQuery = true)
+    UserContactEntity findByContact(String contact, Long code);
 }

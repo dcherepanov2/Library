@@ -1,6 +1,6 @@
 package com.example.MyBookShopApp.service.senders;
 
-import com.example.MyBookShopApp.data.user.User;
+import com.example.MyBookShopApp.dto.ContactRequestDtoV2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -20,21 +20,20 @@ public class MailSender {
 
     private final JavaMailSender javaMailSender;
 
+
     @Autowired
     public MailSender(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ,
-            rollbackFor = {Exception.class, RuntimeException.class})
-    public void sendMessage(User user){
+                   rollbackFor = {Exception.class, RuntimeException.class})
+    public void sendMessage(ContactRequestDtoV2 contact, String code){
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom(email);
-        simpleMailMessage.setTo(user.getEmail());
-        String url = serverPort+"/api/v1/auth/verification/"+user.getUsername()+"/"+ user.getLastCode();
-        simpleMailMessage.setSubject("Email verification of repetitor online");
-        simpleMailMessage.setText("Go to the link for verification your email on site repetitor online: "
-                                    + url);
+        simpleMailMessage.setTo(contact.getContact());
+        simpleMailMessage.setSubject("BookShop verification");
+        simpleMailMessage.setText("Input this code to verification on site: " + code);
         javaMailSender.send(simpleMailMessage);
     }
 }

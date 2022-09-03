@@ -25,7 +25,7 @@
             </column>
             <column name="code" type="VARCHAR(255)"/>
             <column name="code_trials" type="INT"/>
-            <column name="code_time" type="DATETIME"/>
+            <column name="codetime" type="DATETIME"/>
             <column name="contact" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>

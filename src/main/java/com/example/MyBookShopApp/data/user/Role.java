@@ -1,6 +1,8 @@
 package com.example.MyBookShopApp.data.user;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
@@ -8,7 +10,11 @@ import java.util.List;
 @Entity
 @Table(name = "roles")
 @Data
+@NoArgsConstructor
 public class Role {
+    public Role(String name) {
+        this.name = name;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

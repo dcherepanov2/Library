@@ -13,8 +13,6 @@
     <link rel="stylesheet" href="/assets/css/fonts.min.css?v=65675850">
     <link rel="stylesheet" href="/assets/css/basic.min.css?v=65675850">
     <link rel="stylesheet" href="/assets/css/extra.min.css?v=65675850">
-<!--    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>-->
-<!--    <meta id ="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>-->
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <script defer src="/assets/js/scripts.min.js?v=65675850"></script>
 </head>
@@ -30,16 +28,16 @@
     </div>
     <div class="wrap">
         <main class="Middle-main">
-            <form class="form Login Login_registration" th:object="${regForm}" th:action="@{/reg}" action="#" method="post">
+            <form class="form Login Login_registration" action="#" method="post">
                 <div class="Login-ins">
                     <div class="Login-step">
                         <div class="form-group">
-                            <input th:field = "*{name}" class="form-input" id="name" name="name" type="text" placeholder="Введите Имя"
+                            <input class="form-input" id="name" name="name" type="text" placeholder="Введите Имя"
                                    data-validate="require"/>
                         </div>
                         <div class="form-group form-group_row">
                             <div class="form-group">
-                                <input class="form-input form-input_phone" th:field="*{phone}" id="phone" name="phone" type="text"
+                                <input class="form-input form-input_phone" id="phone" name="phone" type="text"
                                        placeholder="Введите телефон" data-mask="+7 (999) 999-99-99"
                                        data-validate="require"/>
                             </div>
@@ -56,7 +54,7 @@
                         <div class="form-group form-group_row">
                             <div class="form-group">
                                 <input class="form-input form-input_mail" id="mail" name="mail" type="text"
-                                       placeholder="Введите e-mail" data-validate="mail require" th:field = "*{email}"/>
+                                       placeholder="Введите e-mail" data-validate="mail require"/>
                             </div>
                             <div class="form-group form-group_key">
                                 <input class="form-input form-input_code" id="mailCode" name="mailCode" type="text"

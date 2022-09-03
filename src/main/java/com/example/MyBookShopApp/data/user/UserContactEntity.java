@@ -12,13 +12,13 @@ import java.time.LocalDateTime;
 public class UserContactEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 //
 //    @Column(columnDefinition = "INT NOT NULL")
 //    private int userId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id",referencedColumnName = "id", columnDefinition = "INT NOT NULL")
     private User userId;
 
@@ -28,13 +28,13 @@ public class UserContactEntity {
     @Column(columnDefinition = "SMALLINT NOT NULL")
     private short approved;
 
-    @Column(columnDefinition = "VARCHAR(255) NOT NULL")
-    private String code;
+    @Column(columnDefinition = "BIGINT")
+    private Long code;
 
     @Column(name = "code_trials",columnDefinition = "INT")
     private int codeTrails;
 
-    @Column(columnDefinition = "TIMESTAMP")
+    @Column(name = "codetime",columnDefinition = "TIMESTAMP")
     private LocalDateTime codeTime;
 
     @Column(columnDefinition = "VARCHAR(255) NOT NULL")
@@ -64,11 +64,11 @@ public class UserContactEntity {
         this.approved = approved;
     }
 
-    public String getCode() {
+    public Long getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(Long code) {
         this.code = code;
     }
 

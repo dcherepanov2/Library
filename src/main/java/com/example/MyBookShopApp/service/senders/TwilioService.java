@@ -6,6 +6,7 @@ import com.example.MyBookShopApp.data.user.UserContactEntity;
 import com.example.MyBookShopApp.repo.userrepos.UserContactRepo;
 import com.example.MyBookShopApp.repo.userrepos.UserRepo;
 import com.twilio.Twilio;
+import com.twilio.http.TwilioRestClient;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +41,8 @@ public class TwilioService {
     public String generatedCode(String contact) {
         UserContactEntity userContactEntity = new UserContactEntity();
         userContactEntity.setContact(contact);
-        int code = random.nextInt(899999) + 100000;
-        userContactEntity.setCode(String.valueOf(code));
+        Long code = (long) (random.nextInt(899999) + 100000);
+        userContactEntity.setCode(code);
         User user = new User();
         user.setId(1L);//TODO: затычка убрать
         userContactEntity.setUserId(user);

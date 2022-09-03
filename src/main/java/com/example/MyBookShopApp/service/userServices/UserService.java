@@ -14,7 +14,7 @@ public interface UserService {
 
     User findByUsername(String username);
 
-    boolean findByEmail(String email);
+    User findByEmail(String email);
 
     JwtLogoutToken logoutToken(String token);
 
