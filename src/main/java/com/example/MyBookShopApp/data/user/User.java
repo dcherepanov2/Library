@@ -1,11 +1,9 @@
 package com.example.MyBookShopApp.data.user;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.text.DecimalFormat;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -21,15 +19,19 @@ public class User{
     private Long id;
 
     @Column(name = "name")
+    @NotNull
     private String username;
 
     @Column(name = "reg_time")
+    @NotNull
     private LocalDate dateRegistration;
 
     @Column(name = "balance")
+    @NotNull
     private Double balance;
 
     @Column(name = "hash")
+    @NotNull
     private String hash;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -38,5 +40,6 @@ public class User{
             ,joinColumns = @JoinColumn(name = "user_id")
             ,inverseJoinColumns =  @JoinColumn(name = "role_id")
     )
+    @NotNull
     private List<Role> roles;
 }

@@ -38,14 +38,16 @@ public class BookService {
 
     public List<Book> getPopularBooksData(Integer offset, Integer limit) {
         Pageable pageable = PageRequest.of(offset,limit);
-        return books.findByMostPopular(pageable);
+        List<Book> response = books.findByMostPopular(pageable);
+        if(response.size() == 0){
+            return books.findAll(pageable).getContent();
+        }
+        return response;
     }
 
     public List<Book> getSearchQuery(String name, Integer offset, Integer limit) {
         Pageable nextPage = PageRequest.of(offset,limit);
-        List<Book> booksSearch;
-        booksSearch = books.findByTitleContaining(name, nextPage).getContent();
-        return booksSearch;
+        return books.findByTitleContaining(name, nextPage).getContent();
     }
 
     public List<Book> getFilterBooksByDate(Date to, Date from, Integer offset, Integer limit){
@@ -55,28 +57,29 @@ public class BookService {
 
     public List<Book>  getPageOfRecommendedBooks(Integer offset, Integer limit){
         Pageable nextPage = PageRequest.of(offset,limit);
+        //TODO: написать функци. которая будет искать все рекомендованные книги
         return books.findAll(nextPage).getContent();
     }
+    //TODO: протестировать весь функционал, посмотреть нужны эти методы или нет, где используются
+//    public List<Book> findBooksByFirstName(String name){
+//        return books.findBooksByAuthorFirstNameContaining(name);
+//    }
+////
+////    public List<Book> findBooksByTitle(String title){
+////        return books.findBooksByTitleContaining(title);
+////    }
+////
+////    public List<Book> findBooksByPriceBetween(int min, int max){
+////        return books.getBooksByPriceBetween(min, max);
+////    }
+//
+//    public List<Book> findBooksByIsBestseller(){
+//        return books.getBooksByIsBestseller();
+//    }
 
-    public List<Book> findBooksByFirstName(String name){
-        return books.findBooksByAuthorFirstNameContaining(name);
-    }
-
-    public List<Book> findBooksByTitle(String title){
-        return books.findBooksByTitleContaining(title);
-    }
-
-    public List<Book> findBooksByPriceBetween(int min, int max){
-        return books.getBooksByPriceBetween(min, max);
-    }
-
-    public List<Book> findBooksByIsBestseller(){
-        return books.getBooksByIsBestseller();
-    }
-
-    public List<Book> findBooksByMaxDiscount(){
-        return books.getBooksWithMaxDiscount();
-    }
+    //public List<Book> findBooksByMaxDiscount(){
+    //    return books.getBooksWithMaxDiscount();
+    //}
 
     public Page<Book> getPageOfRecommendedBooks(int offset, int limit){
         Pageable nextPage = PageRequest.of(offset, limit);
@@ -140,7 +143,7 @@ public class BookService {
         return rating;
     }
 
-    public List<BookReview> putComment(CommentDtoInput commentDto, String slug) {
+    public void putComment(CommentDtoInput commentDto, String slug) {
         Book book = books.findBookBySlug(slug);
         BookReview bookReview = new BookReview();
         bookReview.setBookId(book.getId());
@@ -149,6 +152,6 @@ public class BookService {
         bookReview.setTime(LocalDateTime.now());
         bookReviewRepo.save(bookReview);
         book.getBooksReview().add(bookReview);
-        return bookReviewService.reviewEntitiesBySlugBook(slug);
+        bookReviewService.reviewEntitiesBySlugBook(slug);
     }
 }

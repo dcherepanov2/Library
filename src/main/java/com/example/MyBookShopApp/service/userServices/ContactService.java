@@ -35,7 +35,15 @@ public class ContactService {
         this.createNewContactEntity(contact, code, user);
     }
 
-    public ResponseApproveContact approveContact(ApproveContactDto contact){
+    public void saveContactDtoPhone(ContactRequestDtoV2 contact, String code) {
+        User user = this.getContactEntity(contact);
+        if (user == null) {
+            user = userService.createNewUserWithUserClientRole(contact.getContact());
+        }
+        this.createNewContactEntity(contact, code, user);
+    }
+
+    public ResponseApproveContact approveContact(ApproveContactDto contact){//TODO: здесь падает ошибка
         UserContactEntity contactEntity = userContactRepo.findByContact(contact.getContact(), Long.valueOf(contact.getCode().replace(" ", "")));
         Long approve = Long.valueOf(contact.getCode().replace(" ",""));
         if(contactEntity != null && approve.equals(contactEntity.getCode())){
@@ -78,5 +86,4 @@ public class ContactService {
         contactLocal.setCodeTrails(contactLocal.getCodeTrails() + 1);
         userContactRepo.save(contactLocal);
     }
-
 }

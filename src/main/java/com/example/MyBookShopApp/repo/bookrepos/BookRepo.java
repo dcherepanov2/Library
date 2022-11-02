@@ -31,18 +31,6 @@ public interface BookRepo extends JpaRepository<Book, Integer> {
     List<Book> findByMostPopular(Pageable pageable);
 
     Page<Book> findByTitleContaining(String title, Pageable nextPage);
-//
-//    @Query(
-//            value = "SELECT * FROM book WHERE pub_date <?1 AND pub_date >?2 limit ?#{#pageable}",
-//            countQuery = "SELECT count(*) FROM book WHERE pub_date <?1 AND pub_date >?2 ",
-//            nativeQuery = true
-//    )
-//    Page<Book> findByDatePublic(
-//            @Temporal(TemporalType.TIMESTAMP) Date afterDate,
-//            @Temporal(TemporalType.TIMESTAMP) Date beforeDate,
-//            Pageable pageable
-//    );
-
     Page<Book> findBooksByDatePublicBetween(Date to, Date from, Pageable pageable);
 
     @Query(
@@ -71,9 +59,13 @@ public interface BookRepo extends JpaRepository<Book, Integer> {
     List<Book> getBooksWithMaxDiscount();
 
     @Query(
-            value = " SELECT b1.id, b1.is_bestseller, b1.slug, b1.title, b1.image, b1.description, b1.price, b1.discount, b1.pub_date " +
-                    " FROM book AS b1 INNER JOIN (SELECT * FROM tag AS t1 INNER JOIN book2tag AS bt1 ON t1.slug = :slug AND t1.id = bt1.id) AS btt1 " +
-                    " ON b1.id = btt1.book_id",
+            value = "SELECT b1.id, b1.is_bestseller, b1.slug, b1.title, b1.image, b1.description, b1.price, b1.discount, b1.pub_date \n" +
+                    "FROM book AS b1 INNER JOIN\n" +
+                    "(SELECT book_id FROM tag AS t1 INNER JOIN book2tag AS bt2 ON t1.slug = :slug AND bt2.tag_id = t1.id) AS btt1\n" +
+                    "ON b1.id = btt1.book_id",
+            countQuery = "SELECT COUNT(*) FROM book AS b1 INNER JOIN\n" +
+                    "(SELECT book_id FROM tag AS t1 INNER JOIN book2tag AS bt2 ON t1.slug = 'test' AND bt2.tag_id = t1.id) AS btt1\n" +
+                    "ON b1.id = btt1.book_id",
             nativeQuery = true
     )
     List<Book> findBooksByTag(@Param("slug") String slug, Pageable pageable);
@@ -93,7 +85,7 @@ public interface BookRepo extends JpaRepository<Book, Integer> {
             , countQuery = "SELECT COUNT(*) FROM book AS b1 INNER JOIN " +
             " (SELECT * FROM author AS a1 INNER JOIN book2author AS b2a1 ON a1.id = b2a1.authors_id AND a1.slug = :slug)" +
             " AS b2a2 ON b1.id = b2a2.book_id"
-            , nativeQuery = true
+            ,nativeQuery = true
     )
     List<Book> findBooksByAuthors(@Param("slug") String slug, Pageable pageable);
 

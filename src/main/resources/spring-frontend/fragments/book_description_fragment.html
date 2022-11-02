@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <div class="ProductCard-desc" th:fragment="bookDesc">
     <div class="ProductCard-header">
-        <h1 class="ProductCard-title">Мара и морок
+        <h1 class="ProductCard-title" th:text="${book.title}">Мара и морок
         </h1>
         <div class="ProductCard-author"><span class="ProductCard-titleProp">Автор:</span>&#32;<a
-                href="#">Лия Арден</a>
+                href="#" th:text="${book.authors} ">Лия Арден</a><!--th:href="@{'/authors/'+${book.author.id}}"-->
         </div>
         <div class="ProductCard-rating"><span class="ProductCard-titleProp">Рейтинг:</span>
             <button class="trigger trigger_dropdown" type="button">
@@ -325,19 +326,29 @@
                 href="/tags/">Современные</a>,&#32;<a href="/tags/">Психологическая проза</a>
         </div>
         <div class="ProductCard-cost"><span class="ProductCard-titleProp">Цена:</span><span
-                class="ProductCard-priceOld">₽300</span><span class="ProductCard-price">₽180</span>
+                class="ProductCard-priceOld" th:text="${book.discountPrice}">₽300</span><span class="ProductCard-price" th:text="${book.price}">₽180</span>
         </div>
     </div>
-    <div class="ProductCard-text">
-        <p>Таких, как я, называют Марами - отмеченными самой богиней смерти Мораной. Когда-то у меня
-            и моих шести сестер был свой путь. Тогда люди нас уважали и просили о милосердии. Они
-            приносили нам подношения и молились нам. Но 200 лет назад все изменилось, когда принц
-            Серата осмелился поднять руку на одну из нас. Я пыталась отомстить, но погибли мы все.
-            Теперь правители Аракена, погрязшие в длительной войне со своим соседом Сератом, решили
-            вернуть меня к жизни. Дать второй шанс на месть и свободу, привязав меня к тому, против
-            кого я никогда не пойду. Таких, как он, называют Морок, и их боятся абсолютно все.
+    <div th:text="${book.description}" class="ProductCard-text" >
+        <p>
         </p>
     </div>
-    <div th:replace="~{fragments/book_slug_buttons_fragment :: panel}"></div>
+    <div th:replace="~{fragments/book_slug_buttons_fragment :: panel(book = ${book})}"></div>
 </div>
+<script src="/assets/plg/jQuery/jquery-3.5.1.min.js"></script>
+<script>$(document).ready(function () {
+    $('a.btn').click(function (event) {
+        event.preventDefault();
+        $('#myOverlay').fadeIn(297,function () {
+            $('#myPopup').css('display', 'block').animate({opacity:1}, 198);
+        });
+    });
+
+    $('#myPopup__close','#myOverlay').click(function () {
+        $('#myPopup').animate({opacity: 1}, 198, function () {
+            $(this).css('display', 'none');
+            $('#myOverlay').fadeOut(297);
+        });
+    });
+});</script>
 </html>

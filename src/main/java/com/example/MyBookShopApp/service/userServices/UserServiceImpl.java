@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -86,9 +87,9 @@ public class UserServiceImpl{
         User user = userRepository.findByContact(contact);
         if(user == null){
             user = new User();
-            List<Role> role = roleRepository.findByName("USER_CLIENT");
+            Role role = roleRepository.findByName("USER_CLIENT");
             user.setHash(userHelper.generateHash(user));
-            user.setRoles(role);
+            user.setRoles(Collections.singletonList(role));
             user.setUsername(contact);
             user.setDateRegistration(LocalDate.now());
             user.setBalance(0.00);

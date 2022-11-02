@@ -23,13 +23,13 @@
     <div class="wrap">
         <main class="Middle-main">
             <div class="Section">
-                <div th:replace="~{fragments/book_slider_fragment :: bookSlider(title='Рекомендуемое')}"></div>
-                <div th:replace="~{fragments/book_slider_fragment :: bookSlider(title='Новинки')}"></div>
-                <div th:replace="~{fragments/book_slider_fragment :: bookSlider(title='Популярное')}"></div>
+                <div th:replace="~{fragments/book_slider_fragment :: bookSlider(title=#{books.slider.recommended},books = ${recommendedBooks})}"></div>
+                <div th:replace="~{fragments/book_slider_fragment :: bookSlider(title=#{books.slider.popular},books = ${popularBooks})}"></div>
+                <div th:replace="~{fragments/book_slider_fragment :: bookSlider(title=#{books.slider.news},books = ${newBooks})}"></div>
             </div>
-            <h2 class="Middle-title">Книги по тегам
+            <h2 class="Middle-title" th:text="#{tag.cloud}">Книги по тегам
             </h2>
-            <div class="Tags" id="tags" th:replace="~{fragments/tag_cloud_fragment :: cloud}"></div>
+            <div class="Tags" id="tags" th:replace="~{fragments/tag_cloud_fragment :: cloud(allTags = ${allTags})}"></div>
         </main>
     </div>
 </div>

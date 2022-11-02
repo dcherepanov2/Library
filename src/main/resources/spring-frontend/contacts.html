@@ -22,21 +22,21 @@
 <div class="Middle">
     <div class="Middle-top">
         <div class="wrap">
-            <h1 class="Middle-title">Контакты
+            <h1 class="Middle-title" th:text="#{contacts.page.title}">Контакты
             </h1>
         </div>
     </div>
     <div class="wrap">
         <main class="Middle-main">
             <ul class="breadcrumbs"
-                th:replace="~{fragments/breadcrumb_fragment :: breadcrumps(category='Контакты')}"></ul>
+                th:replace="~{fragments/breadcrumb_fragment :: breadcrumps(category=#{contacts.page.title})}"></ul>
             <div class="Contacts">
                 <div class="row">
                     <div class="row-block">
-                        <h2>Контакты
+                        <h2 th:text="#{contacts.page.title}">Контакты
                         </h2>
                         <div class="Contacts-prop">
-                            <strong class="Contacts-propTitle">Телефон:
+                            <strong class="Contacts-propTitle" th:text="#{contacts.page.phone}">Телефон:
                             </strong><span class="Contacts-propContent">8 (800) 484-48-48</span>
                         </div>
                         <div class="Contacts-prop">
@@ -44,34 +44,34 @@
                             </strong><span class="Contacts-propContent">test@test.ru</span>
                         </div>
                         <div class="Contacts-prop">
-                            <strong class="Contacts-propTitle">Телеграм-бот:
+                            <strong class="Contacts-propTitle" th:text="#{contacts.page.telegram}">Телеграм-бот:
                             </strong><span class="Contacts-propContent">@testBookShop</span>
                         </div>
                     </div>
                     <div class="row-block">
                         <div class="Contacts-form">
-                            <h2>Напишите нам:
+                            <h2 th:text="#{contacts.page.meetus}">Напишите нам:
                             </h2>
                             <form class="form" action="#" method="post">
                                 <div class="form-group">
                                     <input class="form-input" id="name" name="name" type="text"
-                                           placeholder="Введите Имя" data-validate="require"/>
+                                           th:placeholder="#{contacts.page.meetus.name.placeholder}" data-validate="require"/>
                                 </div>
                                 <div class="form-group">
                                     <input class="form-input form-input_mail" id="mail" name="mail" type="text"
-                                           placeholder="Введите e-mail" data-validate="mail require"/>
+                                           th:placeholder="#{contacts.page.meetus.email.placeholder}" data-validate="mail require"/>
                                 </div>
                                 <div class="form-group">
                                     <input class="form-input" id="topic" name="topic" type="text"
-                                           placeholder="Введите тему" data-validate="require"/>
+                                           th:placeholder="#{contacts.page.meetus.theme.placeholder}" data-validate="require"/>
                                 </div>
                                 <div class="form-group">
                                     <textarea class="form-textarea Contacts-message" name="message" id="message"
-                                              placeholder="Введите сообщение" data-validate="require"></textarea>
+                                              th:placeholder="#{contacts.page.meetus.message.placeholder}" data-validate="require"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <button class="btn btn_primary form-btn" type="submit" name="sendMessage"
-                                            id="sendMessage">Отправить
+                                            id="sendMessage" th:text="#{contacts.page.meetus.send}">Отправить
                                     </button>
                                 </div>
                             </form>
