@@ -12,10 +12,10 @@ import java.util.Properties;
 public class EmailConfig {
 
     @Value("${app.mail}")
-    private final String mail = "mailer@vk-isb.ru";
+    private String mail;
 
     @Value("${app.mail.password}")
-    private final String password = "oYvTAtY&uf25";
+    private String password;
 
     @Bean
     public JavaMailSender getJavaMailSender(){
@@ -31,5 +31,21 @@ public class EmailConfig {
         properties.put("mail.smtp.ssl.enable","true");
         properties.put("mail.debug","true");
         return javaMailSender;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

@@ -16,6 +16,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;
 import java.io.*;
+import java.nio.file.Files;
 import java.util.Date;
 import java.util.List;
 
@@ -81,7 +82,7 @@ public class BooksApiController {
             // Content-Length
             response.setContentLength((int) file.length());
 
-            BufferedInputStream inStream = new BufferedInputStream(new FileInputStream(file));
+            BufferedInputStream inStream = new BufferedInputStream(Files.newInputStream(file.toPath()));
             BufferedOutputStream outStream = new BufferedOutputStream(response.getOutputStream());
 
             byte[] buffer = new byte[1024];

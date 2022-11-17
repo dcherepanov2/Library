@@ -15,9 +15,6 @@ public class MailSender {
     @Value("${app.mail}")
     private String email;
 
-    @Value("${domen}")
-    private String serverPort;
-
     private final JavaMailSender javaMailSender;
 
 

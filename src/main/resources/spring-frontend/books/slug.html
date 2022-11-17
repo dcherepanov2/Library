@@ -71,12 +71,12 @@
                 <div class="ProductCard">
                     <div class="ProductCard-look">
                         <div class="ProductCard-photo">
-                            <img th:src="${bookBySelect.image}" alt="card.jpg"/>
+                            <img th:src="${slugBook.image}" alt="card.jpg"/>
                         </div>
                     </div>
                     <div class="ProductCard-desc"
-                         th:replace="~{fragments/book_description_fragment :: bookDesc(book = ${bookBySelect})}"></div>
-                    <form id="uploadForm" th:attr="action='upload-file/'+ ${bookBySelect.slug}"  role="form" method="post" enctype=multipart/form-data>
+                         th:replace="~{fragments/book_description_fragment :: bookDesc(book = ${slugBook})}"></div>
+                    <form id="uploadForm" th:attr="action='upload-file/'+ ${slugBook.slug}"  role="form" method="post" enctype=multipart/form-data>
                         <input type="file" id="file" name="file">
                         <input type=submit value=Upload>
                     </form>

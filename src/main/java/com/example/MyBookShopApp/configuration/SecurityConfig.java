@@ -41,8 +41,8 @@ import java.util.stream.Collectors;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static String CLIENT_PROPERTY_KEY
-            = "spring.security.oauth2.client.registration.";
+//    private static String CLIENT_PROPERTY_KEY
+//            = "spring.security.oauth2.client.registration.";
     private static final String LOGIN_ENDPOINT = "/login";
 
     private static final String REQUEST_CONTACT_CONFIRMATION_ENDPOINT = "/requestContactConfirmation";
@@ -71,23 +71,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    private ClientRegistration getRegistration(String client) {
-        String clientId = env.getProperty(
-                CLIENT_PROPERTY_KEY + client + ".client-id");
-
-        if (clientId == null) {
-            return null;
-        }
-
-        String clientSecret = env.getProperty(
-                CLIENT_PROPERTY_KEY + client + ".client-secret");
-
-        if (client.equals("google")) {
-            return CommonOAuth2Provider.GOOGLE.getBuilder(client)
-                    .clientId(clientId).clientSecret(clientSecret).build();
-        }
-        return null;
-    }
+//    private ClientRegistration getRegistration(String client) {
+//        String clientId = env.getProperty(
+//                CLIENT_PROPERTY_KEY + client + ".client-id");
+//
+//        if (clientId == null) {
+//            return null;
+//        }
+//
+//        String clientSecret = env.getProperty(
+//                CLIENT_PROPERTY_KEY + client + ".client-secret");
+//
+//        if (client.equals("google")) {
+//            return CommonOAuth2Provider.GOOGLE.getBuilder(client)
+//                    .clientId(clientId).clientSecret(clientSecret).build();
+//        }
+//        return null;
+//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -106,7 +106,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET).permitAll()
                 .antMatchers(HttpMethod.POST).hasRole("ADMIN")
                 .anyRequest().authenticated()
-                .and().oauth2Client()
+//                .and().oauth2Client()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -124,23 +124,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(customUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
-    @Bean
-    public AuthorizationRequestRepository<OAuth2AuthorizationRequest> authorizationRequestRepository() {
-        return new HttpSessionOAuth2AuthorizationRequestRepository();
-    }
+//    @Bean
+//    public AuthorizationRequestRepository<OAuth2AuthorizationRequest> authorizationRequestRepository() {
+//        return new HttpSessionOAuth2AuthorizationRequestRepository();
+//    }
 
-    @Bean
-    public ClientRegistrationRepository clientRegistrationRepository() {
-        List<ClientRegistration> registrations = clients.stream()
-                .map(this::getRegistration)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
-        return new InMemoryClientRegistrationRepository(registrations);
-    }
+//    @Bean
+//    public ClientRegistrationRepository clientRegistrationRepository() {
+//        List<ClientRegistration> registrations = clients.stream()
+//                .map(this::getRegistration)
+//                .filter(Objects::nonNull)
+//                .collect(Collectors.toList());
+//        return new InMemoryClientRegistrationRepository(registrations);
+//    }
 
-    @Bean
-    public OAuth2AuthorizedClientService authorizedClientService() {
-        return new InMemoryOAuth2AuthorizedClientService(
-                clientRegistrationRepository());
-    }
+//    @Bean
+//    public OAuth2AuthorizedClientService authorizedClientService() {
+//        return new InMemoryOAuth2AuthorizedClientService(
+//                clientRegistrationRepository());
+//    }
 }

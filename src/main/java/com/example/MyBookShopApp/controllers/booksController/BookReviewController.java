@@ -13,10 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
+import java.security.Principal;
 
 @Controller
 public class BookReviewController {
@@ -31,17 +30,16 @@ public class BookReviewController {
     }
 
     @PostMapping("/books/comment/{slug}")
-    public String putComment(@PathVariable("slug") String slug, CommentDtoInput commentDto
-            , HttpServletRequest request) throws IOException {
-        bookService.putComment(commentDto, slug);
+    public String putComment(@PathVariable("slug") String slug, CommentDtoInput commentDto, Principal principal){
+        bookService.putComment(principal,commentDto, slug);
         return "redirect:/books/" + slug;
     }
 
     @PostMapping("/rateBook/")
     @ResponseBody
     @Consumes({MediaType.APPLICATION_JSON})
-    public ResultTrue rateBook(RateBookDto rateBookDto, Model model){
-        bookService.changeRateBookBySlug(rateBookDto.getBookid(), rateBookDto.getValue());
+    public ResultTrue rateBook(RateBookDto rateBookDto, Model model, Principal principal){
+        bookService.changeRateBookBySlug(principal,rateBookDto.getBookid(), rateBookDto.getValue());
         model.addAttribute("ratingTable", bookService.getBookRateTableBySlug(rateBookDto.getBookid()));
         ResultTrue resultTrue = new ResultTrue();
         resultTrue.setResult(true);
@@ -51,9 +49,9 @@ public class BookReviewController {
     @PostMapping("/rateBookReview")
     @ResponseBody
     @Consumes({MediaType.APPLICATION_JSON})
-    public ResultTrue likeOrDislikeComment(BookReviewLikeDto bookReviewLikeDto){
+    public ResultTrue likeOrDislikeComment(BookReviewLikeDto bookReviewLikeDto, Principal principal){
         ResultTrue resultTrue = new ResultTrue();
-        resultTrue.setResult(bookReviewService.likeOrDislikeCommentBySlug(bookReviewLikeDto));
+        resultTrue.setResult(bookReviewService.likeOrDislikeCommentBySlug(principal,bookReviewLikeDto));
         return resultTrue;
     }
 }

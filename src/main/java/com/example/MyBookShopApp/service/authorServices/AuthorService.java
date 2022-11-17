@@ -25,7 +25,7 @@ public class AuthorService {
     }
 
     public  Map<Character, List<Author>> getSortAuthor(){
-        List<Author> authors = (List<Author>)authorRepo.findAll();
+        List<Author> authors = authorRepo.findAll();
         return authors.stream()
                 .collect(Collectors.groupingBy(Author::firstLetter));
     }

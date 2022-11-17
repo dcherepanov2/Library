@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -40,7 +39,7 @@ public class MainPageController {
 
     @ModelAttribute("recommendedBooks")
     public RecommendedBooksDto recommendedBook(){
-        return new RecommendedBooksDto(bookService.getPageOfRecommendedBooks(0,6).getContent());
+        return new RecommendedBooksDto(bookService.getPageOfRecommendedBooks(0,6));
     }
 
     @ModelAttribute("popularBooks")

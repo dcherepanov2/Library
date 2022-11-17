@@ -19,7 +19,7 @@ import java.util.UUID;
 public class ResourceStorage {
 
     @Value("${upload.path}")
-    String valueUpload;
+    private String valueUpload;
 
     private final BookRepo bookRepo;
     private final ResourceRepo resourceRepo;
@@ -30,7 +30,7 @@ public class ResourceStorage {
         this.resourceRepo = resourceRepo;
     }
 
-    public String saveNewBookImage(MultipartFile image, String slug) throws IOException {
+    public void saveNewBookImage(MultipartFile image, String slug) throws IOException {
         String filename = image.hashCode()+ UUID.randomUUID().toString()+".jpg";
         Book book = bookRepo.findBookBySlug(slug);
         if(!image.isEmpty()&&book!=null&&
@@ -43,9 +43,8 @@ public class ResourceStorage {
             Path path = Paths.get(valueUpload,filename);
             image.transferTo(path);
             book.setImage("/uploads/image/"+filename);
-            bookRepo.save(book);
         }
-        return "";
+        //TODO: написать ошибку если не найден файл
     }
 
     public String findBookDownloadFile(String slug, Integer type) {
