@@ -27,20 +27,20 @@ public class ContactService {
         this.approveContactHelper = approveContactHelper;
     }
 
-    public void saveContactDtoEmail(ContactRequestDtoV2 contact, String code) {
+    public UserContactEntity saveContactDtoEmail(ContactRequestDtoV2 contact, String code) {
         User user = this.getContactEntity(contact);
         if (user == null) {
             user = userService.createNewUserWithUserClientRole(contact.getContact());
         }
-        this.createNewContactEntity(contact, code, user);
+        return this.createNewContactEntity(contact, code, user);
     }
 
-    public void saveContactDtoPhone(ContactRequestDtoV2 contact, String code) {
+    public UserContactEntity saveContactDtoPhone(ContactRequestDtoV2 contact, String code) {
         User user = this.getContactEntity(contact);
         if (user == null) {
             user = userService.createNewUserWithUserClientRole(contact.getContact());
         }
-        this.createNewContactEntity(contact, code, user);
+        return this.createNewContactEntity(contact, code, user);
     }
 
     public ResponseApproveContact approveContact(ApproveContactDto contact){//TODO: здесь падает ошибка
@@ -59,7 +59,7 @@ public class ContactService {
         }
         return approveContactHelper.createIncorrectErrorCodeObject();
     }
-    public void createNewContactEntity(ContactRequestDtoV2 contact, String code, User user) {
+    public UserContactEntity createNewContactEntity(ContactRequestDtoV2 contact, String code, User user) {
         UserContactEntity contactEntity = new UserContactEntity();
         contactEntity.setContact(contact.getContact());
         contactEntity.setApproved((short) 0);
@@ -68,7 +68,8 @@ public class ContactService {
         contactEntity.setCodeTime(LocalDateTime.now());
         contactEntity.setCodeTrails(0);
         contactEntity.setUserId(user);
-        userContactRepo.save(contactEntity);
+        contactEntity = userContactRepo.save(contactEntity);
+        return contactEntity;
     }
 
     public User getContactEntity(ContactRequestDtoV2 contact) {

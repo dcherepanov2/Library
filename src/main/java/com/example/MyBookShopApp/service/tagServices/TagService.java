@@ -29,7 +29,7 @@ public class TagService {
         return bookRepo.findBooksByTag(slug, pageable);
     }
 
-    public List<Tag> findAll() {
+    public List<Tag> findAll() {//TODO: не возможно проверить на моудльном тестировании, т.к. pageable генерируется всегда разный
         Double allTagsClicks = 0.0;
         Random random = new Random();
         Pageable next = PageRequest.of(random.nextInt(30),30);

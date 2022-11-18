@@ -11,6 +11,10 @@ public class UserTestBuilder {
         user.setUsername("test");
     }
 
+    public UserTestBuilder setEmail(){
+        user.setUsername("danilcherep7@gmail.com");
+        return this;
+    }
     public User build(){
         return user;
     }

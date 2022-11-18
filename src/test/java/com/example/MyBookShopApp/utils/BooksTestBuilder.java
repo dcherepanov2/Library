@@ -2,13 +2,17 @@ package com.example.MyBookShopApp.utils;
 
 import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.book.review.BookReview;
+import com.example.MyBookShopApp.data.tags.Tag;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class BooksTestBuilder {
 
     private final Book book;
+
+    private final TagTestBuilder tagTestBuilder = new TagTestBuilder();
 
     private final BookReviewTestBuilder bookReviewTestBuilder = new BookReviewTestBuilder();
 
@@ -30,6 +34,11 @@ public class BooksTestBuilder {
         return this;
     }
 
+    public BooksTestBuilder createTagBook(){
+        Tag tag = tagTestBuilder.setClick().build();
+        book.setTags(Collections.singletonList(tag));
+        return this;
+    }
 
     public Book build(){
         return book;

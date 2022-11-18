@@ -121,7 +121,6 @@ public class BookServiceTest {
     @Test
     public void changeRateBookBySlug(){
         PrincipalImplTest principal = new PrincipalImplTest();
-        principal.setName("test");
         bookService.changeRateBookBySlug(principal, booksList.get(0).getSlug(), 2);
         // проверка того, что в методе не возникают исключения
     }
@@ -135,7 +134,6 @@ public class BookServiceTest {
     @Test
     public void putComment(){
         PrincipalImplTest principal = new PrincipalImplTest();
-        principal.setName("test");
         CommentDtoInput commentDtoInput = new CommentDtoInput();
         commentDtoInput.setDescription("12231223");
         List<BookReview> bookReviews = bookService.putComment(principal, commentDtoInput, booksList.get(0).getSlug());

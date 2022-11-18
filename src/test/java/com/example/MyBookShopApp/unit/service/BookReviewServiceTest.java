@@ -1,20 +1,18 @@
 package com.example.MyBookShopApp.unit.service;
 
+import com.example.MyBookShopApp.configuration.MockitoApplicationContext;
 import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.book.review.BookReview;
 import com.example.MyBookShopApp.data.book.review.BookReviewLikeEntity;
 import com.example.MyBookShopApp.data.user.User;
 import com.example.MyBookShopApp.dto.BookReviewLikeDto;
-import com.example.MyBookShopApp.repo.bookrepos.BookReviewLikeRepo;
-import com.example.MyBookShopApp.repo.bookrepos.BookReviewRepo;
-import com.example.MyBookShopApp.repo.userrepos.UserRepo;
 import com.example.MyBookShopApp.service.bookServices.BookReviewService;
 import com.example.MyBookShopApp.utils.PrincipalImplTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -24,18 +22,11 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class BookReviewServiceTest {
 
-    @MockBean
-    private BookReviewRepo bookReviewRepo;
-
-    @MockBean
-    private BookReviewLikeRepo bookReviewLikeRepo;
-
-    @MockBean
-    private UserRepo userRepo;
-
+    @Spy
+    private MockitoApplicationContext mockitoApplicationContext;
     private BookReviewService bookReviewService;
 
     private Book book;
@@ -48,22 +39,12 @@ public class BookReviewServiceTest {
         put(2,2);
     }};
     @BeforeEach
-    public void initialize(){
-        book = new Book();
-        bookReview = new BookReview();
-        bookReviewLikeEntity = new BookReviewLikeEntity();
-        user = new User();
-        user.setId(1L);
-        bookReview.setUserId(Math.toIntExact(user.getId()));
-        user.setUsername("test");
-        book.setBooksReview(Collections.singletonList(bookReview));
-        Mockito.when(bookReviewRepo.findBookReviewsByBookId(book.getSlug())).thenReturn(Collections.singletonList(bookReview));
-        Mockito.when(userRepo.findByUsername(user.getUsername())).thenReturn(user);
-        Mockito.when(bookReviewLikeRepo.findBookReviewLikeEntityByUserIdAndReviewId(bookReview.getId(), Math.toIntExact(user.getId())))
-               .thenReturn(bookReviewLikeEntity);
-        Mockito.when(bookReviewLikeRepo.findBookReviewLikeEntitiesByReviewId(bookReviewLikeEntity.getUserId()))
-                .thenReturn(Collections.singletonList(bookReviewLikeEntity));
-        bookReviewService = new BookReviewService(bookReviewRepo,bookReviewLikeRepo, userRepo);
+    public void init(){
+        bookReviewService = (BookReviewService) mockitoApplicationContext.getBean(BookReviewService.class);
+        book = (Book) mockitoApplicationContext.getFieldTestClassByName("book", BookReviewService.class);
+        bookReview = (BookReview) mockitoApplicationContext.getFieldTestClassByName("bookReview", BookReviewService.class);
+        bookReviewLikeEntity = (BookReviewLikeEntity) mockitoApplicationContext.getFieldTestClassByName("bookReviewLikeEntity", BookReviewService.class);
+        user = (User) mockitoApplicationContext.getFieldTestClassByName("user", BookReviewService.class);
     }
 
     @Test
@@ -75,7 +56,6 @@ public class BookReviewServiceTest {
     @Test
     public void likeOrDislikeCommentBySlug(){
         PrincipalImplTest principal = new PrincipalImplTest();
-        principal.setName(user.getUsername());
         BookReviewLikeDto bookReviewLikeDto = new BookReviewLikeDto();
         bookReviewLikeDto.setValue((short) 2);
         bookReviewLikeDto.setReviewid(Math.toIntExact(user.getId()));

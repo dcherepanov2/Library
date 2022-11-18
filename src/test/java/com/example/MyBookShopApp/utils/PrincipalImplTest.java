@@ -4,14 +4,9 @@ import java.security.Principal;
 
 public class PrincipalImplTest implements Principal {
 
-    private String name;
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    private final String name = "test";
     @Override
     public String getName() {
-        return "test";
+        return name;
     }
 }
