@@ -1,5 +1,7 @@
 package com.example.MyBookShopApp.configuration.service;
 
+import com.example.MyBookShopApp.configuration.MockitoRepositoryConfiguration;
+import com.example.MyBookShopApp.configuration.TestObject;
 import com.example.MyBookShopApp.data.author.Author;
 import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.repo.authorrepos.AuthorRepo;
@@ -13,38 +15,26 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AuthorServiceConfiguration {
+public class AuthorServiceConfiguration {//комменатрий
     private AuthorService authorService;
     private List<Book> bookArrayList;
 
     private List<Author> authorList;
     private Book book;
 
-    public void initBookListAndAuthorList(){
-        bookArrayList = new ArrayList<>();
-        book = new Book();
-        List<Author> list = new ArrayList<>();
-        for(int i = 0 ;i<25;i++){
-            Author author = new Author();
-            if(i<10)
-                author.setName("Aa");
-            else
-                author.setName("Bb");
-            list.add(author);
-            if(i < 20){
-                Book book1 = new Book();
-                book1.setAuthors(Collections.singletonList(author));
-                bookArrayList.add(book1);
-            }
-        }
-        authorList = list;
-    }
+    private MockitoRepositoryConfiguration mockitoRepositoryConfiguration;
+
+    private TestObject testObject = new TestObject();
+
 
     public AuthorService initAuthorService(){
-        AuthorRepo authorRepo = Mockito.mock(AuthorRepo.class);
-        BookRepo bookRepo = Mockito.mock(BookRepo.class);
+        mockitoRepositoryConfiguration = new MockitoRepositoryConfiguration();
+        AuthorRepo authorRepo = mockitoRepositoryConfiguration.getAuthorRepo();
+        BookRepo bookRepo = mockitoRepositoryConfiguration.getBookRepo();
+        authorList = (List<Author>) testObject.getObject("authorList");
+        bookArrayList = (List<Book>) testObject.getObject("bookArrayList");
+        book = (Book) testObject.getObject("book");
         if(authorService == null){
-            initBookListAndAuthorList();
             Author author = authorList.get(0);
             book.setAuthors(authorList);
             Pageable pageable = PageRequest.of(0,20);

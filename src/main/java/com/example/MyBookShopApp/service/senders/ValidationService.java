@@ -23,6 +23,8 @@ public class ValidationService {
             }
             errors.append("Check your fields for correct entry");
         }
+        else
+            return "";
         throw new BadRequestException(errors.toString());
     }
 

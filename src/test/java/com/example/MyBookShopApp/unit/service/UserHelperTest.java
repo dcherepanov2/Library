@@ -2,6 +2,7 @@ package com.example.MyBookShopApp.unit.service;
 
 import com.example.MyBookShopApp.data.user.User;
 import com.example.MyBookShopApp.service.userServices.helpers.UserHelper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Spy;
 
@@ -9,10 +10,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UserHelperTest {
-
     @Spy
     private UserHelper userHelper;
 
+    @BeforeEach
+    public void initialize(){
+        userHelper = new UserHelper();
+    }
     @Test
     public void generateCode(){
         long number = Long.parseLong(userHelper.generateCode());

@@ -1,5 +1,6 @@
 package com.example.MyBookShopApp.controllers.userController;
 
+import com.example.MyBookShopApp.data.user.JwtLogoutToken;
 import com.example.MyBookShopApp.data.user.User;
 import com.example.MyBookShopApp.dto.*;
 import com.example.MyBookShopApp.enums.ErrorCodeResponseApproveContact;
@@ -19,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import javax.validation.Valid;
 import java.util.concurrent.CompletableFuture;
@@ -92,5 +94,12 @@ public class SignInSignUpController {
             validationService.validate(bindingResult);
         ResponseApproveContact response =  contactService.approveContact(contact);
         return CompletableFuture.completedFuture(ResponseEntity.ok(response));
+    }
+
+    @PostMapping("/logout")
+    public JwtLogoutToken logout(@RequestHeader("Bearer_token")String token){
+        JwtLogoutToken jwtLogoutToken = userService.logoutToken(token);
+        //TODO: доработать исключение
+        return jwtLogoutToken;
     }
 }
