@@ -5,10 +5,15 @@ import com.example.MyBookShopApp.data.book.links.BookRating;
 import com.example.MyBookShopApp.data.book.review.BookReview;
 import com.example.MyBookShopApp.data.user.User;
 import com.example.MyBookShopApp.dto.CommentDtoInput;
+import com.example.MyBookShopApp.enums.ErrorMessageResponse;
+import com.example.MyBookShopApp.exception.BookReviewException;
+import com.example.MyBookShopApp.exception.ChangeBookRateException;
+import com.example.MyBookShopApp.exception.CommentInputException;
 import com.example.MyBookShopApp.repo.bookrepos.BookRatingRepo;
 import com.example.MyBookShopApp.repo.bookrepos.BookRepo;
 import com.example.MyBookShopApp.repo.bookrepos.BookReviewRepo;
 import com.example.MyBookShopApp.repo.userrepos.UserRepo;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.PageRequest;
@@ -101,16 +106,21 @@ public class BookService {
     public List<Book> getAllBooksByTag(String slug, Integer offset, Integer limit) {
         Pageable pageable = PageRequest.of(offset, limit);
         return books.findBooksByTag(slug, pageable).stream().sorted(
-                Comparator.comparing(Book::getDatePublic)).collect(Collectors.toList());
+                Comparator.comparing(Book::getDatePublic)).peek(x -> x.setTags(null)).collect(Collectors.toList());
     }
 
+    @SneakyThrows
     public void changeRateBookBySlug(Principal principal, String slug, Integer rate) {
         User byUsername = userRepo.findByUsername(principal.getName());
         List<BookRating> booksBySlug = bookRating.getBookRatingBySlug(slug);
+        if(rate > 5 || rate < 1)
+            throw new ChangeBookRateException(ErrorMessageResponse.CHANGE_BOOK_RATE.getName());
         if (booksBySlug.size() > 1) {
             bookRating.deleteBookRatingByUserId(Math.toIntExact(byUsername.getId()));
         }
         Book book = books.findBookBySlug(slug);
+        if(book == null)
+            throw new BookReviewException(ErrorMessageResponse.NOT_FOUND_BOOK.getName());
         BookRating bookRate = new BookRating();
         bookRate.setUserId(Math.toIntExact(byUsername.getId()));
         bookRate.setValue(rate);
@@ -148,16 +158,27 @@ public class BookService {
         return rating;
     }
 
-    public List<BookReview> putComment(Principal principal,CommentDtoInput commentDto, String slug) {
+    @SneakyThrows
+    public List<BookReview> putComment(Principal principal,CommentDtoInput commentDto, String slug){
+        if(commentDto == null || commentDto.getSlug() == null || commentDto.getDescription() == null || commentDto.getDescription().length() == 0)
+            throw new CommentInputException(ErrorMessageResponse.COMMENT_INPUT_NOT_ADDED.getName());
         User user = userRepo.findByUsername(principal.getName());
         Book book = books.findBookBySlug(slug);
+        if(book == null)
+            throw new BookReviewException(ErrorMessageResponse.NOT_FOUND_BOOK.getName());
         BookReview bookReview = new BookReview();
         bookReview.setBookId(book.getId());
-        bookReview.setUserId(Math.toIntExact(user.getId()));
+        bookReview.setUserId(user);
         bookReview.setText(commentDto.getDescription());
         bookReview.setTime(LocalDateTime.now());
         bookReviewRepo.save(bookReview);
         book.getBooksReview().add(bookReview);
         return bookReviewService.reviewEntitiesBySlugBook(slug);
+    }
+
+    public List<Book> getBooksBySlugs(List<String> booksSlugPostponed) {
+        List<Book> booksLocal = new ArrayList<>();
+        booksSlugPostponed.forEach(x -> booksLocal.add(books.findBookBySlug(x)));
+        return booksLocal;
     }
 }

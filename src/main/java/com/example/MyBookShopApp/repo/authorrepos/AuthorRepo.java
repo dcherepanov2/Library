@@ -13,4 +13,6 @@ public interface AuthorRepo extends JpaRepository<Author,Integer> {
     )
     Author findBySlug(@Param("slug") String slug);
 
+    Author findAuthorByName(String name);
+
 }

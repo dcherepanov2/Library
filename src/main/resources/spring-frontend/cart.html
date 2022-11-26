@@ -25,17 +25,19 @@
             <h1 class="Middle-title" th:text="#{basket.cart}">Корзина
             </h1>
             <form class="form Cart" action="#" method="post">
-                <div class="Cart-product">
+                <div class="Cart-product" th:each="book : ${booksCart}">
                     <div class="Cart-block Cart-block_row">
                         <div class="Cart-block Cart-block_pict"><a class="Cart-pict" href="#"><img class="Cart-img"
                                                                                                    src="/assets/img/content/main/card.jpg"
                                                                                                    alt="card.jpg"/></a>
                         </div>
                         <div class="Cart-block Cart-block_row">
-                            <div class="Cart-block Cart-block_info">
-                                <div class="Cart-author"><a href="#">Борис Васильевич Бедный</a>
+                            <div class="Cart-block Cart-block_info" >
+                                <div th:each=" author : ${book.getAuthors()}">
+                                    <div class="Cart-author"><a href="#" th:text="${author.getName()}" th:href="${'/authors/'+author.getSlug()}">Борис Васильевич Бедный</a>
+                                    </div>
                                 </div>
-                                <div class="Cart-title"><a href="#">Жизнь</a>
+                                <div class="Cart-title"><a th:href="${'/books/'+book.getTitle()}">Жизнь</a>
                                 </div>
                                 <div class="Cart-rating"><span class="Rating"><span class="Rating-stars"><span
                                         class="Rating-star Rating-star_view">

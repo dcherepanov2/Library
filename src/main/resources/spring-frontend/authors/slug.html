@@ -27,7 +27,7 @@
             <div th:replace="~{fragments/author_article_fragment :: article}"></div>
             <div class="Section"
                  th:replace="~{fragments/book_slider_fragment :: bookSlider(title='Книги автора', books = ${findBooksByAuthor})}"></div>
-            <footer class="Section-footer"><a class="Author-books" th:href="@{'/books/author/'+${authorSlug.slug}}" href="/books/author.html">Все
+            <footer class="Section-footer"><a class="Author-books" th:href="@{'/books/author/'+${authorSlug.slug}}">Все
                 книги автора<span
                         class="Author-amount">(55)</span></a>
             </footer>

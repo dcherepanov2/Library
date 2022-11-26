@@ -30,7 +30,7 @@ public class SignInSignUpController {
     private final MailSender mailSender;
     private final ValidationService validationService;
 
-    private final UserHelper userHelper;
+    private UserHelper userHelper;
 
     private final ContactService contactService;
     
@@ -55,42 +55,5 @@ public class SignInSignUpController {
     public String getSignUp(Model model) {
         model.addAttribute("regForm", new RegistrationForm());
         return "signup";
-    }
-
-    @PostMapping("/requestContactConfirmation")
-    @Async
-    public CompletableFuture<ResponseEntity<ResultTrue>> login(@Valid @RequestBody ContactRequestDtoV2 contact
-            , BindingResult bindingResult) throws VerificationException {
-        if (bindingResult.hasErrors())
-            validationService.validate(bindingResult);
-        else if (validationService.isPhone(contact.getContact())) {
-            String code = userHelper.generateCode();
-            userService.createNewUserWithUserClientRole(contact.getContact());
-            contactService.saveContactDtoPhone(contact,code);
-            twilioService.sendSecretCodeSms(contact.getContact(), code);
-            ResultTrue resultTrue = new ResultTrue();
-            resultTrue.setResult(true);
-            return CompletableFuture.completedFuture(ResponseEntity.ok(resultTrue));
-        }
-        else if (validationService.isEmail(contact.getContact())) {
-            String code = userHelper.generateCode();
-            userService.createNewUserWithUserClientRole(contact.getContact());
-            mailSender.sendMessage(contact,code);
-            contactService.saveContactDtoEmail(contact,code);
-            ResultTrue resultTrue = new ResultTrue();
-            resultTrue.setResult(true);
-            return CompletableFuture.completedFuture(ResponseEntity.ok(resultTrue));
-        }
-        throw new VerificationException(ErrorCodeResponseApproveContact.INCORRECT_ERROR_CODE.getMessage());
-    }
-
-    @PostMapping("/approveContact")
-    @Async
-    public CompletableFuture<ResponseEntity<ResponseApproveContact>> approveContact(@Valid @RequestBody ApproveContactDto contact
-            , BindingResult bindingResult){
-        if (bindingResult.hasErrors())
-            validationService.validate(bindingResult);
-        ResponseApproveContact response =  contactService.approveContact(contact);
-        return CompletableFuture.completedFuture(ResponseEntity.ok(response));
     }
 }

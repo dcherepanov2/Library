@@ -12,7 +12,13 @@ public class RecentBookException extends Exception implements ExceptionLibrary {
 
     private HttpServletRequest request;
 
-    public RecentBookException() {
+    public RecentBookException(String message) {
+        super(message);
+    }
+
+    @Override
+    public String getMessage() {
+        return super.getMessage();
     }
 
     public RecentBookException(HttpServletRequest httpServletRequest) {

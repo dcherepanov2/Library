@@ -33,11 +33,10 @@ public class ContactServiceTest {
     private ContactService contactService;
     private User user;
     private ContactRequestDtoV2 contactRequestDtoV2;
-    private UserContactEntity userContactEntity;
 
     @BeforeEach
     public void init(){
-        userContactEntity = new UserContactEntity();
+        UserContactEntity userContactEntity = new UserContactEntity();
         contactRequestDtoV2 = new ContactRequestDtoV2();
         UserTestBuilder userTestBuilder = new UserTestBuilder();
         user = userTestBuilder.setEmail().build();

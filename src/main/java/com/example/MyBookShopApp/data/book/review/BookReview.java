@@ -1,6 +1,7 @@
 package com.example.MyBookShopApp.data.book.review;
 
 import com.example.MyBookShopApp.data.book.Book;
+import com.example.MyBookShopApp.data.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,14 +12,15 @@ import java.util.ArrayList;
 public class BookReview {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
     @Column(name = "book_id",columnDefinition = "INT NOT NULL")
     private int bookId;
 
-    @Column(name = "user_id",columnDefinition = "INT NOT NULL")
-    private int userId;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @OneToOne
+    private User userId;
 
     @Column(name = "time",columnDefinition = "TIMESTAMP NOT NULL")
     private LocalDateTime time;
@@ -42,11 +44,11 @@ public class BookReview {
         this.bookId = bookId;
     }
 
-    public int getUserId() {
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
 

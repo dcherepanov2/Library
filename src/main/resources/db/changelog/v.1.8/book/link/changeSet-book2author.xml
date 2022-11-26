@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <changeSet author="Danya (generated)" id="5">
+    <changeSet author="Danya (generated)" id="296">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="book2author"/>
@@ -20,7 +20,7 @@
             <column name="authors_id" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="sort_index" type="INT">
+            <column name="sort_index" type="INT" defaultValue="0">
                 <constraints nullable="false"/>
             </column>
         </createTable>

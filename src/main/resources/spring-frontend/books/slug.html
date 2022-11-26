@@ -88,7 +88,7 @@
                         </h3><span class="Product-comments-amount">567 отзывов</span>
                     </div>
                 </div>
-                <div th:replace="~{fragments/book_reviews_fragment :: reviewBlock}"></div>
+                <div th:replace="~{fragments/book_reviews_fragment :: reviewBlock(comments = ${comments})}"></div>
             </div>
         </main>
     </div>

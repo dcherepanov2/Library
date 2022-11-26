@@ -6,11 +6,13 @@ import com.example.MyBookShopApp.dto.RateBookDto;
 import com.example.MyBookShopApp.dto.ResultTrue;
 import com.example.MyBookShopApp.service.bookServices.BookReviewService;
 import com.example.MyBookShopApp.service.bookServices.BookService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.ws.rs.Consumes;
@@ -30,7 +32,8 @@ public class BookReviewController {
     }
 
     @PostMapping("/books/comment/{slug}")
-    public String putComment(@PathVariable("slug") String slug, CommentDtoInput commentDto, Principal principal){
+    @SneakyThrows
+    public String putComment(@PathVariable("slug") String slug, @RequestBody CommentDtoInput commentDto, Principal principal){
         bookService.putComment(principal,commentDto, slug);
         return "redirect:/books/" + slug;
     }
@@ -38,7 +41,7 @@ public class BookReviewController {
     @PostMapping("/rateBook/")
     @ResponseBody
     @Consumes({MediaType.APPLICATION_JSON})
-    public ResultTrue rateBook(RateBookDto rateBookDto, Model model, Principal principal){
+    public ResultTrue rateBook(@RequestBody RateBookDto rateBookDto, Model model, Principal principal){
         bookService.changeRateBookBySlug(principal,rateBookDto.getBookid(), rateBookDto.getValue());
         model.addAttribute("ratingTable", bookService.getBookRateTableBySlug(rateBookDto.getBookid()));
         ResultTrue resultTrue = new ResultTrue();
@@ -49,7 +52,7 @@ public class BookReviewController {
     @PostMapping("/rateBookReview")
     @ResponseBody
     @Consumes({MediaType.APPLICATION_JSON})
-    public ResultTrue likeOrDislikeComment(BookReviewLikeDto bookReviewLikeDto, Principal principal){
+    public ResultTrue likeOrDislikeComment(@RequestBody BookReviewLikeDto bookReviewLikeDto, Principal principal){
         ResultTrue resultTrue = new ResultTrue();
         resultTrue.setResult(bookReviewService.likeOrDislikeCommentBySlug(principal,bookReviewLikeDto));
         return resultTrue;

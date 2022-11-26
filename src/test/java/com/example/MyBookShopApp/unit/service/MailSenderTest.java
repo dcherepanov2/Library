@@ -3,8 +3,6 @@ package com.example.MyBookShopApp.unit.service;
 import com.example.MyBookShopApp.configuration.EmailConfig;
 import com.example.MyBookShopApp.dto.ContactRequestDtoV2;
 import com.example.MyBookShopApp.service.senders.MailSender;
-import io.swagger.v3.oas.annotations.info.Contact;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

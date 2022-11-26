@@ -1,14 +1,16 @@
 package com.example.MyBookShopApp.unit.service;
 
-import com.example.MyBookShopApp.configuration.MockitoApplicationContext;
 import com.example.MyBookShopApp.data.other.FaqEntity;
+import com.example.MyBookShopApp.repo.otherrepos.FaqRepo;
 import com.example.MyBookShopApp.service.otherServices.FaqQuestionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Spy;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,16 +18,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(MockitoExtension.class)
 public class FaqQuestionServiceTest {
 
-    @Spy
-    private MockitoApplicationContext mockitoApplicationContext;
     private List<FaqEntity> faqQuestions;
 
     private FaqQuestionService faqQuestionService;
 
     @BeforeEach
     public void init(){
-        faqQuestionService = (FaqQuestionService) mockitoApplicationContext.getBean(FaqQuestionService.class);
-        faqQuestions = (List<FaqEntity>) mockitoApplicationContext.getFieldTestClassByName("faqQuestions", FaqQuestionService.class);
+        FaqRepo faqRepo = Mockito.mock(FaqRepo.class);
+        faqQuestions = new ArrayList<>(Collections.singletonList(new FaqEntity()));
+        Mockito.when(faqRepo.findAll()).thenReturn(faqQuestions);
+        faqQuestionService = new FaqQuestionService(faqRepo);
     }
 
     @Test

@@ -13,6 +13,8 @@ public class CommentDto {
     private Integer like = 0;
     private Integer dislike = 0;
 
+    private String username;
+
     public String getDescription() {
         return description;
     }
@@ -69,5 +71,13 @@ public class CommentDto {
 
     public void setDislike(Integer dislike) {
         this.dislike = dislike;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

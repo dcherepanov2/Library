@@ -1,17 +1,20 @@
 package com.example.MyBookShopApp.unit.service;
 
-import com.example.MyBookShopApp.configuration.MockitoApplicationContext;
 import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.book.review.BookReview;
 import com.example.MyBookShopApp.data.book.review.BookReviewLikeEntity;
 import com.example.MyBookShopApp.data.user.User;
 import com.example.MyBookShopApp.dto.BookReviewLikeDto;
+import com.example.MyBookShopApp.repo.bookrepos.BookReviewLikeRepo;
+import com.example.MyBookShopApp.repo.bookrepos.BookReviewRepo;
+import com.example.MyBookShopApp.repo.userrepos.UserRepo;
 import com.example.MyBookShopApp.service.bookServices.BookReviewService;
 import com.example.MyBookShopApp.utils.PrincipalImplTest;
+import com.example.MyBookShopApp.utils.UserTestBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Spy;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
@@ -25,8 +28,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ExtendWith(MockitoExtension.class)
 public class BookReviewServiceTest {
 
-    @Spy
-    private MockitoApplicationContext mockitoApplicationContext;
     private BookReviewService bookReviewService;
 
     private Book book;
@@ -40,11 +41,24 @@ public class BookReviewServiceTest {
     }};
     @BeforeEach
     public void init(){
-        bookReviewService = (BookReviewService) mockitoApplicationContext.getBean(BookReviewService.class);
-        book = (Book) mockitoApplicationContext.getFieldTestClassByName("book", BookReviewService.class);
-        bookReview = (BookReview) mockitoApplicationContext.getFieldTestClassByName("bookReview", BookReviewService.class);
-        bookReviewLikeEntity = (BookReviewLikeEntity) mockitoApplicationContext.getFieldTestClassByName("bookReviewLikeEntity", BookReviewService.class);
-        user = (User) mockitoApplicationContext.getFieldTestClassByName("user", BookReviewService.class);
+        book = new Book();
+        bookReview = new BookReview();
+        bookReviewLikeEntity = new BookReviewLikeEntity();
+        BookReviewRepo bookReviewRepo = Mockito.mock(BookReviewRepo.class);
+        UserRepo userRepo = Mockito.mock(UserRepo.class);
+        BookReviewLikeRepo bookReviewLikeRepo = Mockito.mock(BookReviewLikeRepo.class);
+        user = new UserTestBuilder()
+                .setEmail()
+                .build();
+        bookReview.setUserId(user);
+        book.setBooksReview(Collections.singletonList(bookReview));
+        Mockito.lenient().when(bookReviewRepo.findBookReviewsByBookId(book.getSlug())).thenReturn(Collections.singletonList(bookReview));
+        Mockito.lenient().when(userRepo.findByUsername(new PrincipalImplTest().getName())).thenReturn(user);
+        Mockito.lenient().when(bookReviewLikeRepo.findBookReviewLikeEntityByUserIdAndReviewId(bookReview.getId(), Math.toIntExact(user.getId())))
+                .thenReturn(bookReviewLikeEntity);
+        Mockito.lenient().when(bookReviewLikeRepo.findBookReviewLikeEntitiesByReviewId(bookReviewLikeEntity.getUserId()))
+                .thenReturn(Collections.singletonList(bookReviewLikeEntity));
+        bookReviewService = new BookReviewService(bookReviewRepo,bookReviewLikeRepo, userRepo);
     }
 
     @Test

@@ -10,4 +10,7 @@ public interface UserContactRepo extends JpaRepository<UserContactEntity, Intege
     @Query(value = "SELECT * FROM user_contact WHERE contact = :contact AND code = :code"
           ,nativeQuery = true)
     UserContactEntity findByContact(String contact, Long code);
+    @Query(value = "SELECT * FROM user_contact WHERE contact =:contact ORDER BY codetime DESC LIMIT 1"
+            ,nativeQuery = true)
+    UserContactEntity findByContactOrderByCodeTimeDesc(@Param("contact") String contact);//метод нужен для тестирования
 }

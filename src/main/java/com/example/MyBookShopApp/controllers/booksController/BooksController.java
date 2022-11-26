@@ -17,14 +17,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/books")
@@ -110,6 +109,7 @@ public class BooksController {
             }
             commentDtoLocal.setSlug(bookReview.getId());
             commentDtoLocal.setPubDate(LocalDateTime.now());
+            commentDtoLocal.setUsername(bookReview.getUserId().getUsername());
             commentDtos.add(commentDtoLocal);
         }
         model.addAttribute("comments", commentDtos);
@@ -147,6 +147,25 @@ public class BooksController {
 //    public List<Book> findBooksByPriceBetween(@RequestParam("min") Integer min, @RequestParam("max") Integer max) {
 //        return bookService.findBooksByPriceBetween(min, max);
 //    }
+    @PostMapping("/changeBookStatus/{slug}")
+    public String handleChangeBookStatus(@PathVariable("slug")String slug, @CookieValue(name = "cartContents"
+            , required = false) String cartContents, HttpServletResponse response, Model model){
+        if(cartContents == null || cartContents.equals("")){
+            Cookie cookie = new Cookie("cartContents", slug);
+            cookie.setPath("/books");
+            response.addCookie(cookie);
+            model.addAttribute("isCartEmpty", false);
+        }else if(!cartContents.contains(slug)) {
+            StringJoiner stringJoiner = new StringJoiner("/");
+            stringJoiner.add(cartContents).add(slug);
+            Cookie cookie = new Cookie("cartContents", stringJoiner.toString());
+            cookie.setPath("/books");
+            response.addCookie(cookie);
+            model.addAttribute("isCartEmpty", false);
+        }
+        return "redirect:/books/"+ slug;
+    }
+
 
     @GetMapping("/recommended")
     @ResponseBody
@@ -161,4 +180,6 @@ public class BooksController {
         storage.saveNewBookImage(file, slug);
         return "redirect:/books/" + slug;
     }
+
+
 }

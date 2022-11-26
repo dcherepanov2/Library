@@ -2,6 +2,7 @@ package com.example.MyBookShopApp.controllers.booksController;
 
 import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.dto.RecommendedBooksDto;
+import com.example.MyBookShopApp.enums.ErrorMessageResponse;
 import com.example.MyBookShopApp.exception.RecentBookException;
 import com.example.MyBookShopApp.service.bookServices.BookService;
 import com.example.MyBookShopApp.service.bookServices.MediaTypeUtils;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.ServletContext;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.BadRequestException;
+
 import org.springframework.http.MediaType;
 import java.io.*;
 import java.nio.file.Files;
@@ -22,7 +25,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/books")
-@CrossOrigin(origins = "http://localhost:3000/")
 public class BooksApiController {
 
     @Value("${download.path}")
@@ -48,7 +50,7 @@ public class BooksApiController {
             @RequestParam(value = "limit") Integer limit
     ) throws RecentBookException {
         if(to.before(from))
-            throw new RecentBookException();
+            throw new RecentBookException(ErrorMessageResponse.FILTER_PARAM_INCORRECT.getName());
         List<Book> books = bookService.getFilterBooksByDate(from,to,offset,limit);
         return new RecommendedBooksDto(books);
     }
@@ -93,7 +95,7 @@ public class BooksApiController {
             outStream.flush();
             inStream.close();
         }
+        else
+            throw new BadRequestException(ErrorMessageResponse.NOT_FOUND_BOOK.getName());
     }
-
-
 }

@@ -1,6 +1,5 @@
 package com.example.MyBookShopApp.unit.service;
 
-import com.example.MyBookShopApp.configuration.MockitoApplicationContext;
 import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.tags.Tag;
 import com.example.MyBookShopApp.repo.bookrepos.BookRepo;
@@ -11,10 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -26,17 +22,32 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 public class TagServiceTest {
-    @Spy
-    private MockitoApplicationContext mockitoApplicationContext;
     private TagService tagService;
     private ArrayList<Book> booksList;
     private Tag tag;
 
     @BeforeEach
     public void initialize(){
-        tagService = (TagService) mockitoApplicationContext.getBean(TagService.class);
-        booksList = (ArrayList<Book>) mockitoApplicationContext.getFieldTestClassByName("booksList", TagService.class);
-        tag = (Tag) mockitoApplicationContext.getFieldTestClassByName("tag", TagService.class);
+        BookRepo bookRepo = Mockito.mock(BookRepo.class);
+        TagRepo tagRepo = Mockito.mock(TagRepo.class);
+        booksList = new ArrayList<>();
+        BooksTestBuilder booksTestBuilder = new BooksTestBuilder();
+        Pageable pageable = PageRequest.of(0,6);
+        for (int i = 0; i < 6; i++) {
+            Book booksLocal = booksTestBuilder.createBookReview()
+                    .createIdBook()
+                    .createTagBook()
+                    .build();
+            booksList.add(booksLocal);
+        }
+        tag = booksList.get(0).getTags().get(0);
+        Mockito.lenient().when(bookRepo.findBooksByTag(tag.getSlug(),pageable))
+                .thenReturn(Collections.singletonList(booksList.get(0)));
+        Mockito.lenient().when(tagRepo.findBySlug(tag.getSlug()))
+                .thenReturn(tag);
+        Mockito.lenient().when(tagRepo.save(tag))
+                .thenReturn(tag);
+        tagService = new TagService(tagRepo,bookRepo);
     }
 
     @Test

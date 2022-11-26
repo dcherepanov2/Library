@@ -1,8 +1,13 @@
 package com.example.MyBookShopApp.service.bookServices;
 
 import com.example.MyBookShopApp.data.book.Book;
+import com.example.MyBookShopApp.data.book.file.BookFile;
+import com.example.MyBookShopApp.enums.ErrorMessageResponse;
+import com.example.MyBookShopApp.exception.BookException;
+import com.example.MyBookShopApp.exception.BookFileException;
 import com.example.MyBookShopApp.repo.bookrepos.BookRepo;
 import com.example.MyBookShopApp.repo.resourcesrepos.ResourceRepo;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -47,7 +52,14 @@ public class ResourceStorage {
         //TODO: написать ошибку если не найден файл
     }
 
+    @SneakyThrows
     public String findBookDownloadFile(String slug, Integer type) {
-        return resourceRepo.findPathBookBySlug(slug, type).getPath();
+        Book bookBySlug = bookRepo.findBookBySlug(slug);
+        if(bookBySlug == null)
+            throw new BookException(ErrorMessageResponse.NOT_FOUND_BOOK.getName());
+        BookFile pathBookBySlug = resourceRepo.findPathBookBySlug(bookBySlug.getId(), type);
+        if(pathBookBySlug == null)
+            throw new BookFileException(ErrorMessageResponse.FILE_NOT_FOUND_EXCEPTION.getName());
+        return pathBookBySlug.getPath();
     }
 }

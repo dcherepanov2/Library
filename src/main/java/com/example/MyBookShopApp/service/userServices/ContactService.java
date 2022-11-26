@@ -28,6 +28,7 @@ public class ContactService {
     }
 
     public UserContactEntity saveContactDtoEmail(ContactRequestDtoV2 contact, String code) {
+
         User user = this.getContactEntity(contact);
         if (user == null) {
             user = userService.createNewUserWithUserClientRole(contact.getContact());
