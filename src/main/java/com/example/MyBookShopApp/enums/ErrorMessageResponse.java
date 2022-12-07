@@ -10,7 +10,9 @@ public enum ErrorMessageResponse {
 
     FILE_NOT_FOUND_EXCEPTION("Не найден скачиваемый файл"),
 
-    JWT_TOKEN_IS_NOT_FOUND("Указанный jwt token не найден");
+    JWT_TOKEN_IS_NOT_FOUND("Указанный jwt token не найден"),
+
+    ILLEGAL_MOVE_CHANGE_BOOK("Действие, производимое над книгой не найдено");
     private final String name;
 
     ErrorMessageResponse(String name) {

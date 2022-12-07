@@ -89,8 +89,7 @@ public class SignInSignUpApiController {
 
     @PostMapping("/approveContact")
     @SneakyThrows
-    public ResponseApproveContact approveContact(@Valid @RequestBody ApproveContactDto contact
-            , BindingResult bindingResult){
+    public ResponseApproveContact approveContact(@Valid @RequestBody ApproveContactDto contact, BindingResult bindingResult){
         if (bindingResult.hasErrors())
             validationService.validate(bindingResult);
         ResponseApproveContact response =  contactService.approveContact(contact);

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.subethamail.wiser.Wiser;
 
-import static com.example.MyBookShopApp.utils.WiserAssertions.assertReceivedMessage;
+import static com.example.MyBookShopApp.utils.unit.WiserAssertions.assertReceivedMessage;
 
 // TODO: не работает,вернусь к нему позже,т.к. не модульный тест,
 // TODO: мы тестируем работу библиотеки отправки сообщения на почту

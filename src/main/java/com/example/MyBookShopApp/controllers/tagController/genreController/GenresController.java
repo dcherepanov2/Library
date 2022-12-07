@@ -33,8 +33,10 @@ public class GenresController {
 
     @GetMapping("/{slug}")
     public String getGenrePage(@PathVariable("slug") String slug, Model model) {
-        model.addAttribute("booksByOneGenre", new RecommendedBooksDto(genreService.allBooksByGenre(slug, 0, 20)));
+        RecommendedBooksDto recommendedBooksDto =  new RecommendedBooksDto(genreService.allBooksByGenre(slug, 0, 20));
+        GenreEntity genreEntity = genreService.findBySlug(slug);
+        model.addAttribute("booksByOneGenre",recommendedBooksDto);
+        model.addAttribute("genreName",genreEntity.getName());
         return "/genres/slug";
     }
-
 }

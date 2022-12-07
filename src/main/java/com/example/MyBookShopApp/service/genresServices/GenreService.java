@@ -38,6 +38,10 @@ public class GenreService {
         return allGenres;
     }
 
+
+    public GenreEntity findBySlug(String slug){
+        return genreRepo.findBySlug(slug);
+    }
     public List<Book> allBooksByGenre(String slug, Integer offset,Integer limit){
         List<Book> allBooksGenres = new ArrayList<>();
         List<GenreEntity> allGenres = new ArrayList<>();

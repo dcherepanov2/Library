@@ -1,4 +1,4 @@
-package com.example.MyBookShopApp.utils;
+package com.example.MyBookShopApp.utils.unit;
 
 import com.example.MyBookShopApp.dto.ApproveContactDto;
 import org.springframework.boot.test.context.SpringBootTest;

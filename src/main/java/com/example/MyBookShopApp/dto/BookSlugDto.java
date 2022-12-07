@@ -9,8 +9,12 @@ public class BookSlugDto extends BookForMainPageDto{
 
     private String description;
 
-    public BookSlugDto(Book book) {
+
+    private List<Author> authorsList;
+
+    public BookSlugDto(Book book, List<Author> authors) {
         super(book);
+        this.authorsList = authors;
         this.description = book.getDescription();
     }
 
@@ -160,5 +164,13 @@ public class BookSlugDto extends BookForMainPageDto{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Author> getAuthorsList() {
+        return authorsList;
+    }
+
+    public void setAuthorsList(List<Author> authorsList) {
+        this.authorsList = authorsList;
     }
 }

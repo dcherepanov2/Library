@@ -1,6 +1,7 @@
 package com.example.MyBookShopApp.service.userServices;
 
 
+import com.example.MyBookShopApp.data.user.JwtLogoutToken;
 import com.example.MyBookShopApp.data.user.Role;
 import com.example.MyBookShopApp.data.user.User;
 import com.example.MyBookShopApp.repo.userrepos.JwtBlacklistRepo;
@@ -96,18 +97,18 @@ public class UserServiceImpl{
         }
         return user;
     }
-//
-//    @Transactional(isolation = Isolation.REPEATABLE_READ,
-//            rollbackFor = {Exception.class, RuntimeException.class})
-//    public JwtLogoutToken logoutToken(String token) {
-//        JwtLogoutToken jwtLogoutToken = jwtBlacklistRepo.findByName(token);
-//        if (jwtLogoutToken == null) {
-//            jwtLogoutToken = new JwtLogoutToken();
-//            jwtLogoutToken.setName(token);
-//            return jwtBlacklistRepo.save(jwtLogoutToken);
-//        }
-//        return jwtLogoutToken;
-//    }
+
+    @Transactional(isolation = Isolation.REPEATABLE_READ,
+            rollbackFor = {Exception.class, RuntimeException.class})
+    public JwtLogoutToken logoutToken(String token) {
+        JwtLogoutToken jwtLogoutToken = jwtBlacklistRepo.findByName(token);
+        if (jwtLogoutToken == null) {
+            jwtLogoutToken = new JwtLogoutToken();
+            jwtLogoutToken.setName(token);
+            return jwtBlacklistRepo.save(jwtLogoutToken);
+        }
+        return jwtLogoutToken;
+    }
 //
 //    @Transactional(isolation = Isolation.REPEATABLE_READ,
 //            rollbackFor = {Exception.class})

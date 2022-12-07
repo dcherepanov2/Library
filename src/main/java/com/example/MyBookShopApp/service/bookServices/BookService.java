@@ -4,7 +4,9 @@ import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.book.links.BookRating;
 import com.example.MyBookShopApp.data.book.review.BookReview;
 import com.example.MyBookShopApp.data.user.User;
+import com.example.MyBookShopApp.dto.BookChangeStatusDto;
 import com.example.MyBookShopApp.dto.CommentDtoInput;
+import com.example.MyBookShopApp.enums.BookStatus;
 import com.example.MyBookShopApp.enums.ErrorMessageResponse;
 import com.example.MyBookShopApp.exception.BookReviewException;
 import com.example.MyBookShopApp.exception.ChangeBookRateException;
@@ -19,7 +21,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
+import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -179,6 +183,12 @@ public class BookService {
     public List<Book> getBooksBySlugs(List<String> booksSlugPostponed) {
         List<Book> booksLocal = new ArrayList<>();
         booksSlugPostponed.forEach(x -> booksLocal.add(books.findBookBySlug(x)));
-        return booksLocal;
+        return booksLocal.stream().filter(Objects::nonNull).collect(Collectors.toList());
+    }
+
+    public void changeBookStatus(String slug, String cartContents, String cartUnlink, HttpServletResponse response, Model model, BookChangeStatusDto bookChangeStatusDto) {
+        for(BookStatus bookStatus: BookStatus.values()){
+
+        }
     }
 }

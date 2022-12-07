@@ -3,7 +3,7 @@ package com.example.MyBookShopApp.integration;
 import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.repo.authorrepos.AuthorRepo;
 import com.example.MyBookShopApp.repo.bookrepos.BookRepo;
-import com.example.MyBookShopApp.utils.BooksTestBuilder;
+import com.example.MyBookShopApp.utils.unit.BooksTestBuilder;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

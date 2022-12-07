@@ -1,7 +1,7 @@
 package com.example.MyBookShopApp.unit.service;
 
 import com.example.MyBookShopApp.service.senders.ValidationService;
-import com.example.MyBookShopApp.utils.BindingResultTestImpl;
+import com.example.MyBookShopApp.utils.unit.BindingResultTestImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
