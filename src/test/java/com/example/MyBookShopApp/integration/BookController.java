@@ -46,6 +46,7 @@ public class BookController {
                 .createDescription()
                 .createTitle()
                 .createIsBestseller()
+                .createImage()
                 .createAuthor()
                 .createPrice()
                 .build();
@@ -60,11 +61,5 @@ public class BookController {
                 .andExpect(content().string(containsString(book.getDescription())))
                 .andExpect(content().string(containsString(book.getImage())))
                 .andExpect(status().isOk());
-    }
-
-    @AfterEach
-    public void deleteData() {
-        authorRepo.deleteAll();
-        bookRepo.deleteAll();
     }
 }

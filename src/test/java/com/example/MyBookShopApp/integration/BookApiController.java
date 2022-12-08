@@ -41,7 +41,7 @@ public class BookApiController {
     public void getFilterBooksRecent(){
         List<Book> all = bookRepo.findAll();
         LocalDateTime from = LocalDateTime.of(2011, Month.AUGUST, 11, 0 ,0);
-        LocalDateTime to = LocalDateTime.of(2011, Month.NOVEMBER, 11, 0 ,0);
+        LocalDateTime to = LocalDateTime.of(2025, Month.NOVEMBER, 11, 0 ,0);
         MvcResult mvcResult = mockMvc.perform(get("/api/books/recent?" + "to=" + DateTimeFormatter.ofPattern("dd.MM.yyyy").format(to) +
                                             "&from=" + DateTimeFormatter.ofPattern("dd.MM.yyyy").format(from) + "&offset=0&limit=6"))
                                      .andExpect(status().isOk())
