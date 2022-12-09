@@ -64,7 +64,7 @@ public class BookReviewController {
 
     @BeforeEach
     public void findBook(){
-        bookBySlug = bookRepo.findBookBySlug("book-kzx-285");
+        bookBySlug = bookRepo.findBookBySlug("book-kzx-286");
         if(bookBySlug == null)
             throw new AssertionFailedError("Не найдена книга");
     }

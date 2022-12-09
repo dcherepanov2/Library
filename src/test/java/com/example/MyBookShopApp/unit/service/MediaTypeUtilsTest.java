@@ -30,9 +30,4 @@ public class MediaTypeUtilsTest {
     public void fb2UtilsTest(){
         assertEquals(MediaTypeUtils.getMediaTypeForFileName(servletContext,"123.fb2"), MediaType.APPLICATION_OCTET_STREAM);
     }
-
-    @Test
-    public void fb12UtilsTest(){
-        assertEquals(MediaTypeUtils.getMediaTypeForFileName(servletContext,"123.jpg"), MediaType.APPLICATION_OCTET_STREAM);
-    }
 }

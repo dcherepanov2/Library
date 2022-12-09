@@ -26,9 +26,9 @@
             </h1>
             <form class="form Cart" action="#" method="post" th:if="${booksCart.size()}!= 0">
                 <div class="Cart-product" th:each="book : ${booksCart}">
-                    <div class="Cart-block Cart-block_row">
-                        <div class="Cart-block Cart-block_pict"><a class="Cart-pict" href="#"><img class="Cart-img"
-                                                                                                   src="/assets/img/content/main/card.jpg"
+                    <div class="Cart-block Cart-block_row" th:href="@{'/books/'+${book.slug}}">
+                        <div class="Cart-block Cart-block_pict"><a class="Cart-pict" ><img class="Cart-img"
+                                                                                               th:src="${book.image}"
                                                                                                    alt="card.jpg"/></a>
                         </div>
                         <div class="Cart-block Cart-block_row">

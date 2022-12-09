@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -53,11 +55,14 @@ public class BookApiController {
     @Test
     @SneakyThrows
     public void getAllBooksByTag(){
-        List<Book> all = bookRepo.findAll();
+        Pageable pageable = PageRequest.of(0,6);
+        List<Book> all = bookRepo.findBooksByTag("tag-121", pageable);
         MvcResult mvcResult = mockMvc.perform(get("/api/books/tag/tag-121?offset=0&limit=6"))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = mvcResult.getResponse().getContentAsString();
+        for(Book book: all)
+            System.out.println(book.getSlug()+" "+content.contains(book.getSlug()));
         all.forEach(x -> assertTrue(content.contains(x.getSlug())));
     }
 
