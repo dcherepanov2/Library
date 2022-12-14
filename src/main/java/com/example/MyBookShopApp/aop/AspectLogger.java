@@ -80,6 +80,7 @@ public class AspectLogger {
             sessionLoggerManager.setResponseEntity(responseEntity);
         }
     }
+    //
     @AfterReturning(pointcut = "pointcut()", returning = "entity")
     @SneakyThrows
     public void logMethodAfter(JoinPoint joinPoint, ResponseEntity<?> entity) {
