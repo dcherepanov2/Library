@@ -1,0 +1,37 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <include file="db/changelog/v.1.10/book/changeSet_book.xml"/>
+    <include file="db/changelog/v.1.10/author/changeSet-author.xml"/>
+    <include file="db/changelog/v.1.10/genre/changeSet-genre.xml"/>
+    <include file="db/changelog/v.1.10/other/changeSet-document.xml"/>
+    <include file="db/changelog/v.1.10/other/changeSet-faq.xml"/>
+    <include file="db/changelog/v.1.10/tags/changeSet-tag.xml"/>
+    <include file="db/changelog/v.1.10/book/review/changeSet-message.xml"/>
+    <include file="db/changelog/v.1.10/book/link/changeSet-book2author.xml"/>
+    <include file="db/changelog/v.1.10/book/link/changeSet-book2genre.xml"/>
+    <include file="db/changelog/v.1.10/user/changeSet-user_contact.xml"/>
+    <include file="db/changelog/v.1.10/book/link/changeSet-book2user.xml"/>
+    <include file="db/changelog/v.1.10/book/link/changeSet-book2user_type.xml"/>
+    <include file="db/changelog/v.1.10/payments/changeSet-balance_transaction.xml"/>
+    <include file="db/changelog/v.1.10/book/file/changeSet-book_file.xml"/>
+    <include file="db/changelog/v.1.10/book/file/changeSet-book_file_type.xml"/>
+    <include file="db/changelog/v.1.10/book/file/changeSet-file_download.xml"/>
+    <include file="db/changelog/v.1.10/book/review/changeSet-book_review.xml"/>
+    <include file="db/changelog/v.1.10/book/review/changeSet-book_review_like.xml"/>
+    <include file="db/changelog/v.1.10/book/link/changeSet-book2tag.xml"/>
+    <include file="db/changelog/v.1.10/book/link/changeSet-book2file.xml"/>
+    <include file="db/changelog/v.1.10/book/link/changeSet-ratingBook.xml"/>
+<!--    <include file="db/changelog/v.1.10/initDB/initAll.sql"/>-->
+    <include file="db/changelog/v.1.10/user/changeSet-role-v.1.0.xml"/>
+    <include file="db/changelog/v.1.10/user/changeSet-userTable-v.1.0.xml"/>
+    <include file="db/changelog/v.1.10/user/changeSet-security-blacklist-v.1.0.xml"/>
+    <include file="db/changelog/v.1.10/user/changeSet-user_roles-v.1.0.xml"/>
+    <include file="db/changelog/v.1.10/logger/changeSet-session-entity_v_1.0.xml"/>
+    <include file="db/changelog/v.1.10/logger/changeSet-request-entity_v_1.0.xml"/>
+    <include file="db/changelog/v.1.10/logger/changeSet-response-entity_v_1.0.xml"/>
+
+</databaseChangeLog>

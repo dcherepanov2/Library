@@ -172,7 +172,7 @@ public class BooksController {
     public RecommendedBooksDto getBooksPage(@RequestParam("offset") Integer offset, @RequestParam("limit") Integer limit) {
         List<Book> booksPopular = bookService.getPopularBooksData(offset, limit);
         Collections.shuffle(booksPopular);
-        return new RecommendedBooksDto(bookService.getPageOfRecommendedBooks(offset, limit));
+        return new RecommendedBooksDto(booksPopular);
     }
 
 

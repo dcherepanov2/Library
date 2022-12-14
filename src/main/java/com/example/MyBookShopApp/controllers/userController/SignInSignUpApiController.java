@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
@@ -89,12 +90,13 @@ public class SignInSignUpApiController {
 
     @PostMapping("/approveContact")
     @SneakyThrows
-    public ResponseApproveContact approveContact(@Valid @RequestBody ApproveContactDto contact, BindingResult bindingResult){
+    public ResponseApproveContact approveContact(@Valid @RequestBody ApproveContactDto contact, HttpServletResponse httpServletResponse, BindingResult bindingResult){
         if (bindingResult.hasErrors())
             validationService.validate(bindingResult);
         ResponseApproveContact response =  contactService.approveContact(contact);
         if(response == null)
             throw new ResponseApproveContactException(ErrorCodeResponseApproveContact.INCORRECT_ERROR_CODE.getMessage());
+        userService.createToken(contact,httpServletResponse);
         return response;
     }
 }

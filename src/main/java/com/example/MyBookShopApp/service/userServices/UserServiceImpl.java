@@ -4,9 +4,11 @@ package com.example.MyBookShopApp.service.userServices;
 import com.example.MyBookShopApp.data.user.JwtLogoutToken;
 import com.example.MyBookShopApp.data.user.Role;
 import com.example.MyBookShopApp.data.user.User;
+import com.example.MyBookShopApp.dto.ApproveContactDto;
 import com.example.MyBookShopApp.repo.userrepos.JwtBlacklistRepo;
 import com.example.MyBookShopApp.repo.userrepos.RoleRepository;
 import com.example.MyBookShopApp.repo.userrepos.UserRepo;
+import com.example.MyBookShopApp.security.jwt.JwtTokenProvider;
 import com.example.MyBookShopApp.service.userServices.helpers.UserHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +17,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.util.Collections;
-import java.util.List;
 
 
 @Service
@@ -31,13 +34,16 @@ public class UserServiceImpl{
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtBlacklistRepo jwtBlacklistRepo;
 
+    private final JwtTokenProvider jwtTokenProvider;
+
     @Autowired
-    public UserServiceImpl(UserRepo userRepository, RoleRepository roleRepository, UserHelper userHelper, BCryptPasswordEncoder passwordEncoder, JwtBlacklistRepo jwtBlacklistRepo) {
+    public UserServiceImpl(UserRepo userRepository, RoleRepository roleRepository, UserHelper userHelper, BCryptPasswordEncoder passwordEncoder, JwtBlacklistRepo jwtBlacklistRepo, JwtTokenProvider jwtTokenProvider) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.userHelper = userHelper;
         this.passwordEncoder = passwordEncoder;
         this.jwtBlacklistRepo = jwtBlacklistRepo;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
 //    @Transactional(isolation = Isolation.REPEATABLE_READ,
@@ -108,6 +114,13 @@ public class UserServiceImpl{
             return jwtBlacklistRepo.save(jwtLogoutToken);
         }
         return jwtLogoutToken;
+    }
+
+    public void createToken(ApproveContactDto contact, HttpServletResponse httpServletResponse){
+        Role role = roleRepository.findByName("ROLE_USER");
+        String token = jwtTokenProvider.createToken(contact.getContact(), Collections.singletonList(role));
+        Cookie cookie = new Cookie("token", token);
+        httpServletResponse.addCookie(cookie);
     }
 //
 //    @Transactional(isolation = Isolation.REPEATABLE_READ,

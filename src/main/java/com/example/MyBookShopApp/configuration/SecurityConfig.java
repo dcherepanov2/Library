@@ -105,7 +105,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(APPROVE_CONTACT_ENDPOINT).permitAll()
                 .antMatchers("/books/changeBookStatus/**").permitAll()
                 .antMatchers(HttpMethod.GET).permitAll()
-//                .antMatchers(HttpMethod.POST).hasRole("USER")
+                .antMatchers("**/img/save").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
