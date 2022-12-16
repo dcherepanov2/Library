@@ -3,7 +3,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
-    <changeSet author="Danya (generated)" id="180">
+    <changeSet author="Danya (generated)" id="190">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="response"/>
@@ -16,7 +16,10 @@
             <column name = "session" type="INT" >
                 <constraints nullable="false"/>
             </column>
-            <column name = "body" type="VARCHAR(255)" >
+            <column name = "status_code" type="INT" >
+                <constraints nullable="false"/>
+            </column>
+            <column name = "body" type="TEXT" >
                 <constraints nullable="false"/>
             </column>
         </createTable>

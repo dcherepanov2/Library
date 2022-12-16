@@ -22,17 +22,17 @@ public class SessionLoggerService {
         this.responseLoggerService = responseLoggerService;
     }
 
-    private SessionEntity createSession(String url){
+    private SessionEntity createSession(String url) {
         SessionEntity sessionEntity = new SessionEntity(url);
         return sessionRepo.save(sessionEntity);
     }
 
-    public RequestEntity saveRequestHttpInDatabase(String url, String requestBody){
+    public RequestEntity saveRequestHttpInDatabase(String url, String requestBody) {
         SessionEntity sessionEntity = this.createSession(url);
-        return requestLoggerService.createRequestLog(sessionEntity,requestBody);
+        return requestLoggerService.createRequestLog(sessionEntity, requestBody);
     }
 
-    public ResponseEntity saveResponseHttpInDatabase(SessionEntity sessionEntity, String requestBody){
-        return responseLoggerService.createResponseLog(sessionEntity,requestBody);
+    public ResponseEntity saveResponseHttpInDatabase(SessionEntity sessionEntity, String requestBody, Integer statusCode) {
+        return responseLoggerService.createResponseLog(sessionEntity, requestBody, statusCode);
     }
 }

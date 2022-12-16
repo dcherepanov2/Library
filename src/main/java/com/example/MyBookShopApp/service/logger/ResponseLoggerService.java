@@ -15,8 +15,8 @@ public class ResponseLoggerService {
         this.responseRepo =  responseRepo;
     }
 
-    public ResponseEntity createResponseLog(SessionEntity sessionEntity, String body){
-        ResponseEntity requestEntity = new ResponseEntity(body, sessionEntity);
+    public ResponseEntity createResponseLog(SessionEntity sessionEntity, String body, Integer statusCode){
+        ResponseEntity requestEntity = new ResponseEntity(body, sessionEntity, statusCode);
         return responseRepo.save(requestEntity);
     }
 }

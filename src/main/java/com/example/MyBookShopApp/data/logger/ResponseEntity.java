@@ -18,11 +18,15 @@ public class ResponseEntity {
     @OneToOne()
     @JoinColumn(name = "session", referencedColumnName = "id")
     private SessionEntity sessionEntity;
+
+    @Column(name = "status_code")
+    private Integer statusCode;
     @Column(name = "body")
     private String body;
 
-    public ResponseEntity(String body, SessionEntity sessionEntity) {
+    public ResponseEntity(String body, SessionEntity sessionEntity, Integer statusCode) {
         this.sessionEntity = sessionEntity;
         this.body = body;
+        this.statusCode = statusCode;
     }
 }
