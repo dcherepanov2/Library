@@ -19,6 +19,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 @ComponentScan("com.example.MyBookShopApp")
@@ -63,12 +64,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(REQUEST_CONTACT_CONFIRMATION_ENDPOINT).permitAll()
                 .antMatchers(APPROVE_CONTACT_ENDPOINT).permitAll()
                 .antMatchers("/books/changeBookStatus/**").permitAll()
-                .antMatchers("/books/comment/**").hasRole("USER")
-                .antMatchers("/rateBook").hasRole("USER")
-                .antMatchers("/rateBookReview").hasRole("USER")
-                .antMatchers("/download/**").hasRole("USER")
+                .antMatchers("/books/comment/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/rateBook").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/rateBookReview").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/download/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers(HttpMethod.GET).permitAll()
-                .antMatchers("**/img/save").hasRole("ADMIN")
+                .antMatchers("/books/**/img/save").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

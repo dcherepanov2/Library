@@ -1,6 +1,6 @@
 package com.example.MyBookShopApp.dto;
 
-public class SearchBookDto {
+public class SearchBookDto implements AopDto{
     private String query;
 
     public SearchBookDto() {

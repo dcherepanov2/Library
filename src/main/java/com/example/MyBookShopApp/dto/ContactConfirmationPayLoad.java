@@ -2,7 +2,7 @@ package com.example.MyBookShopApp.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ContactConfirmationPayLoad {
+public class ContactConfirmationPayLoad implements AopDto{
 
     @JsonProperty("code")
     private String code;

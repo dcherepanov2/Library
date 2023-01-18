@@ -2,8 +2,8 @@ package com.example.MyBookShopApp.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class RateBookDto {
-    @JsonProperty("bookid")
+public class RateBookDto implements AopDto{
+    @JsonProperty("bookId")
     private String bookid;
 
     @JsonProperty("value")

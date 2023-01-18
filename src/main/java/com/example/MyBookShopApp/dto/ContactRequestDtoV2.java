@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ContactRequestDtoV2 {
+public class ContactRequestDtoV2  implements AopDto{
     @JsonProperty("contact")
     private String contact;
 }

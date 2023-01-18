@@ -8,20 +8,21 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.*;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Optional;
 
 
+public class JwtTokenFilter extends OncePerRequestFilter {
 
-public class JwtTokenFilter extends GenericFilterBean {
-
-    private JwtTokenProvider jwtTokenProvider;
-    private SecurityExceptionResolver securityExceptionResolver = new SecurityExceptionResolver();
-    private org.springframework.web.context.support.SpringBeanAutowiringSupport SpringBeanAutowiringSupport;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final SecurityExceptionResolver securityExceptionResolver = new SecurityExceptionResolver();
     private JwtBlacklistRepo jwtBlacklistRepo;
 
     public JwtTokenFilter(JwtTokenProvider jwtTokenProvider) {
@@ -29,19 +30,24 @@ public class JwtTokenFilter extends GenericFilterBean {
     }
 
     @Override
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain)
-            throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
+        if(req.getCookies() == null){
+            filterChain.doFilter(req, res);
+            return;
+        }
+        Optional<Cookie> cookie = Arrays.stream(req.getCookies()).filter(x -> x.getName().equals("token")).findFirst();
+        if(cookie.isPresent()){
             if (jwtBlacklistRepo == null) {
                 ServletContext servletContext = req.getServletContext();
                 WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
                 jwtBlacklistRepo = webApplicationContext.getBean(JwtBlacklistRepo.class);
             }
-            String token = jwtTokenProvider.resolveToken((HttpServletRequest) req);
+            String token = jwtTokenProvider.resolveToken(req);
             JwtLogoutToken jwtLogoutToken = jwtBlacklistRepo.findByName("Bearer_"+token);
             if(jwtLogoutToken != null){
-                securityExceptionResolver.commence((HttpServletRequest) req,
-                                                   (HttpServletResponse) res,
-                                                    new JwtAuthenticationException("Your token has been blocked or logout, please login again"));
+                securityExceptionResolver.commence(req,
+                        res,
+                        new JwtAuthenticationException("Your token has been blocked or logout, please login again"));
             }
             if (token != null && jwtTokenProvider.validateToken(token)) {
                 Authentication auth = jwtTokenProvider.getAuthentication(token);
@@ -50,13 +56,11 @@ public class JwtTokenFilter extends GenericFilterBean {
                     SecurityContextHolder.getContext().setAuthentication(auth);
                 }
                 else {
-                    securityExceptionResolver.commence((HttpServletRequest) req,
-                                                       (HttpServletResponse) res,
-                                                       new UsernameNotFoundException("Username not found in the system"));
+                    securityExceptionResolver.commence(req, res,
+                            new UsernameNotFoundException("Username not found in the system"));
                 }
             }
-            filterChain.doFilter(req, res);
+        }
+        filterChain.doFilter(req, res);
     }
-
-
 }

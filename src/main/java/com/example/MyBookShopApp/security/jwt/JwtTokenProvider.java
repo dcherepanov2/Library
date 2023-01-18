@@ -13,12 +13,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
-
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -72,9 +70,17 @@ public class JwtTokenProvider {
     }
 
     public String resolveToken(HttpServletRequest req) {
-        String bearerToken = req.getHeader("Authorization");
-            if (bearerToken != null && bearerToken.startsWith("Bearer_")) {
-            return bearerToken.substring(7, bearerToken.length());
+        Object[] cookies = null;
+        if(req.getCookies() != null){
+            cookies = Arrays.stream(req.getCookies()).filter(x->x.getName().equals("token")).toArray();
+        }
+        else
+            return null;
+        Cookie bearerToken = null;
+        if(cookies.length!=0)
+            bearerToken =(Cookie) cookies[0];
+        if (bearerToken != null && bearerToken.getValue().startsWith("Bearer_")) {
+            return bearerToken.getValue().substring(7);
         }
         return null;
     }

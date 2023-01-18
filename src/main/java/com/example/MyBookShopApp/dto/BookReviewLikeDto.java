@@ -2,7 +2,7 @@ package com.example.MyBookShopApp.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BookReviewLikeDto {
+public class BookReviewLikeDto implements AopDto{
 
     @JsonProperty("value")
     private Short value;

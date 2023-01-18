@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 @Data
 @Schema(description = "AuthenticationRequestDto Сущность предоставляющая пользователя в запросе, при аутентификации пользователя в системе")
 @Component
-public class AuthenticationRequestDto {
+public class AuthenticationRequestDto  implements AopDto{
     @Schema(description = "Логин пользователя")
     @NotBlank(message = "Username should be between 6 and 20 character")
     @Size(min = 6, max = 20, message = "Username should be between 6 and 20 character")

@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <changeSet author="Danya (generated)" id="25">
+    <changeSet author="Danya (generated)" id="189">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="rating_book"/>
@@ -17,7 +17,7 @@
             <column name="book_id" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="value" type="TINYINT">
+            <column name="value" type="INT">
                 <constraints nullable="false"/>
             </column>
             <column name="user_id" type="INT">

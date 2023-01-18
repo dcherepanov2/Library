@@ -3,7 +3,7 @@ package com.example.MyBookShopApp.dto;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class CommentDto {
+public class CommentDto  implements AopDto{
 
     private String descriptionPartTwo = "";
     private String description;

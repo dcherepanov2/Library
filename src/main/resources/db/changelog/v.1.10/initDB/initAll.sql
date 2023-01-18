@@ -7207,3 +7207,4 @@ insert into book_review_like (id, review_id, user_id, time, value) values (97, 9
 insert into book_review_like (id, review_id, user_id, time, value) values (98, 98, 1, '30.09.2022', 1);
 insert into book_review_like (id, review_id, user_id, time, value) values (99, 99, 1, '01.06.2022', 1);
 insert into book_review_like (id, review_id, user_id, time, value) values (100, 100, 1, '24.06.2022', 1);
+INSERT INTO roles VALUES(1,'ROLE_USER')

@@ -76,7 +76,7 @@
                     </div>
                     <div class="ProductCard-desc"
                          th:replace="~{fragments/book_description_fragment :: bookDesc(book = ${slugBook})}"></div>
-                    <form id="uploadForm" th:attr="action='upload-file/'+ ${slugBook.slug}"  role="form" method="post" enctype=multipart/form-data>
+                    <form id="uploadForm" th:attr="action='/books/'+ ${slugBook.slug}+'/img/save'"  role="form" method="post" enctype=multipart/form-data>
                         <input type="file" id="file" name="file">
                         <input type=submit value=Upload>
                     </form>

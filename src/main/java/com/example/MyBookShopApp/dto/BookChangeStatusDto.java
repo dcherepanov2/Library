@@ -7,6 +7,6 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class BookChangeStatusDto {
+public class BookChangeStatusDto implements AopDto{
     private BookStatus status;
 }

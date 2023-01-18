@@ -14,7 +14,7 @@ public interface BookRatingRepo extends JpaRepository<BookRating, Integer> {
             value = "SELECT rb1.id,rb1.book_id,rb1.value,rb1.user_id FROM book AS b1 INNER JOIN rating_book AS rb1 ON b1.slug = :slug AND rb1.book_id = b1.id",
             nativeQuery = true
     )
-    List<BookRating> getBookRatingBySlug(@Param("slug")String slug);
+    List<BookRating> getBookRatingBySlug(@Param("slug") String slug);
 
     @Modifying
     @Transactional

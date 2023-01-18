@@ -23,7 +23,12 @@ public class Role {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_roles"
+            ,joinColumns = @JoinColumn(name = "role_id")
+            ,inverseJoinColumns =  @JoinColumn(name = "user_id")
+    )
     private List<User> users;
 
     @Override

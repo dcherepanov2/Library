@@ -7,10 +7,10 @@ import com.example.MyBookShopApp.dto.BookReviewLikeDto;
 import com.example.MyBookShopApp.repo.bookrepos.BookReviewLikeRepo;
 import com.example.MyBookShopApp.repo.bookrepos.BookReviewRepo;
 import com.example.MyBookShopApp.repo.userrepos.UserRepo;
+import com.example.MyBookShopApp.service.userServices.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -23,19 +23,22 @@ public class BookReviewService {
 
     private final UserRepo userRepo;
 
+    private final UserServiceImpl userService;
+
     @Autowired
-    public BookReviewService(BookReviewRepo bookReviewRepo, BookReviewLikeRepo bookReviewLikeRepo, UserRepo userRepo) {
+    public BookReviewService(BookReviewRepo bookReviewRepo, BookReviewLikeRepo bookReviewLikeRepo, UserRepo userRepo, UserServiceImpl userService) {
         this.bookReviewRepo = bookReviewRepo;
         this.bookReviewLikeRepo = bookReviewLikeRepo;
         this.userRepo = userRepo;
+        this.userService = userService;
     }
 
     public List<BookReview> reviewEntitiesBySlugBook(String slug){
         return bookReviewRepo.findBookReviewsByBookId(slug);
     }
 
-    public boolean likeOrDislikeCommentBySlug(Principal principal, BookReviewLikeDto bookReviewLikeDto) {
-        User user = userRepo.findByUsername(principal.getName());
+    public boolean likeOrDislikeCommentBySlug(String token, BookReviewLikeDto bookReviewLikeDto) {
+        User user = userService.findUserByToken(token);
         if (bookReviewLikeDto.getValue() == 0) {
             bookReviewLikeRepo.deleteBookReviewLikeEntitiesByUserIdAndReviewId(Math.toIntExact(user.getId()), bookReviewLikeDto.getReviewid());
             return true;

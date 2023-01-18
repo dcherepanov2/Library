@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -57,7 +58,6 @@ public class SignInSignUpApiController {
             validationService.validate(bindingResult);
         else if (validationService.isPhone(contact.getContact())) {
             String code = userHelper.generateCode();
-            userService.createNewUserWithUserClientRole(contact.getContact());
             contactService.saveContactDtoPhone(contact,code);
             twilioService.sendSecretCodeSms(contact.getContact(), code);
             ResultTrue resultTrue = new ResultTrue();
@@ -66,7 +66,6 @@ public class SignInSignUpApiController {
         }//TODO: опять временно не работает из-за проблем с twillio-аккаутном
         else if (validationService.isEmail(contact.getContact())) {
             String code = userHelper.generateCode();
-            userService.createNewUserWithUserClientRole(contact.getContact());
             mailSender.sendMessage(contact,code);
             contactService.saveContactDtoEmail(contact,code);
             ResultTrue resultTrue = new ResultTrue();
@@ -93,10 +92,12 @@ public class SignInSignUpApiController {
     public ResponseApproveContact approveContact(@Valid @RequestBody ApproveContactDto contact, HttpServletResponse httpServletResponse, BindingResult bindingResult){
         if (bindingResult.hasErrors())
             validationService.validate(bindingResult);
-        ResponseApproveContact response =  contactService.approveContact(contact);
+        ResponseApproveContact response = contactService.approveContact(contact);
         if(response == null)
             throw new ResponseApproveContactException(ErrorCodeResponseApproveContact.INCORRECT_ERROR_CODE.getMessage());
-        userService.createToken(contact,httpServletResponse);
+        userService.createNewUserWithUserClientRole(contact.getContact());
+        Cookie token = userService.createToken(contact);
+        httpServletResponse.addCookie(token);
         return response;
     }
 }

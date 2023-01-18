@@ -25,13 +25,14 @@
     <include file="db/changelog/v.1.10/book/link/changeSet-book2tag.xml"/>
     <include file="db/changelog/v.1.10/book/link/changeSet-book2file.xml"/>
     <include file="db/changelog/v.1.10/book/link/changeSet-ratingBook.xml"/>
-<!--    <include file="db/changelog/v.1.10/initDB/initAll.sql"/>-->
+
     <include file="db/changelog/v.1.10/user/changeSet-role-v.1.0.xml"/>
     <include file="db/changelog/v.1.10/user/changeSet-userTable-v.1.0.xml"/>
     <include file="db/changelog/v.1.10/user/changeSet-security-blacklist-v.1.0.xml"/>
     <include file="db/changelog/v.1.10/user/changeSet-user_roles-v.1.0.xml"/>
+    <include file="db/changelog/v.1.10/user/changeSet-profile-version-1.0.xml"/>
     <include file="db/changelog/v.1.10/logger/changeSet-session-entity_v_1.0.xml"/>
     <include file="db/changelog/v.1.10/logger/changeSet-request-entity_v_1.0.xml"/>
-        <include file="db/changelog/v.1.10/logger/changeSet-response-entity_v_1.0.xml"/>
-
+    <include file="db/changelog/v.1.10/logger/changeSet-response-entity_v_1.0.xml"/>
+    <include file="db/changelog/v.1.10/initDB/initAll.sql"/>
 </databaseChangeLog>

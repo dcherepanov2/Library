@@ -1,6 +1,6 @@
 package com.example.MyBookShopApp.dto;
 
-public class CommentDtoInput {
+public class CommentDtoInput implements AopDto{
     private String slug;
     private String description;
 

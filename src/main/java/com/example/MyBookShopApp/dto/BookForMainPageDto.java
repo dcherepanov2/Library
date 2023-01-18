@@ -12,7 +12,7 @@ import java.util.List;
           "discount", "isBestseller", "rating", "status", "price", "discountPrice"
         }
 )
-public class BookForMainPageDto {
+public class BookForMainPageDto implements AopDto{
 
     @JsonProperty("id")
     private Integer id;

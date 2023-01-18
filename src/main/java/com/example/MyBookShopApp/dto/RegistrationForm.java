@@ -1,7 +1,7 @@
 package com.example.MyBookShopApp.dto;
 
 
-public class RegistrationForm {
+public class RegistrationForm implements AopDto{
     private String name;
     private String email;
     private String phone;

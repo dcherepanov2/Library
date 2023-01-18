@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class ResponseApproveContact extends ResultTrue{
+public class ResponseApproveContact extends ResultTrue implements AopDto{
     private Boolean returnResponse = true;
     private String error = ErrorCodeResponseApproveContact.SUCCESS.getMessage();
 

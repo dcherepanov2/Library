@@ -2,7 +2,7 @@ package com.example.MyBookShopApp.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ResultTrue {
+public class ResultTrue implements AopDto{
     @JsonProperty("result")
     private Boolean result;
 

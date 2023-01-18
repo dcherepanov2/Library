@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 @Getter
 @Setter
-public class RegistrationRequestDto {
+public class RegistrationRequestDto implements AopDto{
 
     public RegistrationRequestDto(String username, String firstName, String lastName, String email, String password) {
         this.username = username;

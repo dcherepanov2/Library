@@ -5,7 +5,7 @@ import com.example.MyBookShopApp.data.book.Book;
 
 import java.util.List;
 
-public class BookSlugDto extends BookForMainPageDto{
+public class BookSlugDto extends BookForMainPageDto implements AopDto{
 
     private String description;
 

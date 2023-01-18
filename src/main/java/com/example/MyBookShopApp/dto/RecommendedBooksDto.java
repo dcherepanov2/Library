@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecommendedBooksDto {
+public class RecommendedBooksDto implements AopDto{
 
     @JsonProperty("count")
     private Integer count;

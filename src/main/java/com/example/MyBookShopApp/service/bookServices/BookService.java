@@ -13,6 +13,7 @@ import com.example.MyBookShopApp.repo.bookrepos.BookRatingRepo;
 import com.example.MyBookShopApp.repo.bookrepos.BookRepo;
 import com.example.MyBookShopApp.repo.bookrepos.BookReviewRepo;
 import com.example.MyBookShopApp.repo.userrepos.UserRepo;
+import com.example.MyBookShopApp.service.userServices.UserServiceImpl;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -37,13 +38,16 @@ public class BookService {
 
     private final UserRepo userRepo;
 
+    private final UserServiceImpl userService;
+
     @Autowired
-    public BookService(BookRepo books, BookRatingRepo bookRating, BookReviewRepo bookReviewRepo, BookReviewService bookReviewService, UserRepo userRepo) {
+    public BookService(BookRepo books, BookRatingRepo bookRating, BookReviewRepo bookReviewRepo, BookReviewService bookReviewService, UserRepo userRepo, UserServiceImpl userService) {
         this.books = books;
         this.bookRating = bookRating;
         this.bookReviewRepo = bookReviewRepo;
         this.bookReviewService = bookReviewService;
         this.userRepo = userRepo;
+        this.userService = userService;
     }
 
     public List<Book> getPopularBooksData(Integer offset, Integer limit) {
@@ -110,8 +114,8 @@ public class BookService {
     }
 
     @SneakyThrows
-    public void changeRateBookBySlug(Principal principal, String slug, Integer rate) {
-        User byUsername = userRepo.findByUsername(principal.getName());
+    public void changeRateBookBySlug(String token, String slug, Integer rate) {
+        User byUsername = userService.findUserByToken(token);
         List<BookRating> booksBySlug = bookRating.getBookRatingBySlug(slug);
         if(rate > 5 || rate < 1)
             throw new ChangeBookRateException(ErrorMessageResponse.CHANGE_BOOK_RATE.getName());

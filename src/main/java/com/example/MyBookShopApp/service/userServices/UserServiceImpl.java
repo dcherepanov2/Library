@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.util.Collections;
 
@@ -94,12 +93,13 @@ public class UserServiceImpl{
         User user = userRepository.findByContact(contact);
         if(user == null){
             user = new User();
-            Role role = roleRepository.findByName("USER_CLIENT");
+            Role role = roleRepository.findByName("ROLE_USER");
             user.setHash(userHelper.generateHash(user));
             user.setRoles(Collections.singletonList(role));
             user.setUsername(contact);
             user.setDateRegistration(LocalDate.now());
             user.setBalance(0.00);
+            userRepository.save(user);
         }
         return user;
     }
@@ -116,11 +116,15 @@ public class UserServiceImpl{
         return jwtLogoutToken;
     }
 
-    public void createToken(ApproveContactDto contact, HttpServletResponse httpServletResponse){
+    public Cookie createToken(ApproveContactDto contact){
         Role role = roleRepository.findByName("ROLE_USER");
         String token = jwtTokenProvider.createToken(contact.getContact(), Collections.singletonList(role));
-        Cookie cookie = new Cookie("token", token);
-        httpServletResponse.addCookie(cookie);
+        return new Cookie("token", "Bearer_"+token);
+    }
+
+    public User findUserByToken(String token){
+        String userName = jwtTokenProvider.getUsername(token.substring(7));
+        return userRepository.findByUsername(userName);
     }
 //
 //    @Transactional(isolation = Isolation.REPEATABLE_READ,
