@@ -80,11 +80,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-boot-starter</artifactId>
-			<version>3.0.0</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>io.springfox</groupId>-->
+<!--			<artifactId>springfox-boot-starter</artifactId>-->
+<!--			<version>3.0.0</version>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>
@@ -168,6 +168,16 @@
 			<artifactId>selenium-api</artifactId>
 			<version>3.141.59</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-starter-client</artifactId>
+			<version>3.0.0-M9</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -175,6 +185,21 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>build-info</goal>
+						</goals>
+						<configuration>
+							<additionalProperties>
+								<encoding.source>UTF-8</encoding.source>
+								<encoding.reporting>UTF-8</encoding.reporting>
+								<java.source>${maven.compiler.source}</java.source>
+								<java.source>${maven.compiler.target}</java.source>
+							</additionalProperties>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.liquibase</groupId>
