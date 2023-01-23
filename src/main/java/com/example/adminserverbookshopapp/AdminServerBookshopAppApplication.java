@@ -12,4 +12,4 @@ public class AdminServerBookshopAppApplication {
 		SpringApplication.run(AdminServerBookshopAppApplication.class, args);
 	}
 
-}
+}//
