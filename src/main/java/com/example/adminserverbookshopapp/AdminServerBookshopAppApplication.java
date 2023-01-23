@@ -11,5 +11,4 @@ public class AdminServerBookshopAppApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AdminServerBookshopAppApplication.class, args);
 	}
-//
 }
