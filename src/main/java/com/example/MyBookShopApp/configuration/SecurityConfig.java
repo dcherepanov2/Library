@@ -19,13 +19,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 @ComponentScan("com.example.MyBookShopApp")
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String LOGIN_ENDPOINT = "/login";
+
+    private static final String REG_ENDPOINT = "/signup";
 
     private static final String REQUEST_CONTACT_CONFIRMATION_ENDPOINT = "/requestContactConfirmation";
 
@@ -61,6 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(LOGIN_ENDPOINT).permitAll()
+                .antMatchers(REG_ENDPOINT).permitAll()
                 .antMatchers(REQUEST_CONTACT_CONFIRMATION_ENDPOINT).permitAll()
                 .antMatchers(APPROVE_CONTACT_ENDPOINT).permitAll()
                 .antMatchers("/books/changeBookStatus/**").permitAll()

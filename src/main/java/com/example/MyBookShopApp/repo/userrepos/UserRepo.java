@@ -17,4 +17,6 @@ public interface UserRepo extends JpaRepository<User, Long> {
             nativeQuery = true
     )
     User findByContact(@Param("contact") String contact);
+
+    User findByHash(String hash);
 }

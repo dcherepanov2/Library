@@ -44,7 +44,7 @@ public class SearchController {
     @GetMapping({"/{name}"})
     public String searchBooks(@PathVariable(value = "name", required = false)String name, Model model){
         model.addAttribute("searchBookDto",name);
-        model.addAttribute("booksBySearch",new RecommendedBooksDto(bookService.getSearchQuery(name, 0, 20)));
+        model.addAttribute("booksBySearch",new RecommendedBooksDto(bookService.getBooksGoogleApi(name,0,20)));
         return "/search/index";
     }
 }

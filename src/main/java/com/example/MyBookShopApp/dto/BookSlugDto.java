@@ -9,7 +9,6 @@ public class BookSlugDto extends BookForMainPageDto implements AopDto{
 
     private String description;
 
-
     private List<Author> authorsList;
 
     public BookSlugDto(Book book, List<Author> authors) {

@@ -11,6 +11,13 @@ import java.util.UUID;
 @Table(name = "author")
 public class Author {
 
+    public Author(String name){
+        this.name = name;
+    }
+
+    public Author() {
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @NotNull

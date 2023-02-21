@@ -3,6 +3,7 @@ package com.example.MyBookShopApp.data.user;
 
 
 import com.example.MyBookShopApp.data.enums.ContactType;
+import com.example.MyBookShopApp.data.user.converters.ContactTypeConverter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -18,10 +19,11 @@ public class UserContactEntity {
 //    @Column(columnDefinition = "INT NOT NULL")
 //    private int userId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "user_id",referencedColumnName = "id", columnDefinition = "INT NOT NULL")
     private User userId;
 
+    @Convert(converter = ContactTypeConverter.class)
     @Column(columnDefinition = "TINYINT NOT NULL")
     private ContactType type;
 

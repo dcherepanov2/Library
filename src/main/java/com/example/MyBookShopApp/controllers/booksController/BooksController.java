@@ -121,35 +121,6 @@ public class BooksController {
         model.addAttribute("unAuthUserName", "Анонимный Анонимус");
         return "/books/slug";
     }
-//    @GetMapping("/by-first-name-author/{name}")
-//    @ResponseBody
-//    public List<Book> booksByFirstNameAuthor(@PathVariable("name") String name) {
-//        return bookService.findBooksByFirstName(name);
-//    }
-
-    //@GetMapping("/by-title/{title}")
-//    @ResponseBody
-//    public List<Book> booksByTitle(@PathVariable("title") String title) {
-//        return bookService.findBooksByTitle(title);
-//    }
-
-//    @GetMapping("/by-max-discount/")
-//    @ResponseBody
-//    public List<Book> booksByMaxDiscount() {
-//        return bookService.findBooksByMaxDiscount();
-//    }
-
-//    @GetMapping("/is-bestseller/")
-//    @ResponseBody
-//    public List<Book> findBooksByIsBestseller() {
-//        return bookService.findBooksByIsBestseller();
-//    }
-
-//    @GetMapping("/by-price-book/")
-//    @ResponseBody
-//    public List<Book> findBooksByPriceBetween(@RequestParam("min") Integer min, @RequestParam("max") Integer max) {
-//        return bookService.findBooksByPriceBetween(min, max);
-//    }
     @PostMapping("/changeBookStatus/{slug}")
     @SneakyThrows
     public String handleChangeBookStatus(@PathVariable("slug")String slug, @CookieValue(name = "cartContents"

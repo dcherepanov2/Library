@@ -143,17 +143,17 @@ p.error-browser
     </div>
     <div class="wrap">
         <main class="Middle-main">
-            <form class="form Login Login_registration" th:object="${regForm}" th:action="@{/reg}" action="#"
+            <form class="form Login Login_registration" action="#"
                   method="post">
                 <div class="Login-ins">
                     <div class="Login-step">
                         <div class="form-group">
-                            <input class="form-input" id="name" name="name" type="text" th:field="*{name}"
+                            <input class="form-input" id="name" name="name" type="text"
                                    placeholder="Введите Имя" data-validate="require"/>
                         </div>
                         <div class="form-group form-group_row">
                             <div class="form-group">
-                                <input class="form-input form-input_phone" id="phone" name="phone" th:field="*{phone}" type="text"
+                                <input class="form-input form-input_phone" id="phone" name="phone" type="text"
                                        placeholder="Введите телефон" data-mask="+7 (999) 999-99-99"
                                        data-validate="require"/>
                             </div>
@@ -163,13 +163,13 @@ p.error-browser
                             </div>
                             <div class="form-group">
                                 <button class="btn btn_success btn_sm form-btn" type="button" name="submitPhone"
-                                        disabled="disabled" id="submitPhone">Подтвердить
+                                        disabled="disabled" id="submitPhone" onclick="sendApproveContactPhone()">Подтвердить
                                 </button>
                             </div>
                         </div>
                         <div class="form-group form-group_row">
                             <div class="form-group">
-                                <input class="form-input form-input_mail" id="mail" name="mail" th:field="*{email}" type="text"
+                                <input  class="form-input form-input_mail" id="mail" name="mail" type="text"
                                        placeholder="Введите e-mail" data-validate="mail require"/>
                             </div>
                             <div class="form-group form-group_key">
@@ -184,8 +184,7 @@ p.error-browser
                         </div>
 
                         <div class="form-group form-group_center">
-                            <button class="btn btn_primary form-btn" type="submit" name="registration" id="registration"
-                                    disabled="disabled">Зарегистрироваться
+                            <button onclick="registerUser()" id="register" class="btn btn_primary form-btn" type="submit">Зарегистрироваться
                             </button>
                         </div>
                     </div>
@@ -298,5 +297,6 @@ p.error-browser
     </div>
 </footer>
 <script src="/assets/plg/jQuery/jquery-3.5.1.min.js"></script>
+<script src="/assets/js/revision-frontend/signup.js"></script>
 </body>
 </html>

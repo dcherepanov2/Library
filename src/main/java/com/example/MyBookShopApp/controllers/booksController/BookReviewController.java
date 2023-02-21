@@ -4,6 +4,7 @@ import com.example.MyBookShopApp.dto.BookReviewLikeDto;
 import com.example.MyBookShopApp.dto.CommentDtoInput;
 import com.example.MyBookShopApp.dto.RateBookDto;
 import com.example.MyBookShopApp.dto.ResultTrue;
+import com.example.MyBookShopApp.security.jwt.JwtUser;
 import com.example.MyBookShopApp.service.bookServices.BookReviewService;
 import com.example.MyBookShopApp.service.bookServices.BookService;
 import lombok.SneakyThrows;
@@ -30,8 +31,8 @@ public class BookReviewController {
 
     @PostMapping("/books/comment/{slug}")
     @SneakyThrows
-    public String putComment(@PathVariable("slug") String slug, @RequestBody CommentDtoInput commentDto, Principal principal){
-        bookService.putComment(principal,commentDto, slug);
+    public String putComment(@PathVariable("slug") String slug, @RequestBody CommentDtoInput commentDto, JwtUser jwtUser){
+        bookService.putComment(jwtUser,commentDto, slug);
         return "redirect:/books/" + slug;
     }
 

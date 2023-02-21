@@ -53,9 +53,10 @@ public class BookForMainPageDto implements AopDto{
         this.title = book.getTitle();
         this.image = book.getImage();
         this.authors = this.setAuthors(book.getAuthors());
-        if(this.authors == null)
+        if(this.authors != null)
             this.authors = this.authors.substring(0,this.authors.length()-2);
         this.discount = book.getDiscount();
+        book.setIsBestseller((short) 0);
         this.isBestseller = book.getIsBestseller();
         this.rating = 5;
         this.status = "KEPT";

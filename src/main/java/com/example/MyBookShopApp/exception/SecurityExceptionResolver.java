@@ -23,6 +23,7 @@ public class SecurityExceptionResolver implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e)
             throws IOException{
         Map<String, String> map = new LinkedHashMap<>();
+        map.put("result: ", "false");
         map.put("state: ", "401");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         if(e instanceof JwtAuthenticationException){
@@ -37,7 +38,7 @@ public class SecurityExceptionResolver implements AuthenticationEntryPoint {
             map.put("state: ", "404");
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
-        map.put("message", e.getMessage());
+        map.put("error", e.getMessage());
         response.setCharacterEncoding("utf-8");
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         ObjectMapper objectMapper = new ObjectMapper();

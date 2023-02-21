@@ -7,6 +7,7 @@ import com.example.MyBookShopApp.data.book.review.BookReview;
 import com.example.MyBookShopApp.data.genre.GenreEntity;
 import com.example.MyBookShopApp.data.tags.Tag;
 import com.example.MyBookShopApp.data.user.User;
+import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

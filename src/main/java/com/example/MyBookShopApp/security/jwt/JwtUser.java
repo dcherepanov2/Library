@@ -12,9 +12,9 @@ import java.util.Collection;
 
 public class JwtUser implements UserDetails {
 
-    private final Long id;
+    private Long id;
     private final String name;
-    private final Double balance;
+    private Double balance;
     private final LocalDate reg_time;
     private final String hash;
     private final boolean enabled;
@@ -43,6 +43,9 @@ public class JwtUser implements UserDetails {
         return id;
     }
 
+    public void setId(Long id){
+        this.id = id;
+    }
 
 
     @JsonIgnore
@@ -69,6 +72,10 @@ public class JwtUser implements UserDetails {
         return authorities;
     }
 
+    public Double getBalance() {
+        return balance;
+    }
+
     @Override
     public String getPassword() {
         return null;
@@ -84,4 +91,11 @@ public class JwtUser implements UserDetails {
         return enabled;
     }
 
+    public void setBalance(Double balance){
+        this.balance = balance;
+    }
+
+    public String getHash() {
+        return hash;
+    }
 }

@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <changeSet author="Danya (generated)" id="10">
+    <changeSet author="Danya (generated)" id="391">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="balance_transaction"/>
@@ -20,11 +20,11 @@
             <column name="time" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-            <column name="value" type="INT" defaultValue="0">
+            <column name="value" type="FLOAT" defaultValue="0">
                 <constraints nullable="false"/>
             </column>
             <column name="book_id" type="INT">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="description" type="TEXT">
                 <constraints nullable="false"/>

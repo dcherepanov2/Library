@@ -5,19 +5,24 @@ import com.example.MyBookShopApp.data.user.User;
 import com.example.MyBookShopApp.data.user.UserContactEntity;
 import com.example.MyBookShopApp.dto.ApproveContactDto;
 import com.example.MyBookShopApp.dto.ContactRequestDtoV2;
+import com.example.MyBookShopApp.dto.RegistrationForm;
 import com.example.MyBookShopApp.dto.ResponseApproveContact;
 import com.example.MyBookShopApp.repo.userrepos.UserContactRepo;
 import com.example.MyBookShopApp.service.userServices.helpers.ResponseApproveContactHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ContactService {
     private final UserContactRepo userContactRepo;
     private final UserServiceImpl userService;
-
+    @Value("${contact.approve.codetrails}")
+    private String codeTrails;
     private final ResponseApproveContactHelper approveContactHelper;
 
     @Autowired
@@ -28,54 +33,66 @@ public class ContactService {
     }
 
     public UserContactEntity saveContactDtoEmail(ContactRequestDtoV2 contact, String code) {
-
-        User user = this.getContactEntity(contact);
-        if (user == null) {
-            user = userService.createNewUserWithUserClientRole(contact.getContact());
-        }
-        return this.createNewContactEntity(contact, code, user);
+        return this.createNewContactEntity(contact, code, ContactType.EMAIL);
     }
 
     public UserContactEntity saveContactDtoPhone(ContactRequestDtoV2 contact, String code) {
-        User user = this.getContactEntity(contact);
-        if (user == null) {
-            user = userService.createNewUserWithUserClientRole(contact.getContact());
-        }
-        return this.createNewContactEntity(contact, code, user);
+        return this.createNewContactEntity(contact, code, ContactType.PHONE);
     }
 
-    public ResponseApproveContact approveContact(ApproveContactDto contact){//TODO: здесь падает ошибка
+    public UserContactEntity setUserId(UserContactEntity userContact, User user) {
+        userContact.setUserId(user);
+        return userContactRepo.save(userContact);
+    }
+
+    public ResponseApproveContact approveContact(ApproveContactDto contact) {
         UserContactEntity contactEntity = userContactRepo.findByContact(contact.getContact(), Long.valueOf(contact.getCode().replace(" ", "")));
-        Long approve = Long.valueOf(contact.getCode().replace(" ",""));
-        if(contactEntity != null && approve.equals(contactEntity.getCode())){
-            if(contactEntity.getCodeTrails() >= 10){
+        Long approve = Long.valueOf(contact.getCode().replace(" ", ""));
+        if (contactEntity != null && approve.equals(contactEntity.getCode())) {
+            if (contactEntity.getCodeTrails() >= Integer.parseInt(codeTrails)) {
                 return approveContactHelper.createNumberOfInputAttemptSObject();
             }
-            if(contactEntity.getCodeTime().isBefore(LocalDateTime.now().minusDays(1))){
-                this.setApproved(contactEntity);
-                this.incrementCodeTrails(contactEntity);
+            if (contactEntity.getCodeTime().isBefore(LocalDateTime.now().minusDays(1))) {
+                contactEntity.setCodeTrails(contactEntity.getCodeTrails() + 1);
+                userContactRepo.save(contactEntity);
                 return approveContactHelper.createOldCodeObject();
             }
+            contactEntity.setApproved((short) 1);
+            contactEntity.setCodeTrails(contactEntity.getCodeTrails() + 1);
+            userContactRepo.save(contactEntity);
             return new ResponseApproveContact();
         }
         return approveContactHelper.createIncorrectErrorCodeObject();
     }
-    public UserContactEntity createNewContactEntity(ContactRequestDtoV2 contact, String code, User user) {
+
+    public UserContactEntity createNewContactEntity(ContactRequestDtoV2 contact, String code, ContactType contactType) {
         UserContactEntity contactEntity = new UserContactEntity();
         contactEntity.setContact(contact.getContact());
         contactEntity.setApproved((short) 0);
         contactEntity.setCode(Long.valueOf(code));
-        contactEntity.setType(ContactType.EMAIL);
+        contactEntity.setType(contactType);
         contactEntity.setCodeTime(LocalDateTime.now());
         contactEntity.setCodeTrails(0);
-        contactEntity.setUserId(user);
+        contactEntity.setUserId(null);
         contactEntity = userContactRepo.save(contactEntity);
         return contactEntity;
     }
 
     public User getContactEntity(ContactRequestDtoV2 contact) {
         String contact1 = contact.getContact();
-        return userService.findByEmail(contact1);
+        return userService.findUserByContact(contact1);
+    }
+
+    public UserContactEntity getContactEntity(String contact){
+        return userContactRepo.findByContactOrderByCodeTimeDesc(contact);
+    }
+
+    public UserContactEntity findUserContactApprovedByContactName(String contact){
+        PageRequest limit = PageRequest.of(0, 1);
+        List<UserContactEntity> content = userContactRepo.findUserContactEntitiesApprovedByContactName(contact, limit).getContent();
+        if(content.size()> 0)
+            return content.get(0);
+        return null;
     }
 
     private void setApproved(UserContactEntity contactLocal) {
@@ -87,5 +104,10 @@ public class ContactService {
         contactLocal.setApproved((short) 1);
         contactLocal.setCodeTrails(contactLocal.getCodeTrails() + 1);
         userContactRepo.save(contactLocal);
+    }
+
+    public boolean isContactApprove(String contact) {
+        UserContactEntity byContactOrderByCodeTimeDesc = userContactRepo.findByContactOrderByCodeTimeDesc(contact);
+        return byContactOrderByCodeTimeDesc != null && byContactOrderByCodeTimeDesc.getApproved() == 1;
     }
 }
