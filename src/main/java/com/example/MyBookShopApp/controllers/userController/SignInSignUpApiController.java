@@ -105,7 +105,7 @@ public class SignInSignUpApiController {
             throw new ResponseApproveContactException(ErrorCodeResponseApproveContact.INCORRECT_ERROR_CODE.getMessage());
         return response;
     }
-
+//
     @PostMapping("/signup")
     @SneakyThrows
     public User registration(@RequestBody RegistrationForm registrationForm) {
