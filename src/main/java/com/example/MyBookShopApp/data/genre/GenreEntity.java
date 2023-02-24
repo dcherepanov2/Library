@@ -4,7 +4,9 @@ import com.example.MyBookShopApp.data.book.Book;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "genre")
@@ -12,10 +14,10 @@ public class GenreEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @OneToOne()
-    @JoinColumn(name = "id",columnDefinition = "INT")
+    @JoinColumn(name = "parent_id",columnDefinition = "INT")
     private GenreEntity parentId;
 
     @Column(columnDefinition = "VARCHAR(255) NOT NULL")
@@ -24,7 +26,7 @@ public class GenreEntity {
     @Column(columnDefinition = "VARCHAR(255) NOT NULL")
     private String name;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "book2genre",
             joinColumns = @JoinColumn(name = "genre_id")
@@ -32,11 +34,11 @@ public class GenreEntity {
     )
     private List<Book> books = new ArrayList<>();
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

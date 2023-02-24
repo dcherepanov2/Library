@@ -2,8 +2,10 @@ package com.example.MyBookShopApp.service.genresServices;
 
 import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.genre.GenreEntity;
+import com.example.MyBookShopApp.dto.GenreEntitySort;
 import com.example.MyBookShopApp.repo.bookrepos.BookRepo;
 import com.example.MyBookShopApp.repo.genrerepos.GenreRepo;
+import com.example.MyBookShopApp.utils.GenreEntitySortComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -55,6 +57,31 @@ public class GenreService {
             allBooksGenres.addAll(bookRepo.findBooksByGenreSlug(genreEntity.getSlug(), pageable));
         }
         return allBooksGenres;
+    }
+    public GenreEntitySort allGenreTree(){
+        GenreEntitySort genreEntitySort = genreRepo.findAll().stream().map(GenreEntitySort::new)
+                .sorted(GenreEntitySort::compareTo)
+                .reduce(this::makeTree).orElse(null);
+        return sortBookOfBookSize(Objects.requireNonNull(genreEntitySort));
+    }
+
+    private GenreEntitySort makeTree(GenreEntitySort parent, GenreEntitySort child){
+        if (child.getParentId() == parent.getId()) {
+            parent.getChild().add(child);
+            parent.incrementBooksCount(child.getBooksCount());
+        } else {
+            parent.getChild().forEach(subParent -> makeTree(subParent, child));
+        }
+        return parent;
+    }
+
+    private GenreEntitySort sortBookOfBookSize(GenreEntitySort genre){
+        GenreEntitySortComparator genreEntitySortComparator = new GenreEntitySortComparator();
+        if(genre.getChild() != null && genre.getBooksCount()!= 0){
+            genre.getChild().sort(genreEntitySortComparator);
+            genre.getChild().forEach(this::sortBookOfBookSize);
+        }
+        return genre;
     }
 }
 
