@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="Section">
+    <div class="Tags Tags_genres"> <!--    th:each="genre : ${genres}"-->
+        <div class="Tags Tags_embed">
+            <div th:replace="~{fragments/genre-fragment :: genreFragment(genres = ${genres})}"></div>
+<!--            <div class="Tags-title">&lt;!&ndash;TODO: реализовать парент id&ndash;&gt;-->
+<!--                <div class="Tag"><a th:href="@{'/genres/'+${genre.getSlug()}}" href="/genres/slug.html" th:text="${genre.getName()}">Лёгкое чтение <span class="undefined-amount" th:text="${genre.value.size()}"></span></a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <nobr th:each="genrel1 : ${genre.getChild()}" >&lt;!&ndash;th:href="${'/genres'+${genre.id}}"&ndash;&gt;-->
+<!--                <nobr class="Tag" ><a th:href="@{'/genres/'+${genrel1.getSlug()}}" th:text="${genrel1.getName()}">-->
+<!--                    </a>-->
+<!--                    <span class="undefined-amount" th:text="'('+${genrel1.getBooksCount()}+')'"></span>-->
+<!--                </nobr>-->
+<!--            </nobr>-->
+        </div>
+    </div>
+</div>
+</body>
+</html>

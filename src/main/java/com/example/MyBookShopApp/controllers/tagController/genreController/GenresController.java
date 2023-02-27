@@ -1,6 +1,7 @@
 package com.example.MyBookShopApp.controllers.tagController.genreController;
 
 import com.example.MyBookShopApp.data.genre.GenreEntity;
+import com.example.MyBookShopApp.dto.GenreEntitySort;
 import com.example.MyBookShopApp.dto.RecommendedBooksDto;
 import com.example.MyBookShopApp.service.genresServices.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,12 @@ public class GenresController {
         model.addAttribute("booksByOneGenre",recommendedBooksDto);
         model.addAttribute("genreName",genreEntity.getName());
         return "/genres/slug";
+    }
+
+    @GetMapping("/testAllGenres")
+    public String getAllGenres(Model model){
+        GenreEntitySort genreEntitySort = genreService.allGenreTree();
+        model.addAttribute("genres",genreService.allGenreTree());
+        return "test-genre";
     }
 }
