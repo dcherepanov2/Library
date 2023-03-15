@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -19,6 +20,7 @@ public class SignInSignUpController {
     private final UserServiceImpl userService;
 
     private final ContactService contactService;
+
     @Autowired
     public SignInSignUpController(UserServiceImpl userService, ContactService contactService) {
         this.userService = userService;
@@ -28,18 +30,20 @@ public class SignInSignUpController {
     @PostMapping("/signin")
     public String autorization(ContactRequestDtoV2 contact, Model model, HttpServletResponse response) {
         User user = userService.findUserByContact(contact.getContact());
-        if(user != null){
+
+        if (user != null) {
             Cookie token = userService.createToken(user);
             model.addAttribute("userInfo", userService.getUserInfoForProfile(token.getValue()));
             response.addCookie(token);
             return "redirect:/profile";
         }
-        else
-            throw new UsernameNotFoundException("");
+        throw new UsernameNotFoundException("");
     }
 
     @GetMapping("/signin")
-    public String getSignIn(){
+    public String getSignIn(@CookieValue(value = "token", required = false) String tokenCookie) {
+        if (tokenCookie != null)
+            return "redirect:/profile";
         return "signin";
     }
 

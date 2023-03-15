@@ -24,6 +24,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.servlet.http.Cookie;
 import java.time.LocalDate;
 import java.util.AbstractMap;
@@ -35,7 +36,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class UserServiceImpl{
+public class UserServiceImpl {
 
     private final UserRepo userRepository;
     private final RoleRepository roleRepository;
@@ -72,6 +73,7 @@ public class UserServiceImpl{
         log.info("IN findByUsername - user: {} found by username: {}", result, username);
         return result;
     }
+
     @Transactional(isolation = Isolation.REPEATABLE_READ,
             rollbackFor = {Exception.class, RuntimeException.class})
     public User findUserByContact(String email) {
@@ -103,14 +105,14 @@ public class UserServiceImpl{
     @SneakyThrows
     public User createNewUserWithUserClientRole(RegistrationForm registrationForm) {
         User user = null;
-        List<UserContactEntity> allApprovedMessage = new ArrayList<UserContactEntity>(){{
-            addAll(userContactRepo.findUserContactEntitiesByContactAndCodeTime(registrationForm.getPhone(), ContactType.PHONE,Pageable.ofSize(1)).getContent());
-            addAll(userContactRepo.findUserContactEntitiesByContactAndCodeTime(registrationForm.getEmail(), ContactType.EMAIL,Pageable.ofSize(1)).getContent());
+        List<UserContactEntity> allApprovedMessage = new ArrayList<UserContactEntity>() {{
+            addAll(userContactRepo.findUserContactEntitiesByContactAndCodeTime(registrationForm.getPhone(), ContactType.PHONE, Pageable.ofSize(1)).getContent());
+            addAll(userContactRepo.findUserContactEntitiesByContactAndCodeTime(registrationForm.getEmail(), ContactType.EMAIL, Pageable.ofSize(1)).getContent());
         }};
         allApprovedMessage = allApprovedMessage.stream().filter(x -> x.getApproved() == 1).collect(Collectors.toList());
-        if(allApprovedMessage.size() == 2){
+        if (allApprovedMessage.size() == 2) {
             user = userRepository.findByContact(allApprovedMessage.get(0).getContact());
-            if(user == null){
+            if (user == null) {
                 user = new User();
                 Role role = roleRepository.findByName("ROLE_USER");
                 user.setHash(userHelper.generateHash(user));
@@ -120,11 +122,11 @@ public class UserServiceImpl{
                 user.setBalance(0.00);
                 user = userRepository.save(user);
             }
-        }
-        else
+        } else
             throw new ResponseApproveContactException("Введенные данные не были до конца подтверждены.");
         return user;
     }
+
     @Transactional(isolation = Isolation.REPEATABLE_READ,
             rollbackFor = {Exception.class, RuntimeException.class})
     public JwtLogoutToken logoutToken(String token) {
@@ -136,33 +138,36 @@ public class UserServiceImpl{
         }
         return jwtLogoutToken;
     }
-    public Cookie createToken(User user){
+
+    public Cookie createToken(User user) {
         Role role = roleRepository.findByName("ROLE_USER");
         String token = jwtTokenProvider.createToken(user.getHash(), Collections.singletonList(role));
-        return new Cookie("token", "Bearer_"+token);
+        return new Cookie("token", "Bearer_" + token);
     }
-    public User findUserByToken(String token){
+
+    public User findUserByToken(String token) {
         String userName = jwtTokenProvider.getUsername(token.substring(7));
         return userRepository.findByUsername(userName);
     }
 
-    public UserInfo getUserInfoForProfile(String token){
+    public UserInfo getUserInfoForProfile(String token) {
         UserInfo userInfo = new UserInfo();
-        String userName = jwtTokenProvider.getUsername(token.substring(7));
+        String hash = jwtTokenProvider.getUsername(token.substring(7));
         Pageable page = PageRequest.of(0, 1);
-        UserContactEntity email = userContactRepo.findUserContactEntitiesByContactAndCodeTime(userName, ContactType.EMAIL, page)
-                                                 .getContent().stream().findFirst().orElse(new UserContactEntity());
-        UserContactEntity phone = userContactRepo.findUserContactEntitiesByContactAndCodeTime(userName,ContactType.PHONE, page)
-                                                 .getContent().stream().findFirst().orElse(new UserContactEntity());
+        User user = userRepository.findByHash(hash);
+        UserContactEntity email = userContactRepo.findUserContactEntitiesByUserIdAndCodeTime(user.getId(), (short) 2, page)
+                .getContent().stream().findFirst().orElse(new UserContactEntity());
+        UserContactEntity phone = userContactRepo.findUserContactEntitiesByUserIdAndCodeTime(user.getId(), (short) 1, page)
+                .getContent().stream().findFirst().orElse(new UserContactEntity());
         userInfo.setEmailAndApprove(new AbstractMap.SimpleEntry<>(email.getContact(), email.getApproved()));
         userInfo.setPhoneAndApprove(new AbstractMap.SimpleEntry<>(phone.getContact(), phone.getApproved()));
+        userInfo.setName(user.getUsername());
         return userInfo;
     }
 
-    public void setBalance(JwtUser jwtUser, Double sum){
+    public void setBalance(JwtUser jwtUser, Double sum) {
         User user = userRepository.findByHash(jwtUser.getHash());
         user.setBalance(user.getBalance() + sum);
         userRepository.save(user);
     }
-
 }

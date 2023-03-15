@@ -1,6 +1,7 @@
 package com.example.MyBookShopApp.data.genre;
 
 import com.example.MyBookShopApp.data.book.Book;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,8 +17,8 @@ public class GenreEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne()
-    @JoinColumn(name = "parent_id",columnDefinition = "INT")
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "parent_id", columnDefinition = "INT")
     private GenreEntity parentId;
 
     @Column(columnDefinition = "VARCHAR(255) NOT NULL")

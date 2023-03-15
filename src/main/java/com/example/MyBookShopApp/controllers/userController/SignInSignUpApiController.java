@@ -1,6 +1,7 @@
 package com.example.MyBookShopApp.controllers.userController;
 
 import com.example.MyBookShopApp.data.user.JwtLogoutToken;
+import com.example.MyBookShopApp.data.user.Role;
 import com.example.MyBookShopApp.data.user.User;
 import com.example.MyBookShopApp.data.user.UserContactEntity;
 import com.example.MyBookShopApp.dto.*;
@@ -18,18 +19,19 @@ import com.example.MyBookShopApp.service.userServices.UserServiceImpl;
 import com.example.MyBookShopApp.service.userServices.helpers.UserHelper;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.Map;
 
-@RestController
+@Controller
 public class SignInSignUpApiController {
 
     private final TwilioService twilioService;
@@ -53,6 +55,7 @@ public class SignInSignUpApiController {
     }
 
     @PostMapping("/requestContactConfirmation")
+    @ResponseBody
     public ResultTrue login(@Valid @RequestBody ContactRequestDtoV2 contact
             , BindingResult bindingResult) throws VerificationException {
         if (bindingResult.hasErrors())
@@ -79,6 +82,7 @@ public class SignInSignUpApiController {
     @Deprecated
     @SneakyThrows
     @PostMapping("/user/logout")
+    @ResponseBody
     public ResultTrue logout(@RequestHeader("Authorization") String token) {
         JwtLogoutToken jwtLogoutToken = userService.logoutToken(token);
         if (jwtLogoutToken != null) {
@@ -91,7 +95,11 @@ public class SignInSignUpApiController {
 
     @PostMapping("/approveContact")
     @SneakyThrows
-    public ResponseApproveContact approveContact(@Valid @RequestBody ApproveContactDto contact, HttpServletResponse httpServletResponse, BindingResult bindingResult) {
+    public String approveContact(@Valid @RequestBody ApproveContactDto contact,
+                                 HttpServletResponse httpServletResponse,
+                                 BindingResult bindingResult,
+                                 @CookieValue(value = "history", required = false) String history,
+                                 RedirectAttributes ra) {
         UserContactEntity userContact = contactService.findUserContactApprovedByContactName(contact.getContact());
         if (bindingResult.hasErrors())
             validationService.validate(bindingResult);
@@ -103,11 +111,32 @@ public class SignInSignUpApiController {
         ResponseApproveContact response = contactService.approveContact(contact);
         if (response == null)
             throw new ResponseApproveContactException(ErrorCodeResponseApproveContact.INCORRECT_ERROR_CODE.getMessage());
-        return response;
+        if (history != null && userService.findUserByContact(contact.getContact()) != null) {
+            String redirectionEndpoint = userHelper.getRedirectionEndpoint(history, "signup",
+                    "approveContact",
+                    "requestContactConfirmation",
+                    "signin",
+                    "approveContactToJson");
+            return "redirect:/" + redirectionEndpoint;
+        }
+        ra.addFlashAttribute("response", response);
+        return "redirect:/approveContactToJson";
     }
-//
+
+    @GetMapping("/approveContactToJson")
+    @ResponseBody
+    @SneakyThrows
+    public ResponseApproveContact responseApproveContact(HttpServletRequest request) {
+        Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
+        if (inputFlashMap != null) {
+            return (ResponseApproveContact) inputFlashMap.get("response");
+        }
+        throw new ResponseApproveContactException("Не был передан объект класса ResponseApproveContact.");
+    }
+
     @PostMapping("/signup")
     @SneakyThrows
+    @ResponseBody
     public User registration(@RequestBody RegistrationForm registrationForm) {
         if (registrationForm != null && contactService.isContactApprove(registrationForm.getEmail()) && contactService.isContactApprove(registrationForm.getPhone())) {
             User user = userService.createNewUserWithUserClientRole(registrationForm);

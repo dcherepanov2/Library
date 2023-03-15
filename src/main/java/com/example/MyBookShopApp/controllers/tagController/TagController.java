@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
+import java.util.*;
+
 
 @Controller
 @RequestMapping("/tags")
@@ -20,8 +21,10 @@ public class TagController {
     private final TagService tagService;
 
     @ModelAttribute("allTags")
-    public List<Tag> allTags(){
-        return tagService.findAll();
+    public List<Tag> allTags() {
+        List<Tag> list = tagService.findAll();
+        Collections.shuffle(list);
+        return list;
     }
 
     @Autowired

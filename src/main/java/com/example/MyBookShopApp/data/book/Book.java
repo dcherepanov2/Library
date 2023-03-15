@@ -3,18 +3,18 @@ package com.example.MyBookShopApp.data.book;
 import com.example.MyBookShopApp.data.author.Author;
 import com.example.MyBookShopApp.data.book.file.BookFile;
 import com.example.MyBookShopApp.data.book.file.FileDownloadEntity;
+import com.example.MyBookShopApp.data.book.links.BookRating;
 import com.example.MyBookShopApp.data.book.review.BookReview;
 import com.example.MyBookShopApp.data.genre.GenreEntity;
 import com.example.MyBookShopApp.data.tags.Tag;
 import com.example.MyBookShopApp.data.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "book")
@@ -58,22 +58,29 @@ public class Book {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "book2genre"
-            ,joinColumns = @JoinColumn(name = "book_id")
-            ,inverseJoinColumns =  @JoinColumn(name = "genre_id")
+            , joinColumns = @JoinColumn(name = "book_id")
+            , inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
+    @JsonIgnore
     private List<GenreEntity> genres;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "rating_book", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "id"))
+    private List<BookRating> bookRatings;
+
     @ManyToMany
-    @JoinTable(name = "book2author", joinColumns = @JoinColumn(name = "book_id"))
-    private List<Author> authors = new ArrayList<>();
+    @JoinTable(name = "book2author",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "authors_id"))
+    private List<Author> authors;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "file_download"
-            ,joinColumns = @JoinColumn(name = "book_id")
-            ,inverseJoinColumns = @JoinColumn(name = "user_id")
+            , joinColumns = @JoinColumn(name = "book_id")
+            , inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<FileDownloadEntity> fileDownloadEntities= new ArrayList<>();
+    private List<FileDownloadEntity> fileDownloadEntities;
 
     @OneToMany
     @JoinTable(
@@ -81,39 +88,35 @@ public class Book {
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<User> bookJoinUsers = new ArrayList<>();
+    private List<User> bookJoinUsers;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany()
     @JoinTable(
             name = "book2author",
             joinColumns = @JoinColumn(name = "authors_id")
-            ,inverseJoinColumns = @JoinColumn(name = "book_id")
+            , inverseJoinColumns = @JoinColumn(name = "book_id")
     )
-    private List<Author> booksToAuthors = new ArrayList<>();
+    private List<Author> booksToAuthors;
+
 
     @OneToMany
-    @JoinTable(
-            name = "book_review",
-            joinColumns = @JoinColumn(name = "book_id")
-            ,inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private List<BookReview> booksReview = new ArrayList<>();
+    private List<BookReview> booksReview;
 
     @ManyToMany
     @JoinTable(
             name = "book2tag",
             joinColumns = @JoinColumn(name = "book_id")
-            ,inverseJoinColumns = @JoinColumn(name = "tag_id")
+            , inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
-    List<Tag> tags = new ArrayList<>();
+    List<Tag> tags;
 
     @OneToMany
     @JoinTable(
             name = "book2file",
             joinColumns = @JoinColumn(name = "book_id")
-            ,inverseJoinColumns = @JoinColumn(name = "file_id")
+            , inverseJoinColumns = @JoinColumn(name = "file_id")
     )
-    List<BookFile> bookFiles = new ArrayList<>();
+    List<BookFile> bookFiles;
 
     public Book() {
     }
@@ -227,13 +230,13 @@ public class Book {
         this.booksToAuthors = booksToAuthors;
     }
 
-    public List<BookReview> getBooksReview() {
-        return booksReview;
-    }
-
-    public void setBooksReview(List<BookReview> booksReview) {
-        this.booksReview = booksReview;
-    }
+//    public List<BookReview> getBooksReview() {
+//        return booksReview;
+//    }
+//
+//    public void setBooksReview(List<BookReview> booksReview) {
+//        this.booksReview = booksReview;
+//    }
 
     public List<Tag> getTags() {
         return tags;
@@ -249,5 +252,21 @@ public class Book {
 
     public void setBookFiles(List<BookFile> bookFiles) {
         this.bookFiles = bookFiles;
+    }
+
+    public List<BookRating> getBookRatings() {
+        return bookRatings;
+    }
+
+    public void setBookRatings(List<BookRating> bookRatings) {
+        this.bookRatings = bookRatings;
+    }
+
+    public List<BookReview> getBooksReview() {
+        return booksReview;
+    }
+
+    public void setBooksReview(List<BookReview> booksReview) {
+        this.booksReview = booksReview;
     }
 }

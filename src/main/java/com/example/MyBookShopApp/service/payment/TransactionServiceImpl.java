@@ -5,6 +5,9 @@ import com.example.MyBookShopApp.data.payments.BalanceTransactionEntity;
 import com.example.MyBookShopApp.repo.payment.TransactionRepo;
 import com.example.MyBookShopApp.security.jwt.JwtUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,16 +24,18 @@ public class TransactionServiceImpl implements TransactionService{
     }
 
     @Override
-    public List<BalanceTransactionEntity> getAllTransactionByUser(JwtUser jwtUser) {
-        return transactionRepo.getBalanceTransactionEntitiesByUserId(jwtUser.getId());
+    public List<BalanceTransactionEntity> getAllTransactionByUser(JwtUser jwtUser, Integer offset, Integer limit) {
+        Pageable page = PageRequest.of(offset, limit);
+        return transactionRepo.getBalanceTransactionEntitiesByUserId(jwtUser.getId(), page);
     }
 
+    @Override
     public void debitPayment(JwtUser jwtUser, Double sum) {
         BalanceTransactionEntity transaction = new BalanceTransactionEntity();
         transaction.setUserId(jwtUser.getId());
         transaction.setValue(sum);
         transaction.setTime(LocalDateTime.now());
-        transaction.setDescription("Пополнение счета личного кабинета на сумму: "+ sum);
+        transaction.setDescription("Пополнение счета личного кабинета на сумму: " + sum);
         transaction.setBookId(null);
         transactionRepo.save(transaction);
     }

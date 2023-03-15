@@ -1,12 +1,17 @@
 <html xmlns:th="http://thymeleaf.org">
 <body>
-<div th:fragment="genreFragment" th:remove="tag">
-    <a th:text="${genres.name} +' ('+ ${genres.getBooksCount()} + ')'" th:href="@{'/genres/' + ${genres.getSlug()}}">Example comment</a>
-    <div th:each="genre : ${genres.getChild()}" >
-        <a th:text="${genre.name} +' ('+ ${genre.getBooksCount()} + ')'" th:href="@{'/genres/' + ${genre.getSlug()}}" style="margin-left: 1em; white-space: nowrap; padding: 10px;">Example comment</a>
+<div th:fragment="genreFragment" th:remove="tag" style="font-size: 20px">
+    <a th:text="${genres.name} +' ('+ ${genres.getBooksCount()} + ')'" th:href="@{'/genres/' + ${genres.getSlug()}}"
+       style="font-size: 20px; ">Example comment</a>
+    <div th:each="genre : ${genres.getChild()}">
+        <a th:text="${genre.name} +' ('+ ${genre.getBooksCount()} + ')'" th:href="@{'/genres/' + ${genre.getSlug()}}"
+           style="margin-left: 1em; white-space: nowrap; padding-right: 10px; font-size: 20px">Example comment</a>
         <div th:if="${genre.getChild().size() != 0}">
             <div th:each="genre1 :${genre.getChild()}">
-                <a th:text="${genre1.name} +' ('+ ${genre1.getBooksCount()} + ')'" th:href="@{'/genres/' + ${genre1.getSlug()}}" style="margin-left: 1em; white-space: nowrap; padding: 10px;">Example comment</a>
+                <nobr><a th:text="${genre1.name} +' ('+ ${genre1.getBooksCount()} + ')'"
+                         th:href="@{'/genres/' + ${genre1.getSlug()}}"
+                         style="margin-left: 1em; white-space: nowrap; padding-right: 10px;font-size: 20px">Example
+                    comment</a></nobr>
                 <div th:replace="~{fragments/genre-fragment :: genreFragment(genres = ${genre1})}"></div>
             </div>
         </div>

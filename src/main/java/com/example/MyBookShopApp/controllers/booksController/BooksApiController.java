@@ -94,8 +94,13 @@ public class BooksApiController {
             }
             outStream.flush();
             inStream.close();
-        }
-        else
+        } else
             throw new BadRequestException(ErrorMessageResponse.NOT_FOUND_BOOK.getName());
+    }
+
+    @GetMapping("/popular")
+    public RecommendedBooksDto getPopularBooks(@RequestParam("offset") Integer offset,
+                                               @RequestParam("limit") Integer limit) {
+        return new RecommendedBooksDto(bookService.getPopularBooksDataApi(offset, limit));
     }
 }

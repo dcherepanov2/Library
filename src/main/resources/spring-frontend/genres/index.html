@@ -25,21 +25,9 @@
             <h1 class="Middle-title" th:text="#{topbar.genres}">Жанры
             </h1>
             <div class="Section">
-                <div class="Tags Tags_genres" th:each="genre : ${allGenres}">
+                <div class="Tags Tags_genres">
                     <div class="Tags Tags_embed">
-                        <div class="Tags-title"><!--TODO: реализовать парент id-->
-                            <div class="Tag"><a th:href="@{'/genres/'+${genre.key.slug}}" href="/genres/slug.html" th:text="${genre.key.name}">Лёгкое чтение <span class="undefined-amount" th:text="${genre.value.size()}"></span></a>
-                            </div>
-                        </div>
-                        <nobr th:each="genrel1 : ${genre.value}" ><!--th:href="${'/genres'+${genre.id}}"-->
-                            <nobr class="Tag" ><a  th:href="@{'/genres/'+${genrel1.key.slug}}" th:text="${genrel1.key.name}">
-                                <nobr class="Tag" ><a  th:href="@{'/genres/'+${genrel1.key.slug}}" th:text="${genrel1.key.name}"  th:each="genrel2 : ${genrel1.value}"></a>
-                                    <nobr class="Tag" ><a  th:href="@{'/genres/'+${genrel2.slug}}" th:text="${genrel2.name}"></a>
-                                    </nobr>
-                                </nobr>
-                                <span class="undefined-amount" th:text="${genrel1.value.size()}">(44333)</span></a>
-                            </nobr>
-                        </nobr>
+                        <div th:replace="~{fragments/genre-fragment :: genreFragment(genres = ${genres})}"></div>
                     </div>
                 </div>
             </div>

@@ -18,6 +18,7 @@ public class RecommendedBooksDto implements AopDto{
         this.count = books.size();
         List<BookForMainPageDto> bookForMainPageDto = new ArrayList<>();
         for(Book book:books){
+            book.setBookRatings(null);
             bookForMainPageDto.add(new BookForMainPageDto(book));
         }
         this.books = bookForMainPageDto;

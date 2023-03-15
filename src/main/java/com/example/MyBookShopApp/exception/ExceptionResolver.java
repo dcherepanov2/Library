@@ -37,7 +37,8 @@ public class ExceptionResolver {
             BookReviewException.class,
             CommentInputException.class,
             JwtLogoutTokenNotFound.class,
-            ChangeBookException.class
+            ChangeBookException.class,
+            RegistrationException.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public HashMap<String, String> badRequest(Exception ex, HttpServletRequest request) throws ParseException {

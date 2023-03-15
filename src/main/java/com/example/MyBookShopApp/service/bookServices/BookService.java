@@ -17,6 +17,7 @@ import com.example.MyBookShopApp.repo.bookrepos.BookReviewRepo;
 import com.example.MyBookShopApp.repo.userrepos.UserRepo;
 import com.example.MyBookShopApp.security.jwt.JwtUser;
 import com.example.MyBookShopApp.service.userServices.UserServiceImpl;
+import com.example.MyBookShopApp.utils.PopularBooksComparator;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,9 +64,16 @@ public class BookService {
     public List<Book> getPopularBooksData(Integer offset, Integer limit) {
         Pageable pageable = PageRequest.of(offset, limit);
         List<Book> response = books.findByMostPopular(pageable);
-        if (response.size() == 0)
+        if (response == null)
             return books.findAll(pageable).getContent();
-        return response;
+        else if (response.size() == 0)
+            return books.findAll(pageable).getContent();
+        return sortPopularBook(response);
+    }
+
+    public List<Book> getPopularBooksDataApi(Integer offset, Integer limit) {
+        Pageable pageable = PageRequest.of(offset, limit);
+        return sortPopularBook(books.findByMostPopular(pageable));
     }
 
     public List<Book> getSearchQuery(String name, Integer offset, Integer limit) {
@@ -119,7 +127,7 @@ public class BookService {
         BookRating bookRate = new BookRating();
         bookRate.setUserId(Math.toIntExact(byUsername.getId()));
         bookRate.setValue(rate);
-        bookRate.setBook_id(book.getId());
+        bookRate.setBook_id(book);
         bookRating.save(bookRate);
     }
 
@@ -206,9 +214,14 @@ public class BookService {
         return googleBookToBooksMyShop;
     }
 
-    public Book getBookById(Integer id){
-        if(id != null)
+    public Book getBookById(Integer id) {
+        if (id != null)
             return books.getById(id);
         return null;
+    }
+
+    private List<Book> sortPopularBook(List<Book> books) {
+        PopularBooksComparator popularBooksComparator = new PopularBooksComparator();
+        return books.stream().sorted(popularBooksComparator).collect(Collectors.toList());
     }
 }

@@ -15,16 +15,8 @@ import org.springframework.stereotype.Service;
 import java.util.Random;
 
 @Service
-public class TwilioService {
-
-    private final UserContactRepo userContactRepo;
+public class TwilioService { //TODO: создать интерфейс MessageSender и заимплементить его здесь и в MailSender
     private final Random random = new Random();
-
-    private final UserServiceImpl userService;
-
-    private final ContactService contactService;
-
-
 
     @Value("${twilio.ACCOUNT_SID}")
     String sid;
@@ -34,13 +26,6 @@ public class TwilioService {
 
     @Value("${twilio.NUMBER}")
     String phone;
-
-    @Autowired
-    public TwilioService(UserContactRepo userContactRepo, UserServiceImpl userService, ContactService contactService) {
-        this.userContactRepo = userContactRepo;
-        this.userService = userService;
-        this.contactService = contactService;
-    }
 
     private UserContactEntity generatedCode(String contact) {
         UserContactEntity userContactEntity = new UserContactEntity();

@@ -7198,13 +7198,2024 @@ insert into book_review_like (id, review_id, user_id, time, value) values (88, 8
 insert into book_review_like (id, review_id, user_id, time, value) values (89, 89, 1, '05.10.2022', 1);
 insert into book_review_like (id, review_id, user_id, time, value) values (90, 90, 1, '19.03.2022', 1);
 insert into book_review_like (id, review_id, user_id, time, value) values (91, 91, 1, '26.02.2022', 1);
-insert into book_review_like (id, review_id, user_id, time, value) values (92, 92, 1, '15.08.2022', 1);
-insert into book_review_like (id, review_id, user_id, time, value) values (93, 93, 1, '06.09.2022', 1);
-insert into book_review_like (id, review_id, user_id, time, value) values (94, 94, 1, '31.12.2021', 1);
-insert into book_review_like (id, review_id, user_id, time, value) values (95, 95, 1, '14.03.2022', 1);
-insert into book_review_like (id, review_id, user_id, time, value) values (96, 96, 1, '05.10.2022', 1);
-insert into book_review_like (id, review_id, user_id, time, value) values (97, 97, 1, '12.01.2022', 1);
-insert into book_review_like (id, review_id, user_id, time, value) values (98, 98, 1, '30.09.2022', 1);
-insert into book_review_like (id, review_id, user_id, time, value) values (99, 99, 1, '01.06.2022', 1);
-insert into book_review_like (id, review_id, user_id, time, value) values (100, 100, 1, '24.06.2022', 1);
-INSERT INTO roles VALUES(1,'ROLE_USER')
+insert into book_review_like (id, review_id, user_id, time, value)
+values (92, 92, 1, '15.08.2022', 1);
+insert into book_review_like (id, review_id, user_id, time, value)
+values (93, 93, 1, '06.09.2022', 1);
+insert into book_review_like (id, review_id, user_id, time, value)
+values (94, 94, 1, '31.12.2021', 1);
+insert into book_review_like (id, review_id, user_id, time, value)
+values (95, 95, 1, '14.03.2022', 1);
+insert into book_review_like (id, review_id, user_id, time, value)
+values (96, 96, 1, '05.10.2022', 1);
+insert into book_review_like (id, review_id, user_id, time, value)
+values (97, 97, 1, '12.01.2022', 1);
+insert into book_review_like (id, review_id, user_id, time, value)
+values (98, 98, 1, '30.09.2022', 1);
+insert into book_review_like (id, review_id, user_id, time, value)
+values (99, 99, 1, '01.06.2022', 1);
+insert into book_review_like (id, review_id, user_id, time, value)
+values (100, 100, 1, '24.06.2022', 1);
+INSERT INTO roles
+VALUES (1, 'ROLE_USER')
+    insert
+into rating_book (id, book_id, value, user_id)
+values (1, 235, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (2, 282, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (3, 435, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (4, 109, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (5, 478, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (6, 344, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (7, 466, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (8, 43, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (9, 409, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (10, 497, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (11, 219, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (12, 498, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (13, 306, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (14, 226, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (15, 360, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (16, 49, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (17, 371, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (18, 95, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (19, 318, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (20, 270, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (21, 420, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (22, 245, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (23, 455, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (24, 92, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (25, 47, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (26, 379, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (27, 263, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (28, 281, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (29, 306, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (30, 323, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (31, 335, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (32, 331, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (33, 260, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (34, 180, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (35, 406, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (36, 107, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (37, 403, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (38, 244, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (39, 306, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (40, 227, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (41, 364, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (42, 102, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (43, 494, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (44, 190, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (45, 49, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (46, 328, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (47, 274, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (48, 361, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (49, 54, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (50, 127, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (51, 483, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (52, 288, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (53, 469, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (54, 331, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (55, 261, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (56, 151, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (57, 13, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (58, 489, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (59, 487, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (60, 292, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (61, 170, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (62, 13, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (63, 169, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (64, 289, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (65, 60, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (66, 100, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (67, 223, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (68, 459, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (69, 152, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (70, 80, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (71, 459, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (72, 492, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (73, 385, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (74, 377, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (75, 275, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (76, 27, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (77, 41, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (78, 255, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (79, 311, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (80, 89, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (81, 290, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (82, 100, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (83, 181, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (84, 15, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (85, 128, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (86, 259, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (87, 174, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (88, 124, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (89, 127, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (90, 269, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (91, 248, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (92, 469, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (93, 105, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (94, 93, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (95, 486, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (96, 500, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (97, 198, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (98, 182, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (99, 110, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (100, 372, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (101, 376, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (102, 54, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (103, 149, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (104, 281, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (105, 217, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (106, 73, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (107, 291, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (108, 476, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (109, 73, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (110, 164, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (111, 123, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (112, 10, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (113, 244, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (114, 291, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (115, 343, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (116, 396, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (117, 378, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (118, 362, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (119, 427, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (120, 215, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (121, 137, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (122, 301, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (123, 136, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (124, 61, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (125, 359, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (126, 123, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (127, 311, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (128, 273, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (129, 166, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (130, 495, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (131, 453, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (132, 62, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (133, 28, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (134, 270, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (135, 84, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (136, 228, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (137, 455, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (138, 360, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (139, 341, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (140, 353, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (141, 157, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (142, 443, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (143, 12, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (144, 359, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (145, 268, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (146, 424, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (147, 433, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (148, 38, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (149, 216, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (150, 323, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (151, 310, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (152, 287, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (153, 160, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (154, 290, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (155, 14, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (156, 368, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (157, 370, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (158, 132, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (159, 416, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (160, 414, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (161, 493, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (162, 330, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (163, 457, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (164, 23, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (165, 168, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (166, 265, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (167, 256, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (168, 330, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (169, 54, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (170, 408, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (171, 352, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (172, 37, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (173, 461, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (174, 401, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (175, 209, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (176, 97, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (177, 74, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (178, 146, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (179, 466, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (180, 447, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (181, 131, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (182, 243, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (183, 348, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (184, 86, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (185, 36, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (186, 242, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (187, 473, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (188, 330, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (189, 316, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (190, 341, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (191, 171, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (192, 485, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (193, 270, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (194, 9, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (195, 231, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (196, 417, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (197, 439, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (198, 270, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (199, 15, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (200, 47, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (201, 371, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (202, 71, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (203, 499, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (204, 196, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (205, 479, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (206, 300, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (207, 154, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (208, 250, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (209, 156, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (210, 190, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (211, 312, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (212, 382, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (213, 342, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (214, 260, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (215, 180, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (216, 200, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (217, 47, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (218, 264, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (219, 169, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (220, 119, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (221, 215, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (222, 176, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (223, 279, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (224, 31, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (225, 339, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (226, 386, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (227, 481, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (228, 491, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (229, 316, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (230, 333, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (231, 180, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (232, 322, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (233, 8, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (234, 54, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (235, 423, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (236, 446, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (237, 96, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (238, 223, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (239, 311, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (240, 224, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (241, 268, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (242, 29, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (243, 189, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (244, 417, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (245, 12, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (246, 486, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (247, 73, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (248, 314, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (249, 274, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (250, 326, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (251, 120, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (252, 36, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (253, 199, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (254, 362, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (255, 241, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (256, 278, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (257, 107, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (258, 418, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (259, 419, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (260, 62, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (261, 219, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (262, 421, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (263, 28, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (264, 183, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (265, 242, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (266, 379, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (267, 1, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (268, 195, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (269, 476, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (270, 113, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (271, 272, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (272, 474, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (273, 89, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (274, 483, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (275, 30, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (276, 129, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (277, 395, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (278, 141, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (279, 417, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (280, 158, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (281, 65, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (282, 144, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (283, 174, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (284, 343, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (285, 221, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (286, 137, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (287, 126, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (288, 342, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (289, 10, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (290, 34, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (291, 237, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (292, 92, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (293, 412, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (294, 16, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (295, 160, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (296, 455, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (297, 312, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (298, 441, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (299, 478, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (300, 481, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (301, 198, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (302, 173, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (303, 329, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (304, 112, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (305, 489, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (306, 26, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (307, 268, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (308, 30, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (309, 264, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (310, 152, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (311, 350, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (312, 379, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (313, 269, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (314, 174, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (315, 317, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (316, 86, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (317, 116, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (318, 46, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (319, 307, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (320, 238, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (321, 492, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (322, 326, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (323, 55, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (324, 86, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (325, 487, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (326, 263, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (327, 6, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (328, 233, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (329, 38, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (330, 482, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (331, 389, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (332, 486, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (333, 490, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (334, 367, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (335, 441, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (336, 317, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (337, 69, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (338, 332, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (339, 161, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (340, 37, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (341, 413, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (342, 134, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (343, 387, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (344, 389, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (345, 353, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (346, 246, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (347, 471, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (348, 359, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (349, 357, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (350, 10, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (351, 144, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (352, 293, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (353, 414, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (354, 7, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (355, 21, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (356, 340, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (357, 366, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (358, 157, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (359, 339, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (360, 364, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (361, 228, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (362, 248, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (363, 107, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (364, 354, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (365, 219, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (366, 394, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (367, 4, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (368, 491, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (369, 333, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (370, 309, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (371, 213, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (372, 357, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (373, 273, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (374, 171, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (375, 25, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (376, 433, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (377, 293, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (378, 139, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (379, 0, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (380, 35, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (381, 379, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (382, 456, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (383, 423, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (384, 452, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (385, 64, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (386, 421, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (387, 479, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (388, 375, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (389, 344, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (390, 36, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (391, 305, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (392, 38, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (393, 381, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (394, 463, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (395, 464, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (396, 332, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (397, 484, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (398, 500, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (399, 119, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (400, 380, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (401, 472, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (402, 280, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (403, 76, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (404, 450, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (405, 474, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (406, 142, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (407, 328, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (408, 213, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (409, 75, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (410, 132, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (411, 390, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (412, 21, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (413, 85, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (414, 402, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (415, 156, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (416, 481, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (417, 291, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (418, 35, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (419, 334, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (420, 310, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (421, 293, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (422, 75, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (423, 94, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (424, 45, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (425, 357, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (426, 369, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (427, 432, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (428, 62, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (429, 386, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (430, 479, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (431, 408, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (432, 101, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (433, 191, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (434, 371, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (435, 267, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (436, 50, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (437, 217, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (438, 298, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (439, 102, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (440, 199, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (441, 202, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (442, 168, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (443, 85, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (444, 172, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (445, 328, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (446, 76, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (447, 174, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (448, 287, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (449, 107, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (450, 458, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (451, 458, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (452, 338, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (453, 185, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (454, 230, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (455, 190, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (456, 300, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (457, 450, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (458, 7, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (459, 492, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (460, 350, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (461, 103, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (462, 377, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (463, 287, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (464, 275, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (465, 279, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (466, 283, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (467, 190, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (468, 237, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (469, 326, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (470, 439, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (471, 138, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (472, 92, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (473, 274, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (474, 349, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (475, 240, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (476, 126, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (477, 155, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (478, 470, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (479, 91, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (480, 425, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (481, 432, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (482, 467, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (483, 490, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (484, 55, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (485, 281, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (486, 70, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (487, 184, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (488, 409, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (489, 370, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (490, 394, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (491, 485, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (492, 149, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (493, 164, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (494, 439, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (495, 461, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (496, 11, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (497, 78, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (498, 132, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (499, 402, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (500, 458, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (501, 115, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (502, 443, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (503, 382, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (504, 352, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (505, 24, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (506, 25, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (507, 274, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (508, 261, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (509, 354, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (510, 26, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (511, 212, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (512, 207, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (513, 344, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (514, 453, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (515, 397, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (516, 452, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (517, 250, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (518, 475, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (519, 104, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (520, 330, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (521, 282, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (522, 358, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (523, 335, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (524, 144, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (525, 309, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (526, 35, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (527, 43, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (528, 420, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (529, 40, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (530, 297, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (531, 234, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (532, 460, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (533, 228, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (534, 358, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (535, 313, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (536, 148, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (537, 322, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (538, 275, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (539, 149, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (540, 448, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (541, 476, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (542, 233, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (543, 126, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (544, 311, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (545, 231, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (546, 250, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (547, 165, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (548, 184, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (549, 378, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (550, 398, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (551, 233, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (552, 200, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (553, 176, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (554, 293, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (555, 118, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (556, 242, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (557, 316, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (558, 343, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (559, 162, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (560, 472, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (561, 241, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (562, 236, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (563, 155, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (564, 352, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (565, 44, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (566, 206, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (567, 492, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (568, 426, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (569, 237, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (570, 333, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (571, 369, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (572, 436, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (573, 36, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (574, 387, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (575, 338, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (576, 467, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (577, 380, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (578, 283, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (579, 195, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (580, 92, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (581, 421, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (582, 416, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (583, 326, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (584, 26, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (585, 48, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (586, 191, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (587, 208, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (588, 184, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (589, 240, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (590, 188, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (591, 415, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (592, 357, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (593, 45, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (594, 374, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (595, 423, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (596, 255, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (597, 463, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (598, 193, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (599, 190, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (600, 469, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (601, 383, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (602, 311, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (603, 176, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (604, 452, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (605, 11, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (606, 41, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (607, 415, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (608, 106, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (609, 3, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (610, 441, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (611, 153, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (612, 262, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (613, 470, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (614, 365, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (615, 5, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (616, 47, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (617, 91, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (618, 431, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (619, 445, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (620, 221, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (621, 373, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (622, 76, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (623, 251, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (624, 193, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (625, 336, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (626, 8, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (627, 413, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (628, 110, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (629, 345, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (630, 213, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (631, 399, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (632, 7, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (633, 426, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (634, 391, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (635, 399, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (636, 385, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (637, 446, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (638, 144, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (639, 348, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (640, 459, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (641, 484, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (642, 398, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (643, 62, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (644, 422, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (645, 480, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (646, 408, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (647, 99, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (648, 312, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (649, 217, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (650, 163, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (651, 419, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (652, 273, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (653, 302, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (654, 424, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (655, 366, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (656, 431, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (657, 468, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (658, 133, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (659, 438, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (660, 107, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (661, 150, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (662, 180, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (663, 205, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (664, 380, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (665, 45, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (666, 86, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (667, 332, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (668, 399, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (669, 369, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (670, 348, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (671, 226, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (672, 127, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (673, 369, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (674, 347, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (675, 256, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (676, 229, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (677, 296, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (678, 252, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (679, 184, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (680, 102, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (681, 475, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (682, 236, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (683, 286, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (684, 149, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (685, 254, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (686, 111, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (687, 110, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (688, 348, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (689, 203, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (690, 159, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (691, 141, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (692, 309, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (693, 155, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (694, 363, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (695, 185, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (696, 334, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (697, 0, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (698, 140, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (699, 74, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (700, 242, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (701, 341, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (702, 453, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (703, 186, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (704, 287, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (705, 474, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (706, 254, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (707, 294, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (708, 276, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (709, 105, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (710, 333, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (711, 469, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (712, 225, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (713, 330, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (714, 27, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (715, 189, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (716, 251, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (717, 299, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (718, 362, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (719, 395, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (720, 169, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (721, 206, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (722, 69, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (723, 324, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (724, 308, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (725, 186, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (726, 92, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (727, 374, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (728, 83, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (729, 438, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (730, 291, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (731, 187, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (732, 256, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (733, 323, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (734, 125, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (735, 391, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (736, 229, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (737, 431, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (738, 91, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (739, 65, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (740, 114, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (741, 141, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (742, 416, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (743, 21, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (744, 405, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (745, 455, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (746, 490, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (747, 189, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (748, 493, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (749, 198, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (750, 86, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (751, 195, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (752, 410, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (753, 430, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (754, 238, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (755, 137, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (756, 168, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (757, 487, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (758, 273, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (759, 499, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (760, 4, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (761, 198, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (762, 351, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (763, 146, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (764, 78, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (765, 53, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (766, 326, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (767, 253, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (768, 327, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (769, 244, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (770, 462, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (771, 41, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (772, 111, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (773, 148, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (774, 344, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (775, 389, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (776, 97, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (777, 75, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (778, 367, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (779, 58, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (780, 191, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (781, 357, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (782, 140, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (783, 126, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (784, 447, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (785, 345, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (786, 260, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (787, 328, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (788, 244, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (789, 482, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (790, 285, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (791, 447, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (792, 238, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (793, 438, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (794, 389, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (795, 199, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (796, 261, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (797, 56, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (798, 407, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (799, 190, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (800, 343, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (801, 122, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (802, 1, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (803, 4, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (804, 491, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (805, 102, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (806, 117, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (807, 158, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (808, 322, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (809, 365, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (810, 111, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (811, 303, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (812, 371, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (813, 382, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (814, 421, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (815, 251, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (816, 30, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (817, 328, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (818, 500, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (819, 9, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (820, 65, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (821, 12, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (822, 472, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (823, 346, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (824, 42, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (825, 436, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (826, 175, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (827, 326, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (828, 278, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (829, 189, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (830, 284, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (831, 458, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (832, 302, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (833, 266, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (834, 472, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (835, 482, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (836, 208, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (837, 51, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (838, 80, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (839, 242, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (840, 74, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (841, 455, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (842, 404, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (843, 499, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (844, 384, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (845, 234, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (846, 341, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (847, 236, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (848, 261, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (849, 478, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (850, 366, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (851, 394, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (852, 422, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (853, 91, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (854, 401, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (855, 415, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (856, 500, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (857, 207, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (858, 231, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (859, 122, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (860, 364, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (861, 207, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (862, 319, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (863, 31, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (864, 301, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (865, 391, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (866, 355, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (867, 26, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (868, 469, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (869, 18, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (870, 334, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (871, 152, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (872, 464, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (873, 81, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (874, 27, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (875, 369, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (876, 291, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (877, 306, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (878, 496, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (879, 371, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (880, 147, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (881, 266, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (882, 255, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (883, 37, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (884, 439, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (885, 91, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (886, 47, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (887, 88, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (888, 19, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (889, 291, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (890, 352, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (891, 216, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (892, 123, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (893, 470, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (894, 482, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (895, 232, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (896, 345, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (897, 5, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (898, 127, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (899, 306, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (900, 102, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (901, 247, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (902, 367, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (903, 270, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (904, 461, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (905, 431, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (906, 274, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (907, 71, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (908, 142, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (909, 327, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (910, 431, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (911, 494, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (912, 213, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (913, 270, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (914, 300, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (915, 484, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (916, 240, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (917, 103, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (918, 7, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (919, 421, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (920, 436, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (921, 232, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (922, 138, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (923, 259, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (924, 154, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (925, 359, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (926, 329, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (927, 368, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (928, 61, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (929, 126, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (930, 441, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (931, 113, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (932, 441, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (933, 381, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (934, 173, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (935, 147, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (936, 273, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (937, 73, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (938, 251, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (939, 70, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (940, 457, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (941, 302, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (942, 178, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (943, 124, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (944, 94, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (945, 464, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (946, 212, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (947, 365, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (948, 60, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (949, 129, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (950, 386, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (951, 152, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (952, 127, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (953, 87, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (954, 468, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (955, 74, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (956, 394, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (957, 465, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (958, 326, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (959, 233, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (960, 339, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (961, 277, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (962, 368, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (963, 260, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (964, 139, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (965, 403, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (966, 178, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (967, 291, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (968, 300, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (969, 64, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (970, 52, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (971, 297, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (972, 227, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (973, 314, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (974, 20, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (975, 371, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (976, 446, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (977, 261, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (978, 132, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (979, 224, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (980, 9, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (981, 101, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (982, 116, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (983, 52, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (984, 200, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (985, 221, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (986, 173, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (987, 132, 5, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (988, 341, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (989, 436, 3, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (990, 466, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (991, 394, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (992, 143, 0, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (993, 394, 2, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (994, 295, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (995, 90, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (996, 152, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (997, 444, 4, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (998, 111, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (999, 468, 1, 40);
+insert into rating_book (id, book_id, value, user_id)
+values (1000, 482, 1, 40);

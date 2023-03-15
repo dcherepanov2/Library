@@ -25,22 +25,25 @@
             <h1 class="Middle-title" th:text="#{topbar.authors}">Авторы
             </h1>
             <div class="Section">
-                <nobr style="white-space: nowrap;" class="Authors">
-                    <nobr style="white-space: nowrap;" th:each="author : ${mapAuthors}" class="Authors-links"><a style="white-space: nowrap;" class="Authors-link"
-                                                                                   href="#a"
-                                                                                   th:href="'#' + ${#strings.toLowerCase(author.key)}"
-                                                                                   th:text="${#strings.toUpperCase(author.key)}">A</a>
+                <div class="Authors">
+                    <nobr style="display: flex; flex-wrap:wrap;" th:each="author : ${mapAuthors}" class="Authors-links">
+                        <a style="display: flex; flex-wrap:wrap;" class="Authors-link"
+                           href="#a"
+                           th:href="'#' + ${#strings.toLowerCase(author.key)}"
+                           th:text="${#strings.toUpperCase(author.key)}"></a>
                     </nobr>
-                    <div class="Authors-block" th:each="author : ${mapAuthors}">
-                        <h2 style="padding-top: 10px" class="Authors-title" id="a" th:text="${author.key}"></h2>
+                    <div style="display: flex; flex-wrap:wrap;" class="Authors-block" th:each="author : ${mapAuthors}">
+                        <h2 style="padding-top: 2%; padding-bottom: 5%; padding-right: 3%" class="Authors-title" id="a"
+                            th:text="${author.key}"></h2>
                         <!--              -->
                         <div class="Authors-letter" th:each="authors: ${author.value}">
-                            <div class="Authors-item"><a th:href="@{'/authors/'+${authors.slug}}" th:text=" ${authors.name}"
-                                                         href="/authors/slug.html"></a>
+                            <div class="Authors-item" style="padding-top: 8%; padding-right: 3%"><a
+                                    th:href="@{'/authors/'+${authors.slug}}" th:text=" ${authors.name}"
+                                    href="/authors/slug.html"></a>
                             </div>
                         </div>
                     </div>
-                </nobr>
+                </div>
             </div>
         </main>
     </div>

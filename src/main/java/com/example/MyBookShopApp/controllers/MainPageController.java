@@ -1,26 +1,22 @@
 package com.example.MyBookShopApp.controllers;
 
 import com.example.MyBookShopApp.data.tags.Tag;
-import com.example.MyBookShopApp.data.user.Profile;
-import com.example.MyBookShopApp.data.user.User;
-import com.example.MyBookShopApp.dto.ProfileResponse;
 import com.example.MyBookShopApp.dto.RecommendedBooksDto;
 import com.example.MyBookShopApp.dto.SearchBookDto;
 import com.example.MyBookShopApp.service.bookServices.BookService;
 import com.example.MyBookShopApp.service.tagServices.TagService;
 import com.example.MyBookShopApp.service.userServices.ProfileService;
-import com.example.MyBookShopApp.service.userServices.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import com.example.MyBookShopApp.exception.ProfileNotFoundException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -30,16 +26,13 @@ public class MainPageController {
     private final BookService bookService;
     private final TagService tagService;
 
-    private final UserServiceImpl userService;
-
     private final ProfileService profileService;
 
 
     @Autowired
-    public MainPageController(BookService bookService, TagService tagService, UserServiceImpl userService, ProfileService profileService) {
+    public MainPageController(BookService bookService, TagService tagService, ProfileService profileService) {
         this.bookService = bookService;
         this.tagService = tagService;
-        this.userService = userService;
         this.profileService = profileService;
     }
 
@@ -49,8 +42,10 @@ public class MainPageController {
     }
 
     @ModelAttribute("allTags")
-    public List<Tag> allTags(){
-        return tagService.findAll();
+    public List<Tag> allTags() {
+        List<Tag> list = new ArrayList<>(tagService.findAll());
+        Collections.shuffle(list);
+        return list;
     }
 
     @ModelAttribute("recommendedBooks")

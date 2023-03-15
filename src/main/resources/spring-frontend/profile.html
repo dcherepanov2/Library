@@ -44,13 +44,16 @@
                                         <div class="form-group">
                                             <label class="form-label" for="name">Имя
                                             </label>
-                                            <input class="form-input" id="name" name="name" type="text" value="Михаил"/>
+                                            <input class="form-input" id="name" name="name" type="text"
+                                                   th:attr="value=${userInfo.getName()}"/>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="mail">E-mail
                                             </label>
-                                            <input class="form-input" th:attr="value=${userInfo.getEmailAndApprove().getKey()}" id="mail" name="mail" type="text"
-                                                   value="addr@sait.com" data-validate="require mail"/>
+                                            <input class="form-input"
+                                                   th:attr="value=${userInfo.getPhoneAndApprove().getKey()}" id="mail"
+                                                   name="mail" type="text"
+                                                   data-validate="require mail"/>
                                             <div class="Profile-btn Profile-btn_confirm">
                                                 <button class="btn btn_primary" type="button">Подтвердить
                                                 </button>
@@ -60,10 +63,12 @@
                                             <label class="form-label" for="phone">Телефон
                                             </label>
                                             <input class="form-input" id="phone" name="phone" type="text"
-                                                   th:attr="value=${userInfo.getPhoneAndApprove().getKey()}" data-mask="+7 (999) 999-99-99"
+                                                   th:attr="value=${userInfo.getEmailAndApprove().getKey()}"
+                                                   data-mask="+7 (999) 999-99-99"
                                                    data-validate="require"/>
                                             <div class="Profile-btn Profile-btn_confirm">
-                                                <button onclick="sendApproveContact()" class="btn btn_primary" type="button">Подтвердить
+                                                <button onclick="sendApproveContact()" class="btn btn_primary"
+                                                        type="button">Подтвердить
                                                 </button>
                                             </div>
                                         </div>
@@ -99,18 +104,20 @@
                     <div class="Tabs-block" id="transactions">
                         <div class="Transactions" >
                             <div class="tableWrap" >
-                                <table class="table table_noMargin" th:each="transaction : ${transactions}">
+                                <table class="table table_noMargin">
                                     <tbody>
                                     <tr>
-                                        <td th:text="${transaction.date}">5 марта 2017 13:40
+                                        <td>5 марта 2017 13:40
                                         </td>
                                         <td><span class="Transactions_textSuccess">
-                                    <strong th:text="${transaction.sum}">-480 р.
+                                    <strong>-480 р.
                                     </strong></span>
                                         </td>
-                                            <td th:if="${transaction.bookName} != null">Покупка книги&#32;<a th:href="@{'/books/'+${transaction.bookName.getValue()}}"><div th:text="${transaction.bookName.getKey()}"></div></a>
-                                            </td>
-                                        <td th:if="${transaction.bookName} == null">Пополнение счета&#32;
+                                        <td>Покупка книги&#32;<a>
+                                            <div></div>
+                                        </a>
+                                        </td>
+                                        <td>Пополнение счета&#32;
                                         </td>
                                     </tr>
                                     </tbody>

@@ -1,5 +1,7 @@
 package com.example.MyBookShopApp.data.book.links;
 
+import com.example.MyBookShopApp.data.book.Book;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -12,9 +14,11 @@ public class BookRating {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "book_id")
+
+    @ManyToOne
+    @JoinColumn(name = "book_id")
     @NotNull
-    private Integer book_id;
+    private Book book_id;
 
     @Column(name = "user_id")
     private Integer userId;
@@ -32,11 +36,11 @@ public class BookRating {
         this.id = id;
     }
 
-    public Integer getBook_id() {
+    public Book getBook_id() {
         return book_id;
     }
 
-    public void setBook_id(Integer book_id) {
+    public void setBook_id(Book book_id) {
         this.book_id = book_id;
     }
 

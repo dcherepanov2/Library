@@ -22,6 +22,6 @@ public class GenresApiController {
             @RequestParam("offset") Integer offset,
             @RequestParam("limit") Integer limit
     ){
-        return new RecommendedBooksDto(genreService.allBooksByGenre(slug, offset,limit));
+        return new RecommendedBooksDto(genreService.allBooksByGenreSlug(slug, offset, limit));
     }
 }

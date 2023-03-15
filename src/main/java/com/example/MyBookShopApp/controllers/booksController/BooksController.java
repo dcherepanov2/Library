@@ -27,7 +27,6 @@ import java.util.*;
 @Controller
 @RequestMapping("/books")
 public class BooksController {
-
     private final BookService bookService;
     private final AuthorService authorService;
     private final ResourceStorage storage;
@@ -64,7 +63,6 @@ public class BooksController {
     @GetMapping("/popular")
     public String getBooksPopular(Model model) {
         List<Book> booksPopular = bookService.getPopularBooksData(0, 20);
-        Collections.shuffle(booksPopular);
         model.addAttribute("bookMostPopular", new RecommendedBooksDto(booksPopular));
         return "books/popular";
     }

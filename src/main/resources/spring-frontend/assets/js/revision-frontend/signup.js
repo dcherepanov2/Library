@@ -26,9 +26,9 @@ async function registerUser() {
     postData(domen + '/signup', {name: name, phone: phone, email: email})
         .then((data) => {
             if (data.status === 200) {
-                window.location.href = domen + signUpEndpoint;
+                window.location.href = domen;
             } else {
                 alert(data.status + ": " + data.json().error);
             }
-        });
+    });
 }
