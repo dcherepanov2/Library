@@ -2,6 +2,7 @@ package com.example.MyBookShopApp.service.bookServices;
 
 import com.example.MyBookShopApp.data.author.Author;
 import com.example.MyBookShopApp.data.book.Book;
+import com.example.MyBookShopApp.data.book.links.Book2UserEntity;
 import com.example.MyBookShopApp.data.book.links.BookRating;
 import com.example.MyBookShopApp.data.book.review.BookReview;
 import com.example.MyBookShopApp.data.google.api.books.Root;
@@ -11,6 +12,7 @@ import com.example.MyBookShopApp.enums.ErrorMessageResponse;
 import com.example.MyBookShopApp.exception.BookReviewException;
 import com.example.MyBookShopApp.exception.ChangeBookRateException;
 import com.example.MyBookShopApp.exception.CommentInputException;
+import com.example.MyBookShopApp.repo.bookrepos.Book2UserRepo;
 import com.example.MyBookShopApp.repo.bookrepos.BookRatingRepo;
 import com.example.MyBookShopApp.repo.bookrepos.BookRepo;
 import com.example.MyBookShopApp.repo.bookrepos.BookReviewRepo;
@@ -24,10 +26,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -44,6 +46,8 @@ public class BookService {
 
     private final UserRepo userRepo;
 
+    private final Book2UserRepo book2UserRepo;
+
     private final UserServiceImpl userService;
 
     private final RestTemplate restTemplate;
@@ -51,12 +55,13 @@ public class BookService {
     private String googleApiKey;
 
     @Autowired
-    public BookService(BookRepo books, BookRatingRepo bookRating, BookReviewRepo bookReviewRepo, BookReviewService bookReviewService, UserRepo userRepo, UserServiceImpl userService, RestTemplate restTemplate) {
+    public BookService(BookRepo books, BookRatingRepo bookRating, BookReviewRepo bookReviewRepo, BookReviewService bookReviewService, UserRepo userRepo, Book2UserRepo book2UserRepo, UserServiceImpl userService, RestTemplate restTemplate) {
         this.books = books;
         this.bookRating = bookRating;
         this.bookReviewRepo = bookReviewRepo;
         this.bookReviewService = bookReviewService;
         this.userRepo = userRepo;
+        this.book2UserRepo = book2UserRepo;
         this.userService = userService;
         this.restTemplate = restTemplate;
     }
@@ -64,6 +69,20 @@ public class BookService {
     public List<Book> getPopularBooksData(Integer offset, Integer limit) {
         Pageable pageable = PageRequest.of(offset, limit);
         List<Book> response = books.findByMostPopular(pageable);
+        if (response == null)
+            return books.findAll(pageable).getContent();
+        else if (response.size() < limit)
+            return books.findAll(pageable).getContent();
+        return sortPopularBook(response);
+    }
+
+    public List<Book> getRecommendedBooks(Integer offset, Integer limit, JwtUser jwtUser) {
+        Pageable pageable = PageRequest.of(offset, limit);
+        List<Book> response = null;
+        if (jwtUser != null)
+            response = books.recommendedBooksIfUserAuth(jwtUser.getId());
+        else
+            response = books.findAll(pageable).getContent();
         if (response == null)
             return books.findAll(pageable).getContent();
         else if (response.size() == 0)
@@ -113,8 +132,10 @@ public class BookService {
     }
 
     @SneakyThrows
-    public void changeRateBookBySlug(String token, String slug, Integer rate) {
-        User byUsername = userService.findUserByToken(token);
+    public void changeRateBookBySlug(JwtUser user, String slug, Integer rate) {
+        User byUsername = userService.findByHash(user.getHash());
+        if (byUsername == null)
+            throw new UsernameNotFoundException("User with hash: " + user.getHash() + " was not found.");
         List<BookRating> booksBySlug = bookRating.getBookRatingBySlug(slug);
         if (rate > 5 || rate < 1)
             throw new ChangeBookRateException(ErrorMessageResponse.CHANGE_BOOK_RATE.getName());
@@ -124,6 +145,10 @@ public class BookService {
         Book book = books.findBookBySlug(slug);
         if (book == null)
             throw new BookReviewException(ErrorMessageResponse.NOT_FOUND_BOOK.getName());
+        long count = booksBySlug.stream().filter(x -> x.getUserId().equals(byUsername.getId().intValue())).count();
+        if (count > 0) {
+            bookRating.deleteAll(booksBySlug);
+        }
         BookRating bookRate = new BookRating();
         bookRate.setUserId(Math.toIntExact(byUsername.getId()));
         bookRate.setValue(rate);
@@ -166,16 +191,17 @@ public class BookService {
         if (commentDto == null || commentDto.getDescription() == null || commentDto.getDescription().length() == 0)
             throw new CommentInputException(ErrorMessageResponse.COMMENT_INPUT_NOT_ADDED.getName());
         User user = userRepo.findByHash(jwtUser.getHash());
+        if (user == null)
+            throw new UsernameNotFoundException("User not found with hash: " + jwtUser.getHash());
         Book book = books.findBookBySlug(slug);
         if (book == null)
             throw new BookReviewException(ErrorMessageResponse.NOT_FOUND_BOOK.getName());
         BookReview bookReview = new BookReview();
-        bookReview.setBookId(book.getId());
+        bookReview.setBookId(book);
         bookReview.setUserId(user);
         bookReview.setText(commentDto.getDescription());
         bookReview.setTime(LocalDateTime.now());
         bookReviewRepo.save(bookReview);
-        book.getBooksReview().add(bookReview);
         return bookReviewService.reviewEntitiesBySlugBook(slug);
     }
 
@@ -185,34 +211,34 @@ public class BookService {
         return booksLocal.stream().filter(Objects::nonNull).collect(Collectors.toList());
     }
 
-    public List<Book> getBooksGoogleApi(String searchWord, Integer offset, Integer limit) {
-        final String REQUEST_URL = "https://www.googleapis.com/books/v1/volumes?q=" + searchWord +
-                                   "&key=AIzaSyCASg2ctvdF_9tWvsFQnMJOaBUrpuD_tZQ&" +
-                                   "filter=paid-ebooks" +
-                                   "&startIndex=" + offset * limit +
-                                   "&maxResults=" + limit;
-        Root root = restTemplate.getForObject(REQUEST_URL, Root.class);
-        ArrayList<Book> googleBookToBooksMyShop = new ArrayList<>();
-        if(Objects.nonNull(root)){
-            root.getItems().forEach(item ->{
-                Book book = new Book();
-                if(item.getVolumeInfo() != null){
-                    if(item.getVolumeInfo().getAuthors() != null)
-                        book.setAuthors(Collections.singletonList(new Author(item.getVolumeInfo().getAuthors().toString())));
-                    else
-                        book.setAuthors(Collections.singletonList(new Author("")));
-                    book.setTitle(item.getVolumeInfo().getTitle());
-                    book.setImage(item.getVolumeInfo().getImageLinks().getThumbnail());
-                }
-                if(item.getSaleInfo() != null){
-                    book.setPrice((int) item.getSaleInfo().getRetailPrice().getAmount());
-                    book.setDiscount((short) (( item.getSaleInfo().getListPrice().getAmount()/(book.getPrice()/100)-100 )));
-                }
-                googleBookToBooksMyShop.add(book);
-            });
-        }
-        return googleBookToBooksMyShop;
-    }
+//    public List<Book> getBooksGoogleApi(String searchWord, Integer offset, Integer limit) {
+//        final String REQUEST_URL = "https://www.googleapis.com/books/v1/volumes?q=" + searchWord +
+//                                   "&key=AIzaSyCASg2ctvdF_9tWvsFQnMJOaBUrpuD_tZQ&" +
+//                                   "filter=paid-ebooks" +
+//                                   "&startIndex=" + offset * limit +
+//                                   "&maxResults=" + limit;
+//        Root root = restTemplate.getForObject(REQUEST_URL, Root.class);
+//        ArrayList<Book> googleBookToBooksMyShop = new ArrayList<>();
+//        if(Objects.nonNull(root)){
+//            root.getItems().forEach(item ->{
+//                Book book = new Book();
+//                if(item.getVolumeInfo() != null){
+//                    if(item.getVolumeInfo().getAuthors() != null)
+//                        book.setAuthors(Collections.singletonList(new Author(item.getVolumeInfo().getAuthors().toString())));
+//                    else
+//                        book.setAuthors(Collections.singletonList(new Author("")));
+//                    book.setTitle(item.getVolumeInfo().getTitle());
+//                    book.setImage(item.getVolumeInfo().getImageLinks().getThumbnail());
+//                }
+//                if(item.getSaleInfo() != null){
+//                    book.setPrice((int) item.getSaleInfo().getRetailPrice().getAmount());
+//                    book.setDiscount((short) (( item.getSaleInfo().getListPrice().getAmount()/(book.getPrice()/100)-100 )));
+//                }
+//                googleBookToBooksMyShop.add(book);
+//            });
+//        }
+//        return googleBookToBooksMyShop;
+//    }
 
     public Book getBookById(Integer id) {
         if (id != null)
@@ -223,5 +249,9 @@ public class BookService {
     private List<Book> sortPopularBook(List<Book> books) {
         PopularBooksComparator popularBooksComparator = new PopularBooksComparator();
         return books.stream().sorted(popularBooksComparator).collect(Collectors.toList());
+    }
+
+    public void saveAllBook2User(List<Book2UserEntity> booksLocal) {
+        book2UserRepo.saveAll(booksLocal);
     }
 }

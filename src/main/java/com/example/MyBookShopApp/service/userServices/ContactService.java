@@ -5,7 +5,6 @@ import com.example.MyBookShopApp.data.user.User;
 import com.example.MyBookShopApp.data.user.UserContactEntity;
 import com.example.MyBookShopApp.dto.ApproveContactDto;
 import com.example.MyBookShopApp.dto.ContactRequestDtoV2;
-import com.example.MyBookShopApp.dto.RegistrationForm;
 import com.example.MyBookShopApp.dto.ResponseApproveContact;
 import com.example.MyBookShopApp.repo.userrepos.UserContactRepo;
 import com.example.MyBookShopApp.service.userServices.helpers.ResponseApproveContactHelper;

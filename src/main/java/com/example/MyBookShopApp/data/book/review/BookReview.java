@@ -5,7 +5,6 @@ import com.example.MyBookShopApp.data.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 @Entity
 @Table(name = "book_review")
@@ -15,17 +14,18 @@ public class BookReview {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
-    @Column(name = "book_id",columnDefinition = "INT NOT NULL")
-    private int bookId;
+    @ManyToOne
+    @JoinColumn(name = "book_id", referencedColumnName = "id", columnDefinition = "INT NOT NULL")
+    private Book bookId;
 
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @OneToOne
     private User userId;
 
-    @Column(name = "time",columnDefinition = "TIMESTAMP NOT NULL")
+    @Column(name = "time", columnDefinition = "TIMESTAMP NOT NULL")
     private LocalDateTime time;
 
-    @Column(name = "text",columnDefinition = "TEXT NOT NULL")
+    @Column(name = "text", columnDefinition = "TEXT NOT NULL")
     private String text;
 
     public Integer getId() {
@@ -36,11 +36,11 @@ public class BookReview {
         this.id = id;
     }
 
-    public int getBookId() {
+    public Book getBookId() {
         return bookId;
     }
 
-    public void setBookId(int bookId) {
+    public void setBookId(Book bookId) {
         this.bookId = bookId;
     }
 

@@ -2,12 +2,10 @@ package com.example.MyBookShopApp.service.bookServices;
 
 import com.example.MyBookShopApp.data.book.review.BookReview;
 import com.example.MyBookShopApp.data.book.review.BookReviewLikeEntity;
-import com.example.MyBookShopApp.data.user.User;
 import com.example.MyBookShopApp.dto.BookReviewLikeDto;
 import com.example.MyBookShopApp.repo.bookrepos.BookReviewLikeRepo;
 import com.example.MyBookShopApp.repo.bookrepos.BookReviewRepo;
-import com.example.MyBookShopApp.repo.userrepos.UserRepo;
-import com.example.MyBookShopApp.service.userServices.UserServiceImpl;
+import com.example.MyBookShopApp.security.jwt.JwtUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,31 +19,24 @@ public class BookReviewService {
     private final BookReviewRepo bookReviewRepo;
     private final BookReviewLikeRepo bookReviewLikeRepo;
 
-    private final UserRepo userRepo;
-
-    private final UserServiceImpl userService;
-
     @Autowired
-    public BookReviewService(BookReviewRepo bookReviewRepo, BookReviewLikeRepo bookReviewLikeRepo, UserRepo userRepo, UserServiceImpl userService) {
+    public BookReviewService(BookReviewRepo bookReviewRepo, BookReviewLikeRepo bookReviewLikeRepo) {
         this.bookReviewRepo = bookReviewRepo;
         this.bookReviewLikeRepo = bookReviewLikeRepo;
-        this.userRepo = userRepo;
-        this.userService = userService;
     }
 
     public List<BookReview> reviewEntitiesBySlugBook(String slug){
         return bookReviewRepo.findBookReviewsByBookId(slug);
     }
 
-    public boolean likeOrDislikeCommentBySlug(String token, BookReviewLikeDto bookReviewLikeDto) {
-        User user = userService.findUserByToken(token);
+    public boolean likeOrDislikeCommentBySlug(JwtUser user, BookReviewLikeDto bookReviewLikeDto) {
         if (bookReviewLikeDto.getValue() == 0) {
             bookReviewLikeRepo.deleteBookReviewLikeEntitiesByUserIdAndReviewId(Math.toIntExact(user.getId()), bookReviewLikeDto.getReviewid());
             return true;
         } else {
             BookReviewLikeEntity bookReviewLikeEntity =
                     bookReviewLikeRepo.findBookReviewLikeEntityByUserIdAndReviewId(Math.toIntExact(user.getId()), bookReviewLikeDto.getReviewid());
-            if(bookReviewLikeEntity != null && bookReviewLikeDto.getValue() != bookReviewLikeEntity.getValue()){
+            if (bookReviewLikeEntity != null && bookReviewLikeDto.getValue() != bookReviewLikeEntity.getValue()) {
                 bookReviewLikeRepo.deleteBookReviewLikeEntitiesByUserIdAndReviewId(Math.toIntExact(user.getId()), bookReviewLikeDto.getReviewid());
                 bookReviewLikeEntity.setTime(LocalDateTime.now());
                 bookReviewLikeEntity.setReviewId(bookReviewLikeDto.getReviewid());

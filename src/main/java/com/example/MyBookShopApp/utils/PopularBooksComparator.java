@@ -12,12 +12,12 @@ public class PopularBooksComparator implements Comparator<Book> {
     public int compare(Book o1, Book o2) {
         int countFirstBook = 0;
         int countSecondBook = 0;
-        if (o1.getBookRatings().size() != 0) {
+        if (o1.getBookRatings() != null && o1.getBookRatings().size() != 0) {
             countFirstBook = o1.getBookRatings().stream().map(BookRating::getValue)
                     .reduce(Integer::sum)
                     .orElse(0) / o1.getBookRatings().size();
         }
-        if (o2.getBookRatings().size() != 0) {
+        if (o1.getBookRatings() != null && o2.getBookRatings().size() != 0) {
             countSecondBook = o2.getBookRatings().stream().map(BookRating::getValue)
                     .reduce(Integer::sum)
                     .orElse(0) / o2.getBookRatings().size();

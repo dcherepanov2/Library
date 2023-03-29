@@ -11,11 +11,13 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.MediaType;
-import java.security.Principal;
 
 @Controller
 public class BookReviewController {
@@ -31,16 +33,16 @@ public class BookReviewController {
 
     @PostMapping("/books/comment/{slug}")
     @SneakyThrows
-    public String putComment(@PathVariable("slug") String slug, @RequestBody CommentDtoInput commentDto, JwtUser jwtUser){
-        bookService.putComment(jwtUser,commentDto, slug);
+    public String putComment(@PathVariable("slug") String slug, CommentDtoInput commentDto, JwtUser jwtUser) {
+        bookService.putComment(jwtUser, commentDto, slug);
         return "redirect:/books/" + slug;
     }
 
     @PostMapping("/rateBook")
     @ResponseBody
     @Consumes({MediaType.APPLICATION_JSON})
-    public ResultTrue rateBook(@RequestBody RateBookDto rateBookDto, Model model, @CookieValue(name = "token") String token){
-        bookService.changeRateBookBySlug(token,rateBookDto.getBookid(), rateBookDto.getValue());
+    public ResultTrue rateBook(@RequestBody RateBookDto rateBookDto, Model model, JwtUser user) {
+        bookService.changeRateBookBySlug(user, rateBookDto.getBookid(), rateBookDto.getValue());
         model.addAttribute("ratingTable", bookService.getBookRateTableBySlug(rateBookDto.getBookid()));
         ResultTrue resultTrue = new ResultTrue();
         resultTrue.setResult(true);
@@ -50,9 +52,9 @@ public class BookReviewController {
     @PostMapping("/rateBookReview")
     @ResponseBody
     @Consumes({MediaType.APPLICATION_JSON})
-    public ResultTrue likeOrDislikeComment(@RequestBody BookReviewLikeDto bookReviewLikeDto,@CookieValue(name = "token") String token){
+    public ResultTrue likeOrDislikeComment(@RequestBody BookReviewLikeDto bookReviewLikeDto, JwtUser jwtUser) {
         ResultTrue resultTrue = new ResultTrue();
-        resultTrue.setResult(bookReviewService.likeOrDislikeCommentBySlug(token,bookReviewLikeDto));
+        resultTrue.setResult(bookReviewService.likeOrDislikeCommentBySlug(jwtUser, bookReviewLikeDto));
         return resultTrue;
     }
 }

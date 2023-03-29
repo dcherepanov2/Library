@@ -1,10 +1,15 @@
 package com.example.MyBookShopApp.data.book.links;
 
+import com.example.MyBookShopApp.data.book.Book;
+import com.example.MyBookShopApp.data.book.file.BookFile;
+import lombok.Data;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "book2file")
+@Data
 public class Book2File {
 
     @Id
@@ -12,35 +17,13 @@ public class Book2File {
     @NotNull
     private Integer id;
 
-    @Column(name = "book_id")
+    @JoinColumn(name = "book_id")
+    @OneToOne
     @NotNull
-    private Integer book_id;
+    private Book book_id;
 
-    @Column(name = "file_id")
+    @JoinColumn(name = "file_id")
+    @OneToOne
     @NotNull
-    private Integer file_id;
-
-    public Integer getFile_id() {
-        return file_id;
-    }
-
-    public void setFile_id(Integer file_id) {
-        this.file_id = file_id;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getBook_id() {
-        return book_id;
-    }
-
-    public void setBook_id(Integer book_id) {
-        this.book_id = book_id;
-    }
+    private BookFile file_id;
 }

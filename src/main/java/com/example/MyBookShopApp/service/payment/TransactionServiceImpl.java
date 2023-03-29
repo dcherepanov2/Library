@@ -46,8 +46,13 @@ public class TransactionServiceImpl implements TransactionService{
         transaction.setUserId(jwtUser.getId());
         transaction.setValue(sum);
         transaction.setTime(LocalDateTime.now());
-        transaction.setDescription("Покупка книги  "+ book.getTitle() + " на сумму:" + sum);
+        transaction.setDescription("Покупка книги  " + book.getTitle() + " на сумму:" + sum);
         transaction.setBookId(book.getId());
         transactionRepo.save(transaction);
+    }
+
+    @Override
+    public void saveAll(List<BalanceTransactionEntity> transactions) {
+        transactionRepo.saveAll(transactions);
     }
 }

@@ -162,12 +162,17 @@ public class UserServiceImpl {
         userInfo.setEmailAndApprove(new AbstractMap.SimpleEntry<>(email.getContact(), email.getApproved()));
         userInfo.setPhoneAndApprove(new AbstractMap.SimpleEntry<>(phone.getContact(), phone.getApproved()));
         userInfo.setName(user.getUsername());
+        userInfo.setBalance(user.getBalance());
         return userInfo;
     }
 
     public void setBalance(JwtUser jwtUser, Double sum) {
         User user = userRepository.findByHash(jwtUser.getHash());
         user.setBalance(user.getBalance() + sum);
+        userRepository.save(user);
+    }
+
+    public void saveUser(User user) {
         userRepository.save(user);
     }
 }

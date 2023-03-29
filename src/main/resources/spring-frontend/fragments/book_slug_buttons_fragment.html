@@ -66,26 +66,29 @@
         </div>
     </div>
     <div class="ProductCard-cart">
-        <div class="ProductCard-cartElement" id="downloadButton" onclick="showPanelDownload()"><a class="btn btn_primary btn_outline"><span
+        <div th:if="${downloadButton} == true" class="ProductCard-cartElement" id="downloadButton"
+             onclick="showPanelDownload()"><a class="btn btn_primary btn_outline"><span
                 class="btn-icon"><img src="/assets/img/icons/download.svg"
                                       alt="download.svg"/></span><span
-                class="btn-content" >Скачать</span></a>
+                class="btn-content">Скачать</span></a>
         </div>
-        <div id="myPopup" style="display: none">
+        <div th:if="${downloadButton} == true" id="myPopup" style="display: none">
             <p>Ссылки для скачивания</p>
             <span id="myPopup__close" class="close" onclick="closePanelDownload()">❌</span>
             <div>
                 <div>
-                    <a th:href="@{'/api/books/download/'+${book.slug}+'?type=0'}">PDF</a><br><!--th:href="${'/api/books/download'+${book.slug}+'?type=0'}"-->
+                    <a th:href="@{'/api/books/download/'+${book.slug}+'?type=0'}">PDF</a><br>
+                    <!--th:href="${'/api/books/download'+${book.slug}+'?type=0'}"-->
                     <a th:href="@{'/api/books/download/'+${book.slug}+'?type=1'}">EPUB</a><br>
-                    <a th:href="@{'/api/books/download/'+${book.slug}+'?type=2'}" >FB2</a><br><!--th:href="${'/api/books/download'+${book.slug}+'?type=2'}"-->
+                    <a th:href="@{'/api/books/download/'+${book.slug}+'?type=2'}">FB2</a><br>
+                    <!--th:href="${'/api/books/download'+${book.slug}+'?type=2'}"-->
                 </div>
             </div>
         </div>
         <div id="myOverlay"></div>
-        <div class="ProductCard-cartElement">
+        <div th:if="${downloadButton} == true" class="ProductCard-cartElement">
             <button class="btn btn_primary btn_outline" data-sendstatus="ARCHIVED"
-                    data-bookid="[1111]" data-btntype="check" data-btnradio="buyblock"
+                    th:attr="data-bookid=${book.slug}" data-btntype="check" data-btnradio="buyblock"
                     data-check="false" data-alttext="Вернуть из архива"><span class="btn-icon"><img
                     src="/assets/img/icons/archive.svg" alt="archive.svg"/></span><span
                     class="btn-content">В архив</span>

@@ -12,4 +12,6 @@ public interface TransactionService {
     void debitPayment(JwtUser jwtUser, Double sum);
 
     void creditPayment(JwtUser jwtUser, Double sum, Book book);
+
+    void saveAll(List<BalanceTransactionEntity> balanceTransaction);
 }

@@ -63,7 +63,7 @@ public class BookSlugDto extends BookForMainPageDto implements AopDto{
     }
 
     @Override
-    public Boolean getBestseller() {
+    public boolean getBestseller() {
         return super.getBestseller();
     }
 

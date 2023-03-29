@@ -1,10 +1,9 @@
 package com.example.MyBookShopApp.controllers.userController;
 
-import com.example.MyBookShopApp.dto.BalanceTransactionDto;
-import com.example.MyBookShopApp.dto.BalanceTransactionPage;
-import com.example.MyBookShopApp.dto.ContactRequestDtoV2;
-import com.example.MyBookShopApp.dto.PaymentRequestDto;
+import com.example.MyBookShopApp.data.book.Book;
+import com.example.MyBookShopApp.dto.*;
 import com.example.MyBookShopApp.security.jwt.JwtUser;
+import com.example.MyBookShopApp.service.bookServices.Book2UserService;
 import com.example.MyBookShopApp.service.bookServices.BookService;
 import com.example.MyBookShopApp.service.payment.TransactionService;
 import com.example.MyBookShopApp.service.userServices.UserServiceImpl;
@@ -20,11 +19,15 @@ public class ProfileController {
 
     private final UserServiceImpl userService;
 
+    private final Book2UserService book2UserService;
+
     private final TransactionService transactionService;
 
     private final BookService bookService;
-    public ProfileController(UserServiceImpl userService, TransactionService transactionService, BookService bookService) {
+
+    public ProfileController(UserServiceImpl userService, Book2UserService book2UserService, TransactionService transactionService, BookService bookService) {
         this.userService = userService;
+        this.book2UserService = book2UserService;
         this.transactionService = transactionService;
         this.bookService = bookService;
     }
@@ -45,5 +48,23 @@ public class ProfileController {
                 .map(BalanceTransactionDto::new)
                 .collect(Collectors.toList());
         return new BalanceTransactionPage(transactions);
+    }
+
+    @GetMapping("/my")
+    public String getMyPage(@CookieValue(name = "token") String token, Model model, JwtUser jwtUser) {
+        List<Book> books = book2UserService.getBooksUser(jwtUser, 1);
+        RecommendedBooksDto recommendedBooksDto = new RecommendedBooksDto(books);
+        model.addAttribute("books", recommendedBooksDto.getBooks());
+        model.addAttribute("userInfo", userService.getUserInfoForProfile(token));
+        return "my";
+    }
+
+    @GetMapping("/myarchive")
+    public String getMyArchivePage(@CookieValue(name = "token") String token, Model model, JwtUser jwtUser) {
+        List<Book> books = book2UserService.getBooksUser(jwtUser, 2);
+        RecommendedBooksDto recommendedBooksDto = new RecommendedBooksDto(books);
+        model.addAttribute("books", recommendedBooksDto.getBooks());
+        model.addAttribute("userInfo", userService.getUserInfoForProfile(token));
+        return "myarchive";
     }
 }

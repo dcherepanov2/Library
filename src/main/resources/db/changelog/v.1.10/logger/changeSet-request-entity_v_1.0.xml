@@ -1,34 +1,34 @@
-<databaseChangeLog
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
-    <changeSet author="Danya (generated)" id="167">
-        <preConditions onFail="MARK_RAN">
-            <not>
-                <tableExists tableName="request"/>
-            </not>
-        </preConditions>
-        <createTable tableName="request">
-            <column name="id" type="INT" autoIncrement="true">
-                <constraints nullable="false" unique="true"/>
-            </column>
-            <column name = "session" type="INT" >
-                <constraints nullable="false"/>
-            </column>
-            <column name = "body" type="TEXT" >
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
+<!--<databaseChangeLog-->
+<!--        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"-->
+<!--        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+<!--        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-->
+<!--   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">-->
+<!--    <changeSet author="Danya (generated)" id="167">-->
+<!--        <preConditions onFail="MARK_RAN">-->
+<!--            <not>-->
+<!--                <tableExists tableName="request"/>-->
+<!--            </not>-->
+<!--        </preConditions>-->
+<!--        <createTable tableName="request">-->
+<!--            <column name="id" type="INT" autoIncrement="true">-->
+<!--                <constraints nullable="false" unique="true"/>-->
+<!--            </column>-->
+<!--            <column name = "session" type="INT" >-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
+<!--            <column name = "body" type="TEXT" >-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
+<!--        </createTable>-->
 
-        <addForeignKeyConstraint  baseColumnNames="session"
-                                  baseTableCatalogName="request"
-                                  baseTableName="request"
-                                  constraintName="fk_session_request"
-                                  onDelete="CASCADE"
-                                  onUpdate="CASCADE"
-                                  referencedColumnNames="id"
-                                  referencedTableCatalogName="request"
-                                  referencedTableName="session"/>
-    </changeSet>
-</databaseChangeLog>
+<!--        <addForeignKeyConstraint  baseColumnNames="session"-->
+<!--                                  baseTableCatalogName="request"-->
+<!--                                  baseTableName="request"-->
+<!--                                  constraintName="fk_session_request"-->
+<!--                                  onDelete="CASCADE"-->
+<!--                                  onUpdate="CASCADE"-->
+<!--                                  referencedColumnNames="id"-->
+<!--                                  referencedTableCatalogName="request"-->
+<!--                                  referencedTableName="session"/>-->
+<!--    </changeSet>-->
+<!--</databaseChangeLog>-->

@@ -7,16 +7,27 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "balance_transaction", uniqueConstraints={@UniqueConstraint(columnNames={"id"})})
+@Table(name = "balance_transaction", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
 @Data
 public class BalanceTransactionEntity {
+
+    public BalanceTransactionEntity() {
+    }
+
+    public BalanceTransactionEntity(Long userId, LocalDateTime time, Double value, Integer bookId, String description) {
+        this.userId = userId;
+        this.time = time;
+        this.value = value;
+        this.bookId = bookId;
+        this.description = description;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
     private Long id;
 
-    @Column(name = "user_id",columnDefinition = "INT NOT NULL")
+    @Column(name = "user_id", columnDefinition = "INT NOT NULL")
     private Long userId;
 
     @Column(name = "time", columnDefinition = "TIMESTAMP NOT NULL")

@@ -13,5 +13,5 @@ public class UserInfo {
 
     private Map.Entry<String, Short> phoneAndApprove;
 
-
+    private Double balance;
 }

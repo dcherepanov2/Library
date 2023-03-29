@@ -28,6 +28,12 @@ public class ExceptionResolver {
         return response;
     }
 
+    @ExceptionHandler(BookFileException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public HashMap<String, String> bookFileNotFound() {
+        return new HashMap<>();
+    }
+
     @ExceptionHandler({
             HttpMessageNotReadableException.class,
             MethodArgumentTypeMismatchException.class,
@@ -38,7 +44,10 @@ public class ExceptionResolver {
             CommentInputException.class,
             JwtLogoutTokenNotFound.class,
             ChangeBookException.class,
-            RegistrationException.class
+            RegistrationException.class,
+            UserInsufficientBalance.class,
+            BookWasBoughtException.class,
+            AddArchiveException.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public HashMap<String, String> badRequest(Exception ex, HttpServletRequest request) throws ParseException {
@@ -53,16 +62,4 @@ public class ExceptionResolver {
         response.put("error", error);
         return response;
     }
-
-    @ExceptionHandler({
-            NullPointerException.class
-    })
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public HashMap<String, String> errorServer(){
-        HashMap<String, String> response = new HashMap<>();
-        response.put("result", "false");
-        response.put("error", "Произошла внутренняя ошибка сервера!");
-        return response;
-    }
-
 }

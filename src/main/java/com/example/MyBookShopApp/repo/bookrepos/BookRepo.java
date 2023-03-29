@@ -30,7 +30,22 @@ public interface BookRepo extends JpaRepository<Book, Integer> {
     )
     List<Book> findByMostPopular(Pageable pageable);
 
-    Page<Book> findByTitleContaining(String title, Pageable nextPage);
+    @Query(
+            value = "SELECT * FROM book WHERE title = :query " +
+                    "UNION (SELECT * FROM book where description = :query)" +
+                    "UNION (SELECT * FROM book WHERE id IN(SELECT book_id FROM book2tag AS b2t INNER JOIN  tag AS t1 ON name = :query AND b2t.tag_id = t1.id))" +
+                    "UNION(SELECT * FROM book WHERE id IN(SELECT book_id FROM author AS a1 INNER JOIN book2author AS b2a ON name LIKE '%' || :query || '%' AND a1.id = b2a.authors_id))" +
+                    "UNION(SELECT * FROM book WHERE id = (SELECT book_id FROM book2genre AS b2g INNER JOIN genre as g1 ON g1.name = :query AND g1.id = b2g.book_id))",
+            countQuery = "WITH counts AS (SELECT COUNT(*) FROM book WHERE title = 'Cooking with Stella' " +
+                    " UNION (SELECT COUNT(*) FROM book where description = 'Cooking with Stella')" +
+                    " UNION (SELECT COUNT(*) FROM book WHERE id IN(SELECT book_id FROM book2tag AS b2t INNER JOIN  tag AS t1 ON name = 'Tres-Zap' AND b2t.tag_id = t1.id))" +
+                    " UNION(SELECT COUNT(*)  FROM book WHERE id IN(SELECT book_id FROM author AS a1 INNER JOIN book2author AS b2a ON name LIKE '%' || 'Rosco Log' || '%' AND a1.id = b2a.authors_id))" +
+                    " UNION(SELECT COUNT(*)  FROM book WHERE id = (SELECT book_id FROM book2genre AS b2g INNER JOIN genre as g1 ON g1.name = 'Stronghold' AND g1.id = b2g.book_id)))" +
+                    "SELECT SUM(count) FROM counts;",
+            nativeQuery = true
+    )
+    Page<Book> findByTitleContaining(String query, Pageable nextPage);
+
     Page<Book> findBooksByDatePublicBetween(Date to, Date from, Pageable pageable);
 
     @Query(
@@ -125,4 +140,33 @@ public interface BookRepo extends JpaRepository<Book, Integer> {
 
     List<Book> findBooksBySlugIn(String[] slugs);
 
+
+    @Query(value =
+            "SELECT DISTINCT b.id, b.title, b.description, b.price, b.pub_date, b.discount, b.is_bestseller, b.slug, b.image" +
+                    " FROM book b " +
+                    "LEFT JOIN (" +
+                    "  SELECT book_id, AVG(value) as avg_rating" +
+                    "  FROM public.rating_book" +
+                    "  GROUP BY book_id" +
+                    ") r ON b.id = r.book_id " +
+                    "WHERE b.pub_date >= CURRENT_DATE - INTERVAL '1 MONTH'" +
+                    "  AND (b.is_bestseller = 1 OR r.avg_rating >= (" +
+                    "    SELECT AVG(value) as top_rating" +
+                    "    FROM (" +
+                    "      SELECT book_id, AVG(value) as value" +
+                    "      FROM public.rating_book" +
+                    "      GROUP BY book_id" +
+                    "      ORDER BY value DESC" +
+                    "      LIMIT (SELECT COUNT(*) FROM public.book) / 2" +
+                    "    ) t" +
+                    "  ))" +
+                    "  AND NOT EXISTS (" +
+                    "    SELECT 1" +
+                    "    FROM public.book2user bu" +
+                    "    WHERE bu.book_id = b.id" +
+                    "      AND bu.user_id = :userId" +
+                    "      AND bu.type_id IN (1, 2)" +
+                    "  )" +
+                    "LIMIT (SELECT COUNT(*) FROM book) / 2", nativeQuery = true)
+    List<Book> recommendedBooksIfUserAuth(@Param("userId") Long id);
 }

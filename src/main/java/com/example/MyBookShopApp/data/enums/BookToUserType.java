@@ -1,32 +1,39 @@
 package com.example.MyBookShopApp.data.enums;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public enum BookToUserType {
-    KEPT(1),
-    CART(2),
-    PAID(3),
-    ARCHIVED(4);
+    KEPT(1, "kept"),
+    CART(2, "cart"),
+    PAID(3, "paid"),
+    ARCHIVED(4, "archived"),
+    FALSE(5, "false");
 
     private final int code;
+
+    private final String name;
 
     public int getCode() {
         return code;
     }
 
-    public Set<BookToUserType> getByCode(int code){
-        BookToUserType[] bookToUserTypes = BookToUserType.values();
-        Set<BookToUserType> bookToUserTypeList = new HashSet<>();
-        for(BookToUserType contactType:bookToUserTypes){
-            if(contactType.getCode()==code){
-                bookToUserTypeList.add(contactType);
-            }
-        }
-        return bookToUserTypeList;
+    @Override
+    public String toString() {
+        return name;
     }
+//
+//    public Set<BookToUserType> getByCode(int code){
+//        BookToUserType[] bookToUserTypes = BookToUserType.values();
+//        Set<BookToUserType> bookToUserTypeList = new HashSet<>();
+//        for(BookToUserType contactType:bookToUserTypes){
+//            if(contactType.getCode()==code){
+//                bookToUserTypeList.add(contactType);
+//            }
+//        }
+//        return bookToUserTypeList;
+//    }
 
-    BookToUserType(int code) {
+
+    BookToUserType(int code, String name) {
         this.code = code;
+        this.name = name;
     }
 }

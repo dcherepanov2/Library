@@ -1,7 +1,6 @@
 package com.example.MyBookShopApp.controllers.userController;
 
 import com.example.MyBookShopApp.data.user.JwtLogoutToken;
-import com.example.MyBookShopApp.data.user.Role;
 import com.example.MyBookShopApp.data.user.User;
 import com.example.MyBookShopApp.data.user.UserContactEntity;
 import com.example.MyBookShopApp.dto.*;
@@ -103,14 +102,14 @@ public class SignInSignUpApiController {
         UserContactEntity userContact = contactService.findUserContactApprovedByContactName(contact.getContact());
         if (bindingResult.hasErrors())
             validationService.validate(bindingResult);
-        else if (userContact != null) {
+        ResponseApproveContact response = contactService.approveContact(contact);
+        if (response == null)
+            throw new ResponseApproveContactException(ErrorCodeResponseApproveContact.INCORRECT_ERROR_CODE.getMessage());
+        if (userContact != null) {
             User user = userService.findUserByContact(contact.getContact());
             Cookie token = userService.createToken(user);
             httpServletResponse.addCookie(token);
         }
-        ResponseApproveContact response = contactService.approveContact(contact);
-        if (response == null)
-            throw new ResponseApproveContactException(ErrorCodeResponseApproveContact.INCORRECT_ERROR_CODE.getMessage());
         if (history != null && userService.findUserByContact(contact.getContact()) != null) {
             String redirectionEndpoint = userHelper.getRedirectionEndpoint(history, "signup",
                     "approveContact",

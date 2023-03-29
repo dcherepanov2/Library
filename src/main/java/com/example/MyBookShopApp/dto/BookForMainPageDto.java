@@ -2,17 +2,21 @@ package com.example.MyBookShopApp.dto;
 
 import com.example.MyBookShopApp.data.author.Author;
 import com.example.MyBookShopApp.data.book.Book;
+import com.example.MyBookShopApp.data.book.links.Book2UserEntity;
+import com.example.MyBookShopApp.data.enums.BookToUserType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.util.Arrays;
 import java.util.List;
 
 @JsonPropertyOrder(
-        { "id", "slug", "title", "image", "authors",
-          "discount", "isBestseller", "rating", "status", "price", "discountPrice"
+        {"id", "slug", "title", "image", "authors",
+                "discount", "isBestseller", "rating", "status", "price", "discountPrice"
         }
 )
-public class BookForMainPageDto implements AopDto{
+public class BookForMainPageDto implements AopDto {
 
     @JsonProperty("id")
     private Integer id;
@@ -28,6 +32,17 @@ public class BookForMainPageDto implements AopDto{
 
     @JsonProperty("authors")
     private String authors;
+
+    @JsonIgnore
+    private List<Author> authorList;
+
+    public List<Author> getAuthorList() {
+        return authorList;
+    }
+
+    public void setAuthorList(List<Author> authorList) {
+        this.authorList = authorList;
+    }
 
     @JsonProperty("discount")
     private Short discount;
@@ -53,16 +68,38 @@ public class BookForMainPageDto implements AopDto{
         this.title = book.getTitle();
         this.image = book.getImage();
         this.authors = this.setAuthors(book.getAuthors());
-        if(this.authors != null)
-            this.authors = this.authors.substring(0,this.authors.length()-2);
+        this.authorList = book.getAuthors();
+        if (this.authors != null)
+            this.authors = this.authors.substring(0, this.authors.length() - 2);
         this.discount = book.getDiscount();
         book.setIsBestseller((short) 0);
         this.isBestseller = book.getIsBestseller();
         this.rating = 5;
-        this.status = "KEPT";
+        this.status = "false";
         this.price = book.getPrice();
-        if(book.getDiscount() != 0)
-            this.discountPrice = book.getPrice() * (100 / book.getDiscount());
+        if (book.getDiscount() != 0)
+            this.discountPrice = book.getDiscount() * (100 / book.getPrice());
+        else
+            this.discountPrice = book.getPrice();
+    }
+
+    public BookForMainPageDto(Book book, String keptContents, String cartContents, List<Book2UserEntity> book2UserEntities) {
+        this.id = book.getId();
+        this.slug = book.getSlug();
+        this.title = book.getTitle();
+        this.image = book.getImage();
+        this.authors = this.setAuthors(book.getAuthors());
+        this.authorList = book.getAuthors();
+        if (this.authors != null)
+            this.authors = this.authors.substring(0, this.authors.length() - 2);
+        this.discount = book.getDiscount();
+        book.setIsBestseller((short) 0);
+        this.isBestseller = book.getIsBestseller();
+        this.rating = 5;
+        this.status = calculateStatus(cartContents, keptContents, book2UserEntities).toString();
+        this.price = book.getPrice();
+        if (book.getDiscount() != 0)
+            this.discountPrice = book.getDiscount() * (100 / book.getPrice());
         else
             this.discountPrice = book.getPrice();
     }
@@ -103,7 +140,7 @@ public class BookForMainPageDto implements AopDto{
         this.id = id;
     }
 
-    public Boolean getBestseller() {
+    public boolean getBestseller() {
         return isBestseller;
     }
 
@@ -157,9 +194,25 @@ public class BookForMainPageDto implements AopDto{
 
     public String setAuthors(List<Author> authors) {
         StringBuilder authorStringContainList = new StringBuilder();
-        for(Author author:authors){
+        for (Author author : authors) {
             authorStringContainList.append(author.getName()).append(", ");
         }
         return this.authors = authorStringContainList.toString();
+    }
+
+    public BookToUserType calculateStatus(String cartContents, String keptContents, List<Book2UserEntity> books2Users) {
+        boolean ifKept = Arrays.stream(keptContents.split("/")).anyMatch(x -> x.equals(this.slug));
+        boolean ifPaid = books2Users.stream().anyMatch(x -> x.getBookId().equals(this.id) && x.getTypeId().equals(1));
+        boolean ifArchived = books2Users.stream().anyMatch(x -> x.getBookId().equals(this.id) && x.getTypeId().equals(2));
+        boolean ifCart = Arrays.stream(cartContents.split("/")).anyMatch(x -> x.equals(this.slug));
+        if (ifKept)
+            return BookToUserType.KEPT;
+        else if (ifPaid)
+            return BookToUserType.PAID;
+        else if (ifArchived)
+            return BookToUserType.ARCHIVED;
+        else if (ifCart)
+            return BookToUserType.CART;
+        return BookToUserType.FALSE;
     }
 }

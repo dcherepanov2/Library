@@ -17,7 +17,9 @@ public class UserHandlerMethodArgumentResolver implements HandlerMethodArgumentR
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        JwtUser user = (JwtUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return user;
+        Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (object instanceof JwtUser)
+            return SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return null;
     }
 }

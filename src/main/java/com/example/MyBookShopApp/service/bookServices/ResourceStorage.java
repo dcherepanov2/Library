@@ -17,8 +17,10 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class ResourceStorage {
@@ -53,13 +55,16 @@ public class ResourceStorage {
     }
 
     @SneakyThrows
-    public String findBookDownloadFile(String slug, Integer type) {
+    public String findBookDownloadFile(String slug, final Integer type) {
         Book bookBySlug = bookRepo.findBookBySlug(slug);
-        if(bookBySlug == null)
+        if (bookBySlug == null)
             throw new BookException(ErrorMessageResponse.NOT_FOUND_BOOK.getName());
-        BookFile pathBookBySlug = resourceRepo.findPathBookBySlug(bookBySlug.getId(), type);
-        if(pathBookBySlug == null)
+        BookFile file = bookBySlug.getBookFiles().stream()
+                .filter(x -> x.getTypeId().equals(type))
+                .findFirst()
+                .orElse(null);
+        if (file == null)
             throw new BookFileException(ErrorMessageResponse.FILE_NOT_FOUND_EXCEPTION.getName());
-        return pathBookBySlug.getPath();
+        return file.getPath();
     }
 }

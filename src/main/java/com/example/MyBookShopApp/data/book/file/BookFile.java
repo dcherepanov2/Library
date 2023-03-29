@@ -1,10 +1,6 @@
 package com.example.MyBookShopApp.data.book.file;
 
-import com.example.MyBookShopApp.data.book.Book;
-
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "book_file")
@@ -19,10 +15,6 @@ public class BookFile {
 
     @Column(name = "path")
     private String path;
-
-    @Column(name = "balance")
-    private Integer balance;
-
     @Column(name = "type_id")
     private Integer typeId;
 
@@ -49,15 +41,6 @@ public class BookFile {
     public void setPath(String path) {
         this.path = path;
     }
-
-    public Integer getBalance() {
-        return balance;
-    }
-
-    public void setBalance(Integer balance) {
-        this.balance = balance;
-    }
-
     public Integer getTypeId() {
         return typeId;
     }

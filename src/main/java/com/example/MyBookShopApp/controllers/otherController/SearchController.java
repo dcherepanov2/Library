@@ -7,10 +7,7 @@ import com.example.MyBookShopApp.service.bookServices.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,14 +34,20 @@ public class SearchController {
     }
 
     @GetMapping({"/"})
-    public String searchNulls(){
+    public String searchNulls() {
         return "/search/index";
     }
 
     @GetMapping({"/{name}"})
-    public String searchBooks(@PathVariable(value = "name", required = false)String name, Model model){
-        model.addAttribute("searchBookDto",name);
-        model.addAttribute("booksBySearch",new RecommendedBooksDto(bookService.getBooksGoogleApi(name,0,20)));
+    public String searchBooks(@PathVariable(value = "name", required = false) String name, Model model) {
+        model.addAttribute("searchBookDto", name);
+        model.addAttribute("booksBySearch", new RecommendedBooksDto(bookService.getSearchQuery(name, 0, 20)));
         return "/search/index";
+    }
+
+    @GetMapping({"/page/{name}"})
+    @ResponseBody
+    public RecommendedBooksDto searchBooksApi(@PathVariable(value = "name", required = false) String name, @RequestParam(value = "offset") Integer offset, @RequestParam(value = "limit") Integer limit) {
+        return new RecommendedBooksDto(bookService.getSearchQuery(name, offset, limit));
     }
 }
