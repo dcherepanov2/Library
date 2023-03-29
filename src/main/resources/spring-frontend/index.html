@@ -23,9 +23,9 @@
     <div class="wrap">
         <main class="Middle-main">
             <div class="Section">
-                <div th:replace="~{fragments/book_slider_fragment :: bookSlider(title=#{books.slider.recommended},books = ${recommendedBooks})}"></div>
-                <div th:replace="~{fragments/book_slider_fragment :: bookSlider(title=#{books.slider.popular},books = ${popularBooks})}"></div>
-                <div th:replace="~{fragments/book_slider_fragment :: bookSlider(title=#{books.slider.news},books = ${newBooks})}"></div>
+                <div th:replace="~{fragments/book_slider_fragment :: bookSlider(title=#{books.slider.recommended},books = ${recommendedBooks}, load='recommended')}"></div>
+                <div th:replace="~{fragments/book_slider_fragment :: bookSlider(title=#{books.slider.popular},books = ${popularBooks}, load='popular')}"></div>
+                <div th:replace="~{fragments/book_slider_fragment :: bookSlider(title=#{books.slider.news},books = ${newBooks}, load='recent')}"></div>
             </div>
             <h2 class="Middle-title" th:text="#{tag.cloud}">Книги по тегам
             </h2>

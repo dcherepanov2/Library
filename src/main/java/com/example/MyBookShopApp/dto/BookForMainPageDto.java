@@ -99,7 +99,7 @@ public class BookForMainPageDto implements AopDto {
         this.status = calculateStatus(cartContents, keptContents, book2UserEntities).toString();
         this.price = book.getPrice();
         if (book.getDiscount() != 0)
-            this.discountPrice = book.getDiscount() * (100 / book.getPrice());
+            this.discountPrice = book.getDiscount() * (book.getPrice() / 100);
         else
             this.discountPrice = book.getPrice();
     }

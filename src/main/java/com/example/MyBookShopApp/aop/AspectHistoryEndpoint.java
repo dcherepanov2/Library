@@ -31,6 +31,11 @@ public class AspectHistoryEndpoint {
                 String endValue = Objects.requireNonNull(historyEndpoint).getValue() + requestURI;
                 historyEndpoint.setValue(endValue);
                 Objects.requireNonNull(httpServletResponse).addCookie(historyEndpoint);
+                if (historyEndpoint.getValue().length() > 1000) {
+                    String oldValue = historyEndpoint.getValue();
+                    String newValue = oldValue.substring(oldValue.length() / 2);
+                    historyEndpoint.setValue(newValue);
+                }
             }
             return;
         }

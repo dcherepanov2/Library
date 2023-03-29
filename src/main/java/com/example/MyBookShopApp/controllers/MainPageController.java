@@ -1,6 +1,5 @@
 package com.example.MyBookShopApp.controllers;
 
-import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.book.links.Book2UserEntity;
 import com.example.MyBookShopApp.data.tags.Tag;
 import com.example.MyBookShopApp.dto.RecommendedBooksDto;
@@ -55,11 +54,8 @@ public class MainPageController {
     }
 
     @ModelAttribute("recommendedBooks")
-    public RecommendedBooksDto recommendedBook(@CookieValue(name = "cartContents", required = false) String cartContents,
-                                               @CookieValue(name = "keptContents", required = false) String keptContents,
-                                               JwtUser jwtUser) {
-        List<Book2UserEntity> allBookUser = book2UserService.getAllBook2User(jwtUser);
-        return new RecommendedBooksDto(bookService.getRecommendedBooks(0, 6, jwtUser), keptContents, cartContents, allBookUser);
+    public RecommendedBooksDto recommendedBook(JwtUser jwtUser) {
+        return new RecommendedBooksDto(bookService.getRecommendedBooks(0, 6, jwtUser));
     }
 
     @ModelAttribute("popularBooks")
