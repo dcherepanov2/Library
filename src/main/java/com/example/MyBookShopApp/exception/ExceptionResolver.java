@@ -47,7 +47,9 @@ public class ExceptionResolver {
             RegistrationException.class,
             UserInsufficientBalance.class,
             BookWasBoughtException.class,
-            AddArchiveException.class
+            AddArchiveException.class,
+            BadRequestException.class,
+            ResponseApproveContactException.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public HashMap<String, String> badRequest(Exception ex, HttpServletRequest request) throws ParseException {

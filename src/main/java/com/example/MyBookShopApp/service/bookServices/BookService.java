@@ -1,11 +1,9 @@
 package com.example.MyBookShopApp.service.bookServices;
 
-import com.example.MyBookShopApp.data.author.Author;
 import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.book.links.Book2UserEntity;
 import com.example.MyBookShopApp.data.book.links.BookRating;
 import com.example.MyBookShopApp.data.book.review.BookReview;
-import com.example.MyBookShopApp.data.google.api.books.Root;
 import com.example.MyBookShopApp.data.user.User;
 import com.example.MyBookShopApp.dto.CommentDtoInput;
 import com.example.MyBookShopApp.enums.ErrorMessageResponse;
@@ -19,11 +17,13 @@ import com.example.MyBookShopApp.repo.bookrepos.BookReviewRepo;
 import com.example.MyBookShopApp.repo.userrepos.UserRepo;
 import com.example.MyBookShopApp.security.jwt.JwtUser;
 import com.example.MyBookShopApp.service.userServices.UserServiceImpl;
+import com.example.MyBookShopApp.service.userServices.ViewService;
 import com.example.MyBookShopApp.utils.PopularBooksComparator;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -46,6 +46,8 @@ public class BookService {
 
     private final UserRepo userRepo;
 
+    private final ViewService viewService;
+
     private final Book2UserRepo book2UserRepo;
 
     private final UserServiceImpl userService;
@@ -55,12 +57,13 @@ public class BookService {
     private String googleApiKey;
 
     @Autowired
-    public BookService(BookRepo books, BookRatingRepo bookRating, BookReviewRepo bookReviewRepo, BookReviewService bookReviewService, UserRepo userRepo, Book2UserRepo book2UserRepo, UserServiceImpl userService, RestTemplate restTemplate) {
+    public BookService(BookRepo books, BookRatingRepo bookRating, BookReviewRepo bookReviewRepo, BookReviewService bookReviewService, UserRepo userRepo, ViewService viewService, Book2UserRepo book2UserRepo, UserServiceImpl userService, RestTemplate restTemplate) {
         this.books = books;
         this.bookRating = bookRating;
         this.bookReviewRepo = bookReviewRepo;
         this.bookReviewService = bookReviewService;
         this.userRepo = userRepo;
+        this.viewService = viewService;
         this.book2UserRepo = book2UserRepo;
         this.userService = userService;
         this.restTemplate = restTemplate;
@@ -70,18 +73,31 @@ public class BookService {
         Pageable pageable = PageRequest.of(offset, limit);
         List<Book> response = books.findByMostPopular(pageable);
         if (response == null)
-            return books.findAll(pageable).getContent();
+            return sortPopularBook(books.findAll(pageable).getContent());
         else if (response.size() < limit)
-            return books.findAll(pageable).getContent();
+            return sortPopularBook(books.findAll(pageable).getContent());
         return sortPopularBook(response);
     }
 
     public List<Book> getRecommendedBooks(Integer offset, Integer limit, JwtUser jwtUser) {
         Pageable pageable = PageRequest.of(offset, limit);
-        List<Book> response = null;
-        if (jwtUser != null)
-            response = books.recommendedBooksIfUserAuth(jwtUser.getId());
-        else
+        List<Book> response;
+        if (jwtUser != null) {
+            response = books.recommendedBooksIfUserAuth(Math.toIntExact(jwtUser.getId()));
+            List<Book> viewedBooks = books.getAllViewedBooks(Math.toIntExact(jwtUser.getId()));
+            response.addAll(viewedBooks);
+            List<Book> allReadyResponse = new ArrayList<>();
+            if (response.size() > 0) {
+                Collections.shuffle(response);
+                for (int i = offset * limit; i < (offset * limit) + limit; i++) {
+                    if (response.size() > i)
+                        allReadyResponse.add(response.get(i));
+                    else
+                        break;
+                }
+            }
+            return allReadyResponse;
+        } else
             response = books.findAll(pageable).getContent();
         if (response == null)
             return books.findAll(pageable).getContent();
@@ -136,7 +152,7 @@ public class BookService {
         User byUsername = userService.findByHash(user.getHash());
         if (byUsername == null)
             throw new UsernameNotFoundException("User with hash: " + user.getHash() + " was not found.");
-        List<BookRating> booksBySlug = bookRating.getBookRatingBySlug(slug);
+        List<BookRating> booksBySlug = bookRating.getBookRatingBySlugAndUserId(slug, user.getId());
         if (rate > 5 || rate < 1)
             throw new ChangeBookRateException(ErrorMessageResponse.CHANGE_BOOK_RATE.getName());
         if (booksBySlug.size() > 1) {
@@ -145,10 +161,10 @@ public class BookService {
         Book book = books.findBookBySlug(slug);
         if (book == null)
             throw new BookReviewException(ErrorMessageResponse.NOT_FOUND_BOOK.getName());
-        long count = booksBySlug.stream().filter(x -> x.getUserId().equals(byUsername.getId().intValue())).count();
-        if (count > 0) {
-            bookRating.deleteAll(booksBySlug);
-        }
+//        long count = booksBySlug.stream().filter(x -> x.getUserId().equals(byUsername.getId().intValue())).count();
+//        if (count > 0) {
+//            bookRating.deleteAll(booksBySlug);
+//        }
         BookRating bookRate = new BookRating();
         bookRate.setUserId(Math.toIntExact(byUsername.getId()));
         bookRate.setValue(rate);
@@ -253,5 +269,9 @@ public class BookService {
 
     public void saveAllBook2User(List<Book2UserEntity> booksLocal) {
         book2UserRepo.saveAll(booksLocal);
+    }
+
+    public List<Book> findAllBooksByIds(List<Integer> ids) {
+        return books.findAllById(ids);
     }
 }

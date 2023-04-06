@@ -109,4 +109,12 @@ public class ContactService {
         UserContactEntity byContactOrderByCodeTimeDesc = userContactRepo.findByContactOrderByCodeTimeDesc(contact);
         return byContactOrderByCodeTimeDesc != null && byContactOrderByCodeTimeDesc.getApproved() == 1;
     }
+
+    public boolean contactApproveHasUserIdNull(String contact) {
+        return userContactRepo.findUserContactEntitiesByContact(contact).stream().noneMatch(x -> x.getUserId() != null);
+    }
+
+    public boolean contactApproveHasUserIdNullButApproved(String contact) {
+        return userContactRepo.findUserContactEntitiesByContact(contact).stream().anyMatch(x -> x.getApproved() == 1 && x.getUserId() == null);
+    }
 }

@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface UserContactRepo extends JpaRepository<UserContactEntity, Integer> {
     //TODO: написать свой Query этот работает некорректно
     @Query(value = "SELECT * FROM user_contact WHERE contact = :contact AND code = :code"
@@ -31,4 +33,6 @@ public interface UserContactRepo extends JpaRepository<UserContactEntity, Intege
     @Query(value = "from UserContactEntity WHERE contact =:contact AND approved = 1 AND userId != null order by codeTime DESC",
             countQuery = "select count(*) from UserContactEntity WHERE contact =:contact AND approved = 1 AND userId != null")
     Page<UserContactEntity> findUserContactEntitiesApprovedByContactName(@Param("contact") String contact, Pageable pageable);
+
+    List<UserContactEntity> findUserContactEntitiesByContact(String contact);
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.ws.rs.BadRequestException;
 import java.security.NoSuchAlgorithmException;
 
 @Controller
@@ -38,13 +39,23 @@ public class PaymentController {
         // так как у нас нету активного хоста, на который мы можем реализовать переадресацию и на маппинге
         // сделать подтверждение или отказ по платежу, то тогда
         // я думаю, что хорошим вариантом будет считать, что каждый платеж пользователя успешен(затычка)
-        transactionService.debitPayment(user, paymentRequestDto.getSum());
-        user.setBalance(user.getBalance() + paymentRequestDto.getSum());
-        userService.setBalance(user, paymentRequestDto.getSum());
-        if (paymentRequestDto.getSum() > 0)
+        if (paymentRequestDto != null && paymentRequestDto.getSum() != null) {
+            if (paymentRequestDto.getSum() > 100000000.00)
+                throw new PaymentDebitException("Максимальное значение счета физического лица составляет 100000000 рублей.");
+            transactionService.debitPayment(user, paymentRequestDto.getSum());
             user.setBalance(user.getBalance() + paymentRequestDto.getSum());
-        else
-            throw new PaymentDebitException("Debit sum must be more zero.");
-        return new RedirectView(robokassa.getPaymentUrl(paymentRequestDto.getSum()));
+            userService.setBalance(user, paymentRequestDto.getSum());
+            if (paymentRequestDto.getSum() > 0)
+                user.setBalance(user.getBalance() + paymentRequestDto.getSum());
+            else
+                throw new PaymentDebitException("Debit sum must be more zero.");
+            return new RedirectView(robokassa.getPaymentUrl(paymentRequestDto.getSum()));
+        }
+        throw new BadRequestException("Некорректный запрос");
+    }
+
+    @PostMapping("/profile/save")
+    public void saveNewInfoProfile() {
+
     }
 }

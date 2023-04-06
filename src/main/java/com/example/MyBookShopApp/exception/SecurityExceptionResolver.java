@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -26,9 +27,13 @@ public class SecurityExceptionResolver implements AuthenticationEntryPoint {
         map.put("result: ", "false");
         map.put("state: ", "401");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        if(e instanceof JwtAuthenticationException){
+        if(e instanceof JwtAuthenticationException) {
             map.put("state: ", "403");
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            Cookie cookie = new Cookie("token", "");
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
+            response.sendRedirect(response.encodeRedirectURL("/"));
+            return;
         }
         if(e instanceof BadCredentialsException){
             map.put("state: ", "400");

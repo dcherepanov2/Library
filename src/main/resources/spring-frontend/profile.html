@@ -38,7 +38,7 @@
                 <div class="Tabs-wrap">
                     <div class="Tabs-block" id="basic">
                         <div class="Profile">
-                            <form class="form Profile-form" action="#" method="post">
+                            <form class="form Profile-form" method="post">
                                 <div class="row">
                                     <div class="row-block">
                                         <div class="form-group">
@@ -67,9 +67,11 @@
                                                    data-mask="+7 (999) 999-99-99"
                                                    data-validate="require"/>
                                             <div class="Profile-btn Profile-btn_confirm">
-                                                <button onclick="sendApproveContact()" class="btn btn_primary"
-                                                        type="button">Подтвердить
+                                                <button class="btn btn_primary"
+                                                        type="button" id="button-phone"
+                                                        onclick="sendApproveContactPhone()">Подтвердить
                                                 </button>
+                                                <span id="span-button-phone"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -88,43 +90,52 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="Profile-btn">
+                                                <button class="btn btn_primary" type="button">Сохранить</button>
                                                 <button class="btn btn_danger" type="button">Отменить
                                                 </button>
-                                                <button class="btn btn_primary" type="submit">Сохранить
-                                                </button>
+
                                             </div>
                                             <div class="Profile-success">Профиль успешно сохранен
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                             </form>
                         </div>
                     </div>
                     <div class="Tabs-block" id="transactions">
                         <div class="Transactions" >
                             <div class="tableWrap" >
-                                <table class="table table_noMargin">
+                                <table class="table table_noMargin" th:each="transaction: ${transactions.transactions}">
                                     <tbody>
                                     <tr>
-                                        <td>5 марта 2017 13:40
+                                        <td th:text="${transaction.time}">5 марта 2017 13:40
                                         </td>
                                         <td><span class="Transactions_textSuccess">
-                                    <strong>-480 р.
-                                    </strong></span>
+                                    <strong th:text="${transaction.getValue()} + ' р'">-480 р.
+                                    </strong>
+                                        </span>
                                         </td>
-                                        <td>Покупка книги&#32;<a>
-                                            <div></div>
-                                        </a>
+
+                                        <td th:if="${transaction.getValue() lt 0}" style="display: flex">
+                                            <div>Покупка книги&#32;<a
+                                                    th:href="@{'/books/' + ${transaction.getBookName().getValue()}}">
+                                                <div th:text="${transaction.getBookName().getKey()}"></div>
+                                            </a>
+                                            </div>
                                         </td>
-                                        <td>Пополнение счета&#32;
+                                        <td th:if="${transaction.getValue() gt 0}" style="display: flex">
+                                            <div>Пополнение счета на сумму: &#32;
+                                                <div th:text="${transaction.value}"></div>
+                                            </div>
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <div class="Transactions-footer Transactions-footer_center"><a
-                                    class="btn btn_primary Transactions-get" href="#" data-transactionoffset="4"
+                                    class="btn btn_primary Transactions-get" href="#" data-transactionoffset="1"
                                     data-transactionlimit="10" data-transactionsort="asc">Показать еще</a>
                             </div>
                         </div>
@@ -151,6 +162,7 @@
 </div>
 <footer class="Footer" th:replace="~{fragments/common_footer_fragment :: footer}"></footer>
 <script src="/assets/plg/jQuery/jquery-3.5.1.min.js"></script>
+<script src="/assets/js/scripts.min.js"></script>
 <script>
     let cookies = document.cookie;
     console.log(cookies)
@@ -172,13 +184,36 @@
         return await response.json(); // parses JSON response into native JavaScript objects
     }
 
-    function sendApproveContact(){
+    function sendRequestContactConfirmationPhone() {
         let phone = document.getElementById("phone").value;
-        postData('http://localhost:8080/requestContactConfirmation', { contact: phone })
+        postData('http://localhost:8080/requestContactConfirmation', {contact: phone})
             .then((data) => {
-                console.log(data); // JSON data parsed by `response.json()` call
-            }
-        );
+                    console.log(data); // JSON data parsed by `response.json()` call
+                }
+            );
+        let buttonPhone = document.getElementById("button-phone").value;
+        buttonPhone.color = 'grey';
+    }
+
+    function sendRequestContactConfirmationMail() {
+        let email = document.getElementById("mail").value;
+        postData('http://localhost:8080/requestContactConfirmation', {contact: email})
+            .then((data) => {
+                    console.log(data); // JSON data parsed by `response.json()` call
+                }
+            );
+        let buttonPhone = document.getElementById("button-phone").value;
+        buttonPhone.color = 'grey';
+    }
+
+    function sendApproveContactPhone() {
+        let phone = document.getElementById("phone").value;
+        let code = document.getElementById().value;
+        postData('http://localhost:8080/requestContactConfirmation', {contact: email})
+            .then((data) => {
+                    console.log(data); // JSON data parsed by `response.json()` call
+                }
+            );
     }
 </script>
 </body>

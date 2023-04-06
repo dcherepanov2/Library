@@ -19,6 +19,7 @@ import com.example.MyBookShopApp.service.userServices.helpers.UserHelper;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,7 @@ import java.util.stream.Collectors;
 
 
 @Service
+@ComponentScan(basePackages = {"com.example.MyBookShopApp.repo.userrepos"})
 @Slf4j
 public class UserServiceImpl {
 

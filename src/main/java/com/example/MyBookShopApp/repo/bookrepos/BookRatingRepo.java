@@ -19,4 +19,10 @@ public interface BookRatingRepo extends JpaRepository<BookRating, Integer> {
     @Modifying
     @Transactional
     void deleteBookRatingByUserId(Integer userId);
+
+    @Query(
+            value = "SELECT rb1.id,rb1.book_id,rb1.value,rb1.user_id FROM book AS b1 INNER JOIN rating_book AS rb1 ON b1.slug = :slug AND rb1.book_id = b1.id AND rb1.user_id =:userId",
+            nativeQuery = true
+    )
+    List<BookRating> getBookRatingBySlugAndUserId(@Param("slug") String slug, @Param("userId") Long userId);
 }

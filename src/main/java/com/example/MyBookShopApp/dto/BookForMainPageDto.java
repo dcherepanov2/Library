@@ -201,18 +201,21 @@ public class BookForMainPageDto implements AopDto {
     }
 
     public BookToUserType calculateStatus(String cartContents, String keptContents, List<Book2UserEntity> books2Users) {
-        boolean ifKept = Arrays.stream(keptContents.split("/")).anyMatch(x -> x.equals(this.slug));
-        boolean ifPaid = books2Users.stream().anyMatch(x -> x.getBookId().equals(this.id) && x.getTypeId().equals(1));
-        boolean ifArchived = books2Users.stream().anyMatch(x -> x.getBookId().equals(this.id) && x.getTypeId().equals(2));
-        boolean ifCart = Arrays.stream(cartContents.split("/")).anyMatch(x -> x.equals(this.slug));
-        if (ifKept)
-            return BookToUserType.KEPT;
-        else if (ifPaid)
-            return BookToUserType.PAID;
-        else if (ifArchived)
-            return BookToUserType.ARCHIVED;
-        else if (ifCart)
-            return BookToUserType.CART;
+        if (books2Users != null && cartContents != null && keptContents != null) {
+            boolean ifKept = Arrays.stream(keptContents.split("/")).anyMatch(x -> x.equals(this.slug));
+            boolean ifPaid = books2Users.stream().anyMatch(x -> x.getBookId().equals(this.id) && x.getTypeId().equals(1));
+            boolean ifArchived = books2Users.stream().anyMatch(x -> x.getBookId().equals(this.id) && x.getTypeId().equals(2));
+            boolean ifCart = Arrays.stream(cartContents.split("/")).anyMatch(x -> x.equals(this.slug));
+            if (ifKept)
+                return BookToUserType.KEPT;
+            else if (ifPaid)
+                return BookToUserType.PAID;
+            else if (ifArchived)
+                return BookToUserType.ARCHIVED;
+            else if (ifCart)
+                return BookToUserType.CART;
+            return BookToUserType.FALSE;
+        }
         return BookToUserType.FALSE;
     }
 }

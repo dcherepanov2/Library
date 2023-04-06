@@ -142,31 +142,46 @@ public interface BookRepo extends JpaRepository<Book, Integer> {
 
 
     @Query(value =
-            "SELECT DISTINCT b.id, b.title, b.description, b.price, b.pub_date, b.discount, b.is_bestseller, b.slug, b.image" +
-                    " FROM book b " +
-                    "LEFT JOIN (" +
-                    "  SELECT book_id, AVG(value) as avg_rating" +
-                    "  FROM public.rating_book" +
-                    "  GROUP BY book_id" +
+            "SELECT DISTINCT b.id, b.title, b.description, b.price, b.pub_date, b.discount, b.is_bestseller, b.slug, b.image " +
+                    "FROM book b  " +
+                    "LEFT JOIN ( " +
+                    "    SELECT book_id, AVG(value) as avg_rating " +
+                    "    FROM public.rating_book " +
+                    "    GROUP BY book_id " +
                     ") r ON b.id = r.book_id " +
-                    "WHERE b.pub_date >= CURRENT_DATE - INTERVAL '1 MONTH'" +
-                    "  AND (b.is_bestseller = 1 OR r.avg_rating >= (" +
-                    "    SELECT AVG(value) as top_rating" +
-                    "    FROM (" +
-                    "      SELECT book_id, AVG(value) as value" +
-                    "      FROM public.rating_book" +
-                    "      GROUP BY book_id" +
-                    "      ORDER BY value DESC" +
-                    "      LIMIT (SELECT COUNT(*) FROM public.book) / 2" +
-                    "    ) t" +
-                    "  ))" +
-                    "  AND NOT EXISTS (" +
-                    "    SELECT 1" +
-                    "    FROM public.book2user bu" +
-                    "    WHERE bu.book_id = b.id" +
-                    "      AND bu.user_id = :userId" +
-                    "      AND bu.type_id IN (1, 2)" +
-                    "  )" +
-                    "LIMIT (SELECT COUNT(*) FROM book) / 2", nativeQuery = true)
-    List<Book> recommendedBooksIfUserAuth(@Param("userId") Long id);
+                    "WHERE b.pub_date >= CURRENT_DATE - INTERVAL '1 MONTH'  " +
+                    "AND (b.is_bestseller = 1 OR r.avg_rating >= ( " +
+                    "    SELECT AVG(value) as top_rating " +
+                    "    FROM ( " +
+                    "          SELECT book_id, AVG(value) as value " +
+                    "          FROM public.rating_book " +
+                    "          GROUP BY book_id " +
+                    "          ORDER BY value DESC " +
+                    "          LIMIT (SELECT COUNT(*) FROM public.book) / 2 " +
+                    "        ) t " +
+                    "      )) " +
+                    "      AND NOT EXISTS ( " +
+                    "        SELECT 1 " +
+                    "        FROM public.book2user bu " +
+                    "        WHERE bu.book_id = b.id " +
+                    "          AND bu.user_id =:userId " +
+                    "          AND bu.type_id IN (1, 2)" +
+                    "      ) " +
+                    "      AND b.id IN (" +
+                    "        SELECT book_id FROM book2tag WHERE tag_id IN (" +
+                    "          SELECT tag_id FROM book2tag WHERE book_id IN (" +
+                    "            SELECT book_id FROM book2user WHERE user_id =:userId AND type_id = 5 " +
+                    "          )" +
+                    "        )" +
+                    "      )", nativeQuery = true)
+    List<Book> recommendedBooksIfUserAuth(@Param("userId") Integer id);
+
+    @Query(value = "SELECT * FROM book WHERE id IN (" +
+            "  SELECT book_id FROM book2tag WHERE tag_id IN (" +
+            "    SELECT tag_id FROM book2tag WHERE book_id IN (" +
+            "      SELECT book_id FROM book2user WHERE user_id =:userId AND type_id = 5" +
+            "    )" +
+            "  )" +
+            ");", nativeQuery = true)
+    List<Book> getAllViewedBooks(@Param("userId") Integer userId);
 }

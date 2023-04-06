@@ -19,6 +19,7 @@ import com.example.MyBookShopApp.service.authorServices.AuthorService;
 import com.example.MyBookShopApp.service.bookServices.*;
 import com.example.MyBookShopApp.service.payment.TransactionService;
 import com.example.MyBookShopApp.service.userServices.UserServiceImpl;
+import com.example.MyBookShopApp.service.userServices.ViewService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -50,12 +51,14 @@ public class BooksController {
     private final UserServiceImpl userService;
     private final BooksChangeStatusService booksChangeStatusService;
 
+    private final ViewService viewService;
+
     @Qualifier("transactionServiceImpl")
     private final TransactionService transactionService;
     private final Book2UserService book2UserService;
 
     @Autowired
-    public BooksController(BookService bookService, RoleRepository roleRepository, AuthorService authorService, ResourceStorage storage, BookReviewService bookReviewService, UserServiceImpl userService, BooksChangeStatusService booksChangeStatusService, TransactionService transactionService, Book2UserService book2UserService) {
+    public BooksController(BookService bookService, RoleRepository roleRepository, AuthorService authorService, ResourceStorage storage, BookReviewService bookReviewService, UserServiceImpl userService, BooksChangeStatusService booksChangeStatusService, ViewService viewService, TransactionService transactionService, Book2UserService book2UserService) {
         this.bookService = bookService;
         this.roleRepository = roleRepository;
         this.authorService = authorService;
@@ -63,6 +66,7 @@ public class BooksController {
         this.bookReviewService = bookReviewService;
         this.userService = userService;
         this.booksChangeStatusService = booksChangeStatusService;
+        this.viewService = viewService;
         this.transactionService = transactionService;
         this.book2UserService = book2UserService;
     }
@@ -97,29 +101,29 @@ public class BooksController {
 
 
     @GetMapping("/recent")
-    public String getFilterBooksRecent(Model model) {
+    @ResponseBody
+    public RecommendedBooksDto getFilterBooksRecent() {
         LocalDateTime ldt =
                 LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault()).minusMonths(1);
         Date from = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
         ldt = LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault());
         Date to = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
-        model.addAttribute("bookByFilterDatePublic", new RecommendedBooksDto(bookService.getFilterBooksByDate(from, to, 0, 20)));
-        return "books/recent";
+        return new RecommendedBooksDto(bookService.getFilterBooksByDate(from, to, 0, 20));
     }
 
 
     @GetMapping("/popular")
-    public String getBooksPopular(Model model,
-                                  @CookieValue(name = "cartContents", required = false) String cartContents,
-                                  @CookieValue(name = "keptContents", required = false) String keptContents,
-                                  JwtUser jwtUser) {
+    @ResponseBody
+    public RecommendedBooksDto getBooksPopular(
+            @CookieValue(name = "cartContents", required = false) String cartContents,
+            @CookieValue(name = "keptContents", required = false) String keptContents,
+            JwtUser jwtUser) {
         List<Book2UserEntity> allBookUser = book2UserService.getAllBook2User(jwtUser);
         List<Book> booksPopular = bookService.getPopularBooksData(0, 20);
         if (cartContents != null || keptContents != null || allBookUser != null)
-            model.addAttribute("bookMostPopular", new RecommendedBooksDto(booksPopular, keptContents, cartContents, allBookUser));
+            return new RecommendedBooksDto(booksPopular, keptContents, cartContents, allBookUser);
         else
-            model.addAttribute("bookMostPopular", new RecommendedBooksDto(booksPopular));
-        return "books/popular";
+            return new RecommendedBooksDto(booksPopular);
     }
 
     @GetMapping("/author/{slug}")
@@ -171,6 +175,8 @@ public class BooksController {
             commentDtoLocal.setUsername(bookReview.getUserId().getUsername());
             commentDtos.add(commentDtoLocal);
         }
+        if (user != null)
+            viewService.saveViewBook(user, book);
         Map<Integer, Integer> ratingTable = bookService.getBookRateTableBySlug(slug);
         int sum = ratingTable.get(1) + ratingTable.get(2) + ratingTable.get(3) + ratingTable.get(4) + ratingTable.get(5);
         model.addAttribute("ratingTableSum", sum);
@@ -245,7 +251,7 @@ public class BooksController {
             user.setBalance(user.getBalance() - sum);
             userService.saveUser(user);
             List<BalanceTransactionEntity> transactions = booksCart.stream()
-                    .map(x -> new BalanceTransactionEntity(jwtUser.getId(), LocalDateTime.now(), Double.valueOf(x.getPrice()), x.getId(), ""))
+                    .map(x -> new BalanceTransactionEntity(jwtUser.getId(), LocalDateTime.now(), (double) (x.getPrice() * -1), x.getId(), ""))
                     .collect(Collectors.toList());
             List<Book2UserEntity> book2user = booksCart.stream()
                     .map(x -> new Book2UserEntity(LocalDateTime.now(), 1, x.getId(), Math.toIntExact(jwtUser.getId())))
@@ -253,6 +259,7 @@ public class BooksController {
             transactionService.saveAll(transactions);
             bookService.saveAllBook2User(book2user);
             Cookie cookie = new Cookie("cartContents", "");
+            cookie.setMaxAge(0);
             httpServletResponse.addCookie(cookie);
             return "redirect:/my";
         }

@@ -66,6 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(REQUEST_CONTACT_CONFIRMATION_ENDPOINT).permitAll()
                 .antMatchers(APPROVE_CONTACT_ENDPOINT).permitAll()
                 .antMatchers("/books/changeBookStatus/**").permitAll()
+                .antMatchers("/signin").permitAll()
                 .antMatchers("/books/comment/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/rateBook").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/rateBookReview").hasAnyRole("USER", "ADMIN")

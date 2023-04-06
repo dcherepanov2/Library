@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +24,9 @@ public class Book2UserService {
     }
 
     public List<Book2UserEntity> getAllBook2User(JwtUser jwtUser) {
-        List<Book2UserEntity> book2UserEntityByUserId = book2UserRepo.findAllByUserId(Math.toIntExact(jwtUser.getId()));
+        List<Book2UserEntity> book2UserEntityByUserId = null;
+        if (jwtUser != null)
+            book2UserEntityByUserId = book2UserRepo.findAllByUserId(Math.toIntExact(jwtUser.getId()));
         if (book2UserEntityByUserId != null && book2UserEntityByUserId.size() != 0)
             return book2UserEntityByUserId;
         else

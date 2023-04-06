@@ -40,12 +40,21 @@ public class ProfileController {
         return "profile";
     }
 
-    @GetMapping("/transactions")
+    @GetMapping("/api/transactions")
     @ResponseBody
     public BalanceTransactionPage getAllTransaction(JwtUser jwtUser, Integer limit, Integer offset) {
         List<BalanceTransactionDto> transactions = transactionService.getAllTransactionByUser(jwtUser, offset, limit)
                 .stream()
                 .map(BalanceTransactionDto::new)
+                .collect(Collectors.toList());
+        return new BalanceTransactionPage(transactions);
+    }
+
+    @ModelAttribute("transactions")
+    public BalanceTransactionPage getModelTransaction(JwtUser jwtUser) {
+        List<BalanceTransactionDto> transactions = transactionService.getAllTransactionByUser(jwtUser, 0, 6)
+                .stream()
+                .map(x -> new BalanceTransactionDto(x, bookService.getBookById(x.getBookId())))
                 .collect(Collectors.toList());
         return new BalanceTransactionPage(transactions);
     }

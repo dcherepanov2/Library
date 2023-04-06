@@ -7,6 +7,7 @@ public enum ErrorCodeResponseApproveContact {
     INCORRECT_ERROR_CODE("Некорректный код, проверьте правильность ввода."),
 
     NUMBER_OF_INPUT_ATTEMPTS("Количество попыток ввода привысило допустимое количество. Запросите новый код.");
+
     ErrorCodeResponseApproveContact(String message) {
         this.message = message;
     }

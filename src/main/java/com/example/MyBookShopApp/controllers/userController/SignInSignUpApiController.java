@@ -1,12 +1,9 @@
 package com.example.MyBookShopApp.controllers.userController;
 
-import com.example.MyBookShopApp.data.user.JwtLogoutToken;
 import com.example.MyBookShopApp.data.user.User;
 import com.example.MyBookShopApp.data.user.UserContactEntity;
 import com.example.MyBookShopApp.dto.*;
 import com.example.MyBookShopApp.enums.ErrorCodeResponseApproveContact;
-import com.example.MyBookShopApp.enums.ErrorMessageResponse;
-import com.example.MyBookShopApp.exception.JwtLogoutTokenNotFound;
 import com.example.MyBookShopApp.exception.RegistrationException;
 import com.example.MyBookShopApp.exception.ResponseApproveContactException;
 import com.example.MyBookShopApp.exception.VerificationException;
@@ -21,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.Cookie;
@@ -77,56 +73,57 @@ public class SignInSignUpApiController {
         throw new VerificationException(ErrorCodeResponseApproveContact.INCORRECT_ERROR_CODE.getMessage());
     }
 
-    //TODO: переделать под новую реализацию
-    @Deprecated
     @SneakyThrows
-    @PostMapping("/user/logout")
-    @ResponseBody
-    public ResultTrue logout(@RequestHeader("Authorization") String token) {
-        JwtLogoutToken jwtLogoutToken = userService.logoutToken(token);
-        if (jwtLogoutToken != null) {
-            ResultTrue resultTrue = new ResultTrue();
-            resultTrue.setResult(true);
-            return resultTrue;
-        }
-        throw new JwtLogoutTokenNotFound(ErrorMessageResponse.JWT_TOKEN_IS_NOT_FOUND.getName());
+    @GetMapping("/user/logout")
+    public void logout(@CookieValue(value = "token", required = false) String token, HttpServletResponse httpServletResponse) {
+        userService.logoutToken(token);
+        httpServletResponse.sendRedirect(httpServletResponse.encodeRedirectURL("/"));
     }
 
     @PostMapping("/approveContact")
     @SneakyThrows
-    public String approveContact(@Valid @RequestBody ApproveContactDto contact,
-                                 HttpServletResponse httpServletResponse,
-                                 BindingResult bindingResult,
-                                 @CookieValue(value = "history", required = false) String history,
-                                 RedirectAttributes ra) {
+    @ResponseBody
+    public ResultTrue approveContact(@Valid @RequestBody ApproveContactDto contact,
+                                     HttpServletResponse httpServletResponse,
+                                     BindingResult bindingResult) {
         UserContactEntity userContact = contactService.findUserContactApprovedByContactName(contact.getContact());
         if (bindingResult.hasErrors())
             validationService.validate(bindingResult);
         ResponseApproveContact response = contactService.approveContact(contact);
         if (response == null)
             throw new ResponseApproveContactException(ErrorCodeResponseApproveContact.INCORRECT_ERROR_CODE.getMessage());
-        if (userContact != null) {
+        if (userContact != null && contactService.contactApproveHasUserIdNullButApproved(contact.getContact())) {
             User user = userService.findUserByContact(contact.getContact());
             Cookie token = userService.createToken(user);
             httpServletResponse.addCookie(token);
+            response.setError("Авторизация прошла успешно. Обновите страницу, чтобы перейти в личный кабинет сайта.");
+            return response;
         }
-        if (history != null && userService.findUserByContact(contact.getContact()) != null) {
-            String redirectionEndpoint = userHelper.getRedirectionEndpoint(history, "signup",
-                    "approveContact",
-                    "requestContactConfirmation",
-                    "signin",
-                    "approveContactToJson");
-            return "redirect:/" + redirectionEndpoint;
+        if (userContact != null && !contactService.contactApproveHasUserIdNull(contact.getContact())) {
+            response.setError("Пользователь с этим контактом уже зарегистрирован в системе.");
+            return response;
         }
-        ra.addFlashAttribute("response", response);
-        return "redirect:/approveContactToJson";
+        if (userContact != null) {
+            return response;
+        } else if (response.getReturnResponse().equals(true)) {
+            contactService.approveContact(contact);
+            response.setError("Контакт успешно подтвержден.");
+            return response;
+        }
+        throw new ResponseApproveContactException("Указанный контакт не найден.");
     }
 
     @GetMapping("/approveContactToJson")
     @ResponseBody
     @SneakyThrows
-    public ResponseApproveContact responseApproveContact(HttpServletRequest request) {
+    public ResponseApproveContact responseApproveContact(HttpServletRequest request, HttpServletResponse httpServletResponse) {
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
+        if (inputFlashMap != null) {
+            String redirect = (String) inputFlashMap.get("redirect");
+            if (redirect != null) {
+                httpServletResponse.sendRedirect(httpServletResponse.encodeRedirectURL("/" + redirect));
+            }
+        }
         if (inputFlashMap != null) {
             return (ResponseApproveContact) inputFlashMap.get("response");
         }
@@ -138,13 +135,16 @@ public class SignInSignUpApiController {
     @ResponseBody
     public User registration(@RequestBody RegistrationForm registrationForm) {
         if (registrationForm != null && contactService.isContactApprove(registrationForm.getEmail()) && contactService.isContactApprove(registrationForm.getPhone())) {
-            User user = userService.createNewUserWithUserClientRole(registrationForm);
-            UserContactEntity phoneContact = contactService.getContactEntity(registrationForm.getPhone());
-            UserContactEntity emailContact = contactService.getContactEntity(registrationForm.getEmail());
-            contactService.setUserId(phoneContact, user);
-            contactService.setUserId(emailContact, user);
-            user.setRoles(null);
-            return user;
+            if (contactService.contactApproveHasUserIdNull(registrationForm.getEmail()) && contactService.contactApproveHasUserIdNull(registrationForm.getPhone())) {
+                User user = userService.createNewUserWithUserClientRole(registrationForm);
+                UserContactEntity phoneContact = contactService.getContactEntity(registrationForm.getPhone());
+                UserContactEntity emailContact = contactService.getContactEntity(registrationForm.getEmail());
+                contactService.setUserId(phoneContact, user);
+                contactService.setUserId(emailContact, user);
+                user.setRoles(null);
+                return user;
+            }
+            throw new RegistrationException("Эти контакты уже зарегистрораванны в системе. Измените их в форме регистрации.");
         }
         throw new RegistrationException("Контакты не были подтверждены.");
     }

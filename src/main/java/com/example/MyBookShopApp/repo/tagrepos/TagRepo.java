@@ -12,6 +12,6 @@ public interface TagRepo extends JpaRepository<Tag, Integer> {
 
     Tag findBySlug(String slug);
 
-    @Query(value = "SELECT * FROM  tag ORDER BY RANDOM() LIMIT 30", nativeQuery = true)
+    @Query(value = "SELECT * FROM tag WHERE size = floor(RANDOM() * 10 + 1)", nativeQuery = true)
     List<Tag> findTagsRandom();
 }

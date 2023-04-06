@@ -1,11 +1,9 @@
 package com.example.MyBookShopApp.controllers;
 
-import com.example.MyBookShopApp.data.book.links.Book2UserEntity;
 import com.example.MyBookShopApp.data.tags.Tag;
 import com.example.MyBookShopApp.dto.RecommendedBooksDto;
 import com.example.MyBookShopApp.dto.SearchBookDto;
 import com.example.MyBookShopApp.security.jwt.JwtUser;
-import com.example.MyBookShopApp.service.bookServices.Book2UserService;
 import com.example.MyBookShopApp.service.bookServices.BookService;
 import com.example.MyBookShopApp.service.tagServices.TagService;
 import com.example.MyBookShopApp.service.userServices.ProfileService;
@@ -31,14 +29,11 @@ public class MainPageController {
 
     private final ProfileService profileService;
 
-    private final Book2UserService book2UserService;
-
     @Autowired
-    public MainPageController(BookService bookService, TagService tagService, ProfileService profileService, Book2UserService book2UserService) {
+    public MainPageController(BookService bookService, TagService tagService, ProfileService profileService) {
         this.bookService = bookService;
         this.tagService = tagService;
         this.profileService = profileService;
-        this.book2UserService = book2UserService;
     }
 
     @ModelAttribute("searchBookDto")
