@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <div th:fragment="unauthorized" class="row-block Header-cart">
-    <div class="CartBlock"><a class="CartBlock-block" th:href="@{/postponed}" href="/postponed.html">
+    <div class="CartBlock"><a class="CartBlock-block" th:href="@{/postponed/v2}" href="/postponed.html">
         <svg class="CartBlock-img" xmlns="http://www.w3.org/2000/svg" height="23" width="23"
              viewBox="0 0 512 512">
             <g>
@@ -12,8 +12,9 @@
                 </g>
             </g>
         </svg>
-        <span class="CartBlock-amount">0</span></a><a class="CartBlock-block" th:href="@{/cart}"
-                                                      href="/cart.html">
+        <span class="CartBlock-amount" th:text="${countPostponed.getCountPostponed()}">0</span></a><a
+            class="CartBlock-block" th:href="@{/cart/v2}"
+            href="/cart.html">
         <svg class="CartBlock-img" xmlns="http://www.w3.org/2000/svg" width="30" height="23"
              viewBox="0 0 30 23">
             <g>
@@ -24,7 +25,7 @@
             </g>
         </svg>
 
-        <span class="CartBlock-amount">0</span></a>
+        <span class="CartBlock-amount" th:text="${countPostponed.getCountCart()}">0</span></a>
        <a class="CartBlock-block" th:href="@{/signin}"
                 href="/signin.html">
             <svg class="CartBlock-img" xmlns="http://www.w3.org/2000/svg" width="22" height="23"
@@ -60,7 +61,8 @@
             <g> </g>
             <g> </g>
             <g> </g></svg>
-        <span class="CartBlock-amount">0</span></a><a class="CartBlock-block" th:href="@{/postponed}" href="/postponed.html">
+        <span class="CartBlock-amount">0</span></a><a class="CartBlock-block" th:href="@{/postponed/v2}"
+                                                      href="/postponed.html">
         <svg class="CartBlock-img" xmlns="http://www.w3.org/2000/svg" height="23" width="23" viewBox="0 0 512 512">
             <g>
                 <g>
@@ -69,7 +71,7 @@
                 </g>
             </g>
         </svg>
-        <span class="CartBlock-amount">0</span></a><a class="CartBlock-block" th:href="@{/cart}">
+        <span class="CartBlock-amount">0</span></a><a class="CartBlock-block" th:href="@{/cart/v2}">
         <svg class="CartBlock-img" xmlns="http://www.w3.org/2000/svg" width="30" height="23" viewBox="0 0 30 23">
             <g>
                 <g>
@@ -89,9 +91,8 @@
         </svg>
         <span class="CartBlock-text" th:text="${userInfo.getName()}"></span><span class="CartBlock-budget"
                                                                                   th:text="'На счете '+${userInfo.getBalance()}+' рублей'"></span></a>
-        <a th:href="@{/books/user/viewed}"><img width="50%" height="40%" alt="" src="assets/img/icons/viewed.svg"></a>
+        <a th:href="@{/viewed/books}"><img width="50%" height="40%" alt="" src="assets/img/icons/viewed.svg"></a>
         <a th:href="@{/user/logout}"><img width="50%" height="40%" alt="" src="assets/img/icons/126467.svg"></a>
     </div>
 </div>
-
 </html>

@@ -39,7 +39,7 @@
                             class="Section-header-link Section-header-link_ACTIVE">Архив</span>
                     </div>
                 </div>
-                <div class="Cards" th:each="book : ${books}">
+                <div class="Cards" th:each="book : ${books}" style="display: flex;">
                     <div class="Card">
                         <div class="Card-picture"><a th:href="@{'/books/' + ${book.slug}}"><img th:src="${book.image}"
                                                                                                 alt="card.jpg"/></a>

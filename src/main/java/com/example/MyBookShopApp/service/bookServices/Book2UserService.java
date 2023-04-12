@@ -2,12 +2,16 @@ package com.example.MyBookShopApp.service.bookServices;
 
 import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.book.links.Book2UserEntity;
+import com.example.MyBookShopApp.exception.BookException;
 import com.example.MyBookShopApp.repo.bookrepos.Book2UserRepo;
 import com.example.MyBookShopApp.repo.bookrepos.BookRepo;
 import com.example.MyBookShopApp.security.jwt.JwtUser;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,5 +44,20 @@ public class Book2UserService {
                 .distinct()
                 .collect(Collectors.toList());
         return bookRepo.findAllById(book2UserEntityByUserId);
+    }
+
+    @SneakyThrows
+    public void save(JwtUser jwtUser, String slug, Integer typeId) {
+        Book2UserEntity book2UserEntity = new Book2UserEntity();
+        Book bookBySlug = bookRepo.findBookBySlug(slug);
+        if (bookBySlug == null)
+            throw new BookException("Книга не найдена");
+        if (jwtUser == null)
+            throw new UsernameNotFoundException("Книга не найдена");
+        book2UserEntity.setBookId(bookBySlug.getId());
+        book2UserEntity.setTypeId(typeId);
+        book2UserEntity.setTime(LocalDateTime.now());
+        book2UserEntity.setUserId(Math.toIntExact(jwtUser.getId()));
+        book2UserRepo.save(book2UserEntity);
     }
 }

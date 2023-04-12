@@ -30,28 +30,21 @@ public class TagService {
     }
 
     public List<Tag> findAll() {//TODO: не возможно проверить на моудльном тестировании, т.к. pageable генерируется всегда разный
-        Double allTagsClicks = 0.0;
+        Double allTagsClicks = tagRepo.avgClick();
         Random random = new Random();
 //        Pageable next = PageRequest.of(random.nextInt(30),30);
         List<Tag> tags = tagRepo.findTagsRandom();
         for (Tag tag : tags) {
-            allTagsClicks += bookRepo.findBooksByTagCount(tag.getSlug());
-        }
-        allTagsClicks = allTagsClicks / tags.size() / 4;
-        for (Tag tag : tags) {
-            Double localCount = Double.valueOf(bookRepo.findBooksByTagCount(tag.getSlug()));
-            if (localCount <= allTagsClicks) {
+            Double localCount = Double.valueOf(tag.getTagClicks());
+            if (localCount <= allTagsClicks / 5) {
                 tag.setSize(0);
-            } else if (localCount <= allTagsClicks * 2) {
+            } else if (localCount <= allTagsClicks / 4) {
                 tag.setSize(1);
-            }
-            else if(localCount<=allTagsClicks*3){
+            } else if (localCount <= allTagsClicks / 3) {
                 tag.setSize(3);
-            }
-            else if(localCount<=allTagsClicks*4){
+            } else if (localCount <= allTagsClicks / 2) {
                 tag.setSize(4);
-            }
-            else if(localCount<=allTagsClicks*5){
+            } else if (localCount <= allTagsClicks) {
                 tag.setSize(5);
             }
             tagRepo.save(tag);

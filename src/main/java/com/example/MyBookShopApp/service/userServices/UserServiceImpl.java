@@ -168,10 +168,36 @@ public class UserServiceImpl {
         return userInfo;
     }
 
+    public UserInfo getUserInfoForProfile(JwtUser jwtUser) {
+        UserInfo userInfo = new UserInfo();
+        Pageable page = PageRequest.of(0, 1);
+        User user = userRepository.findByHash(jwtUser.getHash());
+        UserContactEntity email = userContactRepo.findUserContactEntitiesByUserIdAndCodeTime(user.getId(), (short) 2, page)
+                .getContent().stream().findFirst().orElse(new UserContactEntity());
+        UserContactEntity phone = userContactRepo.findUserContactEntitiesByUserIdAndCodeTime(user.getId(), (short) 1, page)
+                .getContent().stream().findFirst().orElse(new UserContactEntity());
+        userInfo.setEmailAndApprove(new AbstractMap.SimpleEntry<>(email.getContact(), email.getApproved()));
+        userInfo.setPhoneAndApprove(new AbstractMap.SimpleEntry<>(phone.getContact(), phone.getApproved()));
+        userInfo.setName(user.getUsername());
+        userInfo.setBalance(user.getBalance());
+        return userInfo;
+    }
+
     public void setBalance(JwtUser jwtUser, Double sum) {
         User user = userRepository.findByHash(jwtUser.getHash());
         user.setBalance(user.getBalance() + sum);
         userRepository.save(user);
+    }
+
+    public User createNewAnonymousUser() {
+        Role anonymous = roleRepository.findByName("ANONYMOUS");
+        User user = new User();
+        user.setBalance(0.00);
+        user.setRoles(Collections.singletonList(anonymous));
+        user.setUsername("ANONYMOUS");
+        user.setHash(userHelper.generateHash(user));
+        user.setDateRegistration(LocalDate.now());
+        return userRepository.save(user);
     }
 
     public void saveUser(User user) {

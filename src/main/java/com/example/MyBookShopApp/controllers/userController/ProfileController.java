@@ -33,11 +33,23 @@ public class ProfileController {
     }
 
     @GetMapping("/profile")
-    public String getProfile(@CookieValue(name = "token") String token, Model model) {
-        model.addAttribute("userInfo", userService.getUserInfoForProfile(token));
+    public String getProfile(JwtUser jwtUser, Model model) {
+        if (jwtUser != null && !jwtUser.getUsername().equals("ANONYMOUS"))
+            model.addAttribute("userInfo", userService.getUserInfoForProfile(jwtUser));
         model.addAttribute("contactDto", new ContactRequestDtoV2());
         model.addAttribute("payment", new PaymentRequestDto());
         return "profile";
+    }
+
+    @ModelAttribute("countPostponed")
+    public CartPostponedCounterDto cartPostponedCounterDto(@CookieValue(name = "cartContents", required = false) String cartContents,
+                                                           @CookieValue(name = "keptContents", required = false) String keptContents) {
+        CartPostponedCounterDto cartPostponedCounterDto = new CartPostponedCounterDto();
+        if (cartContents != null && !cartContents.equals(""))
+            cartPostponedCounterDto.setCountCart(cartContents.split("/").length);
+        if (keptContents != null && !keptContents.equals(""))
+            cartPostponedCounterDto.setCountPostponed(keptContents.split("/").length);
+        return cartPostponedCounterDto;
     }
 
     @GetMapping("/api/transactions")

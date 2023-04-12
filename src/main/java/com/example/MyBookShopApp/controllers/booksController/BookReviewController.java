@@ -1,9 +1,6 @@
 package com.example.MyBookShopApp.controllers.booksController;
 
-import com.example.MyBookShopApp.dto.BookReviewLikeDto;
-import com.example.MyBookShopApp.dto.CommentDtoInput;
-import com.example.MyBookShopApp.dto.RateBookDto;
-import com.example.MyBookShopApp.dto.ResultTrue;
+import com.example.MyBookShopApp.dto.*;
 import com.example.MyBookShopApp.security.jwt.JwtUser;
 import com.example.MyBookShopApp.service.bookServices.BookReviewService;
 import com.example.MyBookShopApp.service.bookServices.BookService;
@@ -11,10 +8,7 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.MediaType;
@@ -29,6 +23,17 @@ public class BookReviewController {
     public BookReviewController(BookService bookService, BookReviewService bookReviewService) {
         this.bookService = bookService;
         this.bookReviewService = bookReviewService;
+    }
+
+    @ModelAttribute("countPostponed")
+    public CartPostponedCounterDto cartPostponedCounterDto(@CookieValue(name = "cartContents", required = false) String cartContents,
+                                                           @CookieValue(name = "keptContents", required = false) String keptContents) {
+        CartPostponedCounterDto cartPostponedCounterDto = new CartPostponedCounterDto();
+        if (cartContents != null && !cartContents.equals(""))
+            cartPostponedCounterDto.setCountCart(cartContents.split("/").length);
+        if (keptContents != null && !keptContents.equals(""))
+            cartPostponedCounterDto.setCountPostponed(keptContents.split("/").length);
+        return cartPostponedCounterDto;
     }
 
     @PostMapping("/books/comment/{slug}")

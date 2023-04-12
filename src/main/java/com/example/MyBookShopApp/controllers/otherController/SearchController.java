@@ -1,8 +1,10 @@
 package com.example.MyBookShopApp.controllers.otherController;
 
 import com.example.MyBookShopApp.data.book.Book;
+import com.example.MyBookShopApp.dto.CartPostponedCounterDto;
 import com.example.MyBookShopApp.dto.RecommendedBooksDto;
 import com.example.MyBookShopApp.dto.SearchBookDto;
+import com.example.MyBookShopApp.security.jwt.JwtUser;
 import com.example.MyBookShopApp.service.bookServices.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,13 +25,24 @@ public class SearchController {
         this.bookService = bookService;
     }
 
+    @ModelAttribute("countPostponed")
+    public CartPostponedCounterDto cartPostponedCounterDto(@CookieValue(name = "cartContents", required = false) String cartContents,
+                                                           @CookieValue(name = "keptContents", required = false) String keptContents) {
+        CartPostponedCounterDto cartPostponedCounterDto = new CartPostponedCounterDto();
+        if (cartContents != null && !cartContents.equals(""))
+            cartPostponedCounterDto.setCountCart(cartContents.split("/").length);
+        if (keptContents != null && !keptContents.equals(""))
+            cartPostponedCounterDto.setCountPostponed(keptContents.split("/").length);
+        return cartPostponedCounterDto;
+    }
+
     @ModelAttribute("searchBookDto")
-    public SearchBookDto searchBookDto(){
+    public SearchBookDto searchBookDto() {
         return new SearchBookDto();
     }
 
     @ModelAttribute("booksBySearch")
-    public List<Book> booksBySearch(){
+    public List<Book> booksBySearch() {
         return new ArrayList<>();
     }
 

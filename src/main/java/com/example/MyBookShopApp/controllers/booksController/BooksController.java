@@ -23,6 +23,7 @@ import com.example.MyBookShopApp.service.userServices.ViewService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +42,9 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/books")
 public class BooksController {
+
+    @Value("${domen}")
+    private String domen;
     private final BookService bookService;
 
     private final RoleRepository roleRepository;
@@ -71,6 +75,17 @@ public class BooksController {
         this.book2UserService = book2UserService;
     }
 
+    @ModelAttribute("countPostponed")
+    public CartPostponedCounterDto cartPostponedCounterDto(@CookieValue(name = "cartContents", required = false) String cartContents,
+                                                           @CookieValue(name = "keptContents", required = false) String keptContents) {
+        CartPostponedCounterDto cartPostponedCounterDto = new CartPostponedCounterDto();
+        if (cartContents != null && !cartContents.equals(""))
+            cartPostponedCounterDto.setCountCart(cartContents.split("/").length);
+        if (keptContents != null && !keptContents.equals(""))
+            cartPostponedCounterDto.setCountPostponed(keptContents.split("/").length);
+        return cartPostponedCounterDto;
+    }
+
     @ModelAttribute("comment")
     public CommentDtoInput commentModel() {
         return new CommentDtoInput();
@@ -84,7 +99,8 @@ public class BooksController {
             User byHash = userService.findByHash(user.getHash());
             return byHash != null && byHash.getBook2UserEntities()
                     .stream()
-                    .anyMatch(x -> x.getBookId().equals(book.getId()));
+                    .anyMatch(x -> x.getBookId().equals(book.getId()) &&
+                            (x.getTypeId().equals(1) || x.getTypeId().equals(2)));
         }
         return false;
     }
@@ -133,7 +149,6 @@ public class BooksController {
                 new RecommendedBooksDto(authorService.findBooksByAuthor(slug)));
         return "/books/author";
     }
-
     //TODO: написать отдельный контроллер books/slug, в котором будет содержаться вся логика здесь,
     // но разбитая по ModelAttribute
     @GetMapping("/{slug}")
@@ -173,6 +188,7 @@ public class BooksController {
             commentDtoLocal.setSlug(bookReview.getId());
             commentDtoLocal.setPubDate(LocalDateTime.now());
             commentDtoLocal.setUsername(bookReview.getUserId().getUsername());
+            commentDtoLocal.setRate(bookReviewService.calcRateComment(bookReview.getId()).intValue());
             commentDtos.add(commentDtoLocal);
         }
         if (user != null)
@@ -192,20 +208,21 @@ public class BooksController {
     @PostMapping("/changeBookStatus/{slug}")
     @SneakyThrows
     public String handleChangeBookStatus(@PathVariable("slug") String slug,
-                                         @CookieValue(name = "cartContents", required = false) String cartContents,
-                                         @CookieValue(name = "keptContents", required = false) String keptContents,
                                          HttpServletResponse response,
-                                         Model model,
+                                         HttpServletRequest request,
                                          @RequestBody BookChangeStatusDto bookChangeStatusDto,
                                          JwtUser jwtUser) {
-        if (bookChangeStatusDto.getStatus().equals(BookStatus.CART)) {
-            booksChangeStatusService.addCookieToCart(keptContents, cartContents, slug, response, model);
-        } else if (bookChangeStatusDto.getStatus().equals(BookStatus.UNLINK)) {
-            booksChangeStatusService.deleteSlugCookie(keptContents, cartContents, slug, response, model);
-        } else if (bookChangeStatusDto.getStatus().equals(BookStatus.KEPT)) {
-            booksChangeStatusService.addCookieToKept(keptContents, cartContents, slug, response, model);
-        } else if (bookChangeStatusDto.getStatus().equals(BookStatus.ARCHIVED)) {
-            booksChangeStatusService.addBookToArchive(keptContents, cartContents, response, jwtUser, slug);
+        booksChangeStatusService.deleteBook2UserBySlug(jwtUser, slug);
+        switch (bookChangeStatusDto.getStatus()) {
+            case CART:
+                booksChangeStatusService.addBook2Cart(jwtUser, slug);
+                break;
+            case KEPT:
+                booksChangeStatusService.addBook2Kept(jwtUser, slug);
+                break;
+            case ARCHIVED:
+                booksChangeStatusService.addBookToArchive(request, response, jwtUser, slug);
+                break;
         }
         return "redirect:/books/" + slug;
     }
@@ -245,7 +262,8 @@ public class BooksController {
         User user = userService.findByHash(jwtUser.getHash());
         if (user != null && user.getBalance() - sum > 0) {
             for (Book book : booksCart) {
-                if (user.getBook2UserEntities().stream().anyMatch(x -> x.getBookId().equals(book.getId())))
+                if (user.getBook2UserEntities().stream().anyMatch(x -> x.getBookId().equals(book.getId())
+                        && (x.getTypeId().equals(1) || x.getTypeId().equals(2))))
                     throw new BookWasBoughtException("Книга была куплена ранее.");
             }
             user.setBalance(user.getBalance() - sum);

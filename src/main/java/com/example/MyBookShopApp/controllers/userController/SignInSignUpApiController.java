@@ -7,6 +7,7 @@ import com.example.MyBookShopApp.enums.ErrorCodeResponseApproveContact;
 import com.example.MyBookShopApp.exception.RegistrationException;
 import com.example.MyBookShopApp.exception.ResponseApproveContactException;
 import com.example.MyBookShopApp.exception.VerificationException;
+import com.example.MyBookShopApp.security.jwt.JwtUser;
 import com.example.MyBookShopApp.service.senders.MailSender;
 import com.example.MyBookShopApp.service.senders.TwilioService;
 import com.example.MyBookShopApp.service.senders.ValidationService;
@@ -47,6 +48,17 @@ public class SignInSignUpApiController {
         this.userHelper = userHelper;
         this.contactService = contactService;
         this.userService = userService;
+    }
+
+    @ModelAttribute("countPostponed")
+    public CartPostponedCounterDto cartPostponedCounterDto(@CookieValue(name = "cartContents", required = false) String cartContents,
+                                                           @CookieValue(name = "keptContents", required = false) String keptContents) {
+        CartPostponedCounterDto cartPostponedCounterDto = new CartPostponedCounterDto();
+        if (cartContents != null && !cartContents.equals(""))
+            cartPostponedCounterDto.setCountCart(cartContents.split("/").length);
+        if (keptContents != null && !keptContents.equals(""))
+            cartPostponedCounterDto.setCountPostponed(keptContents.split("/").length);
+        return cartPostponedCounterDto;
     }
 
     @PostMapping("/requestContactConfirmation")

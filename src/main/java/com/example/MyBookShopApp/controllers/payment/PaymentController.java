@@ -1,5 +1,6 @@
 package com.example.MyBookShopApp.controllers.payment;
 
+import com.example.MyBookShopApp.dto.CartPostponedCounterDto;
 import com.example.MyBookShopApp.dto.PaymentRequestDto;
 import com.example.MyBookShopApp.exception.PaymentDebitException;
 import com.example.MyBookShopApp.security.jwt.JwtUser;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -30,6 +33,17 @@ public class PaymentController {
         this.robokassa = robokassa;
         this.transactionService = transactionService;
         this.userService = userService;
+    }
+
+    @ModelAttribute("countPostponed")
+    public CartPostponedCounterDto cartPostponedCounterDto(@CookieValue(name = "cartContents", required = false) String cartContents,
+                                                           @CookieValue(name = "keptContents", required = false) String keptContents) {
+        CartPostponedCounterDto cartPostponedCounterDto = new CartPostponedCounterDto();
+        if (cartContents != null && !cartContents.equals(""))
+            cartPostponedCounterDto.setCountCart(cartContents.split("/").length);
+        if (keptContents != null && !keptContents.equals(""))
+            cartPostponedCounterDto.setCountPostponed(keptContents.split("/").length);
+        return cartPostponedCounterDto;
     }
 
     @PostMapping(

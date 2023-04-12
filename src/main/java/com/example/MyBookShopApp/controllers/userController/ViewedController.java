@@ -3,6 +3,7 @@ package com.example.MyBookShopApp.controllers.userController;
 import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.book.links.Book2UserEntity;
 import com.example.MyBookShopApp.data.user.User;
+import com.example.MyBookShopApp.dto.CartPostponedCounterDto;
 import com.example.MyBookShopApp.dto.RecommendedBooksDto;
 import com.example.MyBookShopApp.dto.UserInfo;
 import com.example.MyBookShopApp.security.jwt.JwtUser;
@@ -32,6 +33,17 @@ public class ViewedController {
         this.bookService = bookService;
     }
 
+    @ModelAttribute("countPostponed")
+    public CartPostponedCounterDto cartPostponedCounterDto(@CookieValue(name = "cartContents", required = false) String cartContents,
+                                                           @CookieValue(name = "keptContents", required = false) String keptContents) {
+        CartPostponedCounterDto cartPostponedCounterDto = new CartPostponedCounterDto();
+        if (cartContents != null && !cartContents.equals(""))
+            cartPostponedCounterDto.setCountCart(cartContents.split("/").length);
+        if (keptContents != null && !keptContents.equals(""))
+            cartPostponedCounterDto.setCountPostponed(keptContents.split("/").length);
+        return cartPostponedCounterDto;
+    }
+
     @ModelAttribute("userInfo")
     public UserInfo userInfo(@CookieValue("token") String token) {
         return userService.getUserInfoForProfile(token);
@@ -46,7 +58,7 @@ public class ViewedController {
         return new RecommendedBooksDto(books);
     }
 
-    @GetMapping("/books/user/viewed")
+    @GetMapping("/viewed/books")
     public String getPageViewedBooks() {
         return "/books/viewed";
     }

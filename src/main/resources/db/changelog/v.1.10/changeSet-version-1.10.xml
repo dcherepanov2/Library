@@ -33,5 +33,5 @@
     <!--    <include file="db/changelog/v.1.10/logger/changeSet-session-entity_v_1.0.xml"/>-->
     <!--    <include file="db/changelog/v.1.10/logger/changeSet-request-entity_v_1.0.xml"/>-->
     <!--    <include file="db/changelog/v.1.10/logger/changeSet-response-entity_v_1.0.xml"/>-->
-    <include file="db/changelog/v.1.10/initDB/initAll.sql"/>
+<!--    <include file="db/changelog/v.1.10/initDB/initAll.sql"/>-->
 </databaseChangeLog>

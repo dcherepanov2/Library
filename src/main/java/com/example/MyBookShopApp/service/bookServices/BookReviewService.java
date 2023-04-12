@@ -25,7 +25,7 @@ public class BookReviewService {
         this.bookReviewLikeRepo = bookReviewLikeRepo;
     }
 
-    public List<BookReview> reviewEntitiesBySlugBook(String slug){
+    public List<BookReview> reviewEntitiesBySlugBook(String slug) {
         return bookReviewRepo.findBookReviewsByBookId(slug);
     }
 
@@ -44,8 +44,7 @@ public class BookReviewService {
                 bookReviewLikeEntity.setValue(bookReviewLikeDto.getValue());
                 bookReviewLikeRepo.save(bookReviewLikeEntity);
                 return true;
-            }
-            else if(bookReviewLikeEntity == null){
+            } else if (bookReviewLikeEntity == null) {
                 bookReviewLikeEntity = new BookReviewLikeEntity();
                 bookReviewLikeEntity.setTime(LocalDateTime.now());
                 bookReviewLikeEntity.setReviewId(bookReviewLikeDto.getReviewid());
@@ -65,13 +64,19 @@ public class BookReviewService {
     public Integer getRatingMedium(Map<Integer, Integer> ratingTable) {
         int sum = 0;
         int count = 0;
-        for(Map.Entry<Integer,Integer> one: ratingTable.entrySet()){
+        for (Map.Entry<Integer, Integer> one : ratingTable.entrySet()) {
             sum = sum + (one.getKey() * one.getValue());
-            count ++;
+            count++;
         }
-        if(count>0){
-            return sum/count;
+        if (count > 0) {
+            return sum / count;
         }
         return 0;
+    }
+
+    public Double calcRateComment(Integer id) {
+        double a = bookReviewRepo.calcRateBookBySlug(id, 1) * 2;
+        Double b = bookReviewRepo.calcRateBookBySlug(id, -1);
+        return b != null ? a * 2 / b : a * 2;
     }
 }
