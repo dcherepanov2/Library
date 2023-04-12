@@ -11264,3 +11264,4 @@ insert into book_file (id, hash, type_id, path)
 values (999, '212-37-9920', 2, 'file.pdf');
 insert into book_file (id, hash, type_id, path)
 values (1000, '425-74-8012', 3, 'file.pdf');
+insert into roles(3, 'ANONYMOUS')
