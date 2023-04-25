@@ -77,6 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/profile").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/viewed/books").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/books/**/img/save").hasRole("ADMIN")
+                .antMatchers("/crm-system").hasAnyRole("MANAGER", "ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

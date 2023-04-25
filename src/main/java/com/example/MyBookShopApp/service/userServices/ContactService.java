@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -44,6 +46,8 @@ public class ContactService {
         return userContactRepo.save(userContact);
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED,
+            rollbackFor = {Exception.class, RuntimeException.class})
     public ResponseApproveContact approveContact(ApproveContactDto contact) {
         UserContactEntity contactEntity = userContactRepo.findByContact(contact.getContact(), Long.valueOf(contact.getCode().replace(" ", "")));
         Long approve = Long.valueOf(contact.getCode().replace(" ", ""));

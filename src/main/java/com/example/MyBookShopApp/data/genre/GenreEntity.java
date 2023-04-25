@@ -14,7 +14,7 @@ import java.util.Set;
 public class GenreEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
     @OneToOne(fetch = FetchType.EAGER)
@@ -27,11 +27,11 @@ public class GenreEntity {
     @Column(columnDefinition = "VARCHAR(255) NOT NULL")
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "book2genre",
             joinColumns = @JoinColumn(name = "genre_id")
-            ,inverseJoinColumns =  @JoinColumn(name = "book_id")
+            , inverseJoinColumns = @JoinColumn(name = "book_id")
     )
     private List<Book> books = new ArrayList<>();
 

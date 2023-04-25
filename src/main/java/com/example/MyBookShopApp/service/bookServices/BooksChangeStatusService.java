@@ -11,6 +11,8 @@ import com.example.MyBookShopApp.utils.CookieUtils;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import javax.servlet.http.Cookie;
@@ -63,10 +65,14 @@ public class BooksChangeStatusService {
         }
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ,
+            rollbackFor = {Exception.class, RuntimeException.class})
     public void addBook2Cart(JwtUser jwtUser, String slug) {
         book2UserService.save(jwtUser, slug, 3);
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ,
+            rollbackFor = {Exception.class, RuntimeException.class})
     public void addBook2Kept(JwtUser jwtUser, String slug) {
         book2UserService.save(jwtUser, slug, 4);
     }
@@ -107,6 +113,8 @@ public class BooksChangeStatusService {
         model.addAttribute("isCartEmpty", false);
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ,
+            rollbackFor = {Exception.class, RuntimeException.class})
     public void deleteBook2UserBySlug(JwtUser jwtUser, String slug) throws Exception {
         Book book = bookService.getBookBySlug(slug);
         if (book == null)
@@ -115,6 +123,8 @@ public class BooksChangeStatusService {
         book2UserRepo.deleteAll(book2UserEntityByBookIdAndUserId);
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ,
+            rollbackFor = {Exception.class, RuntimeException.class})
     @SneakyThrows
     public void addBookToArchive(HttpServletRequest request,
                                  HttpServletResponse response,

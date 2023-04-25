@@ -10,6 +10,8 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -47,6 +49,8 @@ public class Book2UserService {
     }
 
     @SneakyThrows
+    @Transactional(isolation = Isolation.READ_COMMITTED,
+            rollbackFor = {Exception.class, RuntimeException.class})
     public void save(JwtUser jwtUser, String slug, Integer typeId) {
         Book2UserEntity book2UserEntity = new Book2UserEntity();
         Book bookBySlug = bookRepo.findBookBySlug(slug);

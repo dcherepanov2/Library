@@ -72,8 +72,7 @@ public class BookForMainPageDto implements AopDto {
         if (this.authors != null)
             this.authors = this.authors.substring(0, this.authors.length() - 2);
         this.discount = book.getDiscount();
-        book.setIsBestseller((short) 0);
-        this.isBestseller = book.getIsBestseller();
+        this.isBestseller = book.getBestseller();
         this.rating = 5;
         this.status = "false";
         this.price = book.getPrice();
@@ -93,8 +92,7 @@ public class BookForMainPageDto implements AopDto {
         if (this.authors != null)
             this.authors = this.authors.substring(0, this.authors.length() - 2);
         this.discount = book.getDiscount();
-        book.setIsBestseller((short) 0);
-        this.isBestseller = book.getIsBestseller();
+        this.isBestseller = book.getBestseller();
         this.rating = 5;
         this.status = calculateStatus(cartContents, keptContents, book2UserEntities).toString();
         this.price = book.getPrice();

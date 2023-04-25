@@ -7,7 +7,7 @@
    http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <changeSet author="Danya (generated)" id="244">
+    <changeSet author="Danya (generated)" id="608">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="profile"/>
@@ -27,7 +27,6 @@
                 <constraints nullable="false" unique="true"/>
             </column>
         </createTable>
-
     </changeSet>
     <changeSet id="280" author="Danya">
         <addForeignKeyConstraint  baseColumnNames="id"

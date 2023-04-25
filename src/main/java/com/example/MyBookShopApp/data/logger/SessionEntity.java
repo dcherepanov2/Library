@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 public class SessionEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "url")

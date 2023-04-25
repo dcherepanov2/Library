@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class FaqEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 
     @Column(columnDefinition = "INT NOT NULL  DEFAULT 0")

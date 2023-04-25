@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class BookReviewLikeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 
     @Column(name = "review_id",columnDefinition = "INT NOT NULL")

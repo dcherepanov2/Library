@@ -28,6 +28,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
@@ -147,6 +149,8 @@ public class BookService {
                 Comparator.comparing(Book::getDatePublic)).peek(x -> x.setTags(null)).collect(Collectors.toList());
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ,
+            rollbackFor = {Exception.class, RuntimeException.class})
     @SneakyThrows
     public void changeRateBookBySlug(JwtUser user, String slug, Integer rate) {
         User byUsername = userService.findByHash(user.getHash());
@@ -202,6 +206,8 @@ public class BookService {
         return rating;
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ,
+            rollbackFor = {Exception.class, RuntimeException.class})
     @SneakyThrows
     public List<BookReview> putComment(JwtUser jwtUser, CommentDtoInput commentDto, String slug) {
         if (commentDto == null || commentDto.getDescription() == null || commentDto.getDescription().length() == 0)

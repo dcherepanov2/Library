@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,6 +51,8 @@ public class PaymentController {
     @PostMapping(
             path = "/payment",
             consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    @Transactional(isolation = Isolation.REPEATABLE_READ,
+            rollbackFor = {Exception.class, RuntimeException.class})
     public RedirectView payment(JwtUser user, PaymentRequestDto paymentRequestDto) throws NoSuchAlgorithmException, PaymentDebitException {
         // так как у нас нету активного хоста, на который мы можем реализовать переадресацию и на маппинге
         // сделать подтверждение или отказ по платежу, то тогда

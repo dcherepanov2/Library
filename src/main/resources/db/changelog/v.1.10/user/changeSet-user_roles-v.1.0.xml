@@ -7,7 +7,7 @@
    http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <changeSet author="Danya (generated)" id="31">
+    <changeSet author="Danya (generated)" id="611">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="user_roles"/>
@@ -21,5 +21,14 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableCatalogName="user_roles"
+                                 baseTableName="user_roles"
+                                 constraintName="fk_user_id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="id"
+                                 referencedTableCatalogName="user_roles"
+                                 referencedTableName="users"/>
     </changeSet>
 </databaseChangeLog>

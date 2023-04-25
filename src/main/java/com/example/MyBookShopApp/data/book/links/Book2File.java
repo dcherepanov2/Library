@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 public class Book2File {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @NotNull
     private Integer id;
 

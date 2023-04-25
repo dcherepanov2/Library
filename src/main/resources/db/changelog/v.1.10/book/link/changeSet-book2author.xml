@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <changeSet author="Danya (generated)" id="296">
+    <changeSet author="Danya (generated)" id="369">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="book2author"/>
@@ -24,5 +24,24 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+        <addForeignKeyConstraint baseColumnNames="book_id"
+                                 baseTableCatalogName="book2author"
+                                 baseTableName="book2author"
+                                 constraintName="fk_book_id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="id"
+                                 referencedTableCatalogName="book2author"
+                                 referencedTableName="book"/>
+        <addForeignKeyConstraint baseColumnNames="authors_id"
+                                 baseTableCatalogName="book2author"
+                                 baseTableName="book2author"
+                                 constraintName="fk_authors_id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="id"
+                                 referencedTableCatalogName="book2author"
+                                 referencedTableName="author"/>
     </changeSet>
+
 </databaseChangeLog>

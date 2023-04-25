@@ -9,7 +9,7 @@ public class Book2UserTypeEntity {
     //TODO: не забыть спросить у учителя зачем нужна эта табличка, пока нет понимания
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 
     @Column(columnDefinition = "VARCHAR(255) NOT NULL")

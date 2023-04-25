@@ -19,7 +19,7 @@ public class Author {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @NotNull
     @Column(name = "id", columnDefinition = "INT NOT NULL AUTO_INCREMENT")
     private Integer id;

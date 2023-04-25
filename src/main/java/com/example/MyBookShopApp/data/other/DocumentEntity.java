@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class DocumentEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 
     @Column(name = "sort_index",columnDefinition = "INT NOT NULL DEFAULT 0")

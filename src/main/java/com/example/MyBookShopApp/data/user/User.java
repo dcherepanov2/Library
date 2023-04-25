@@ -16,7 +16,7 @@ public class User{
 
     }
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "name")
@@ -35,7 +35,7 @@ public class User{
     @NotNull
     private String hash;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_roles"
             , joinColumns = @JoinColumn(name = "user_id")

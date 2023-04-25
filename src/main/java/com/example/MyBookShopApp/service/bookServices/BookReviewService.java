@@ -8,6 +8,8 @@ import com.example.MyBookShopApp.repo.bookrepos.BookReviewRepo;
 import com.example.MyBookShopApp.security.jwt.JwtUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,6 +31,8 @@ public class BookReviewService {
         return bookReviewRepo.findBookReviewsByBookId(slug);
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ,
+            rollbackFor = {Exception.class, RuntimeException.class})
     public boolean likeOrDislikeCommentBySlug(JwtUser user, BookReviewLikeDto bookReviewLikeDto) {
         if (bookReviewLikeDto.getValue() == 0) {
             bookReviewLikeRepo.deleteBookReviewLikeEntitiesByUserIdAndReviewId(Math.toIntExact(user.getId()), bookReviewLikeDto.getReviewid());

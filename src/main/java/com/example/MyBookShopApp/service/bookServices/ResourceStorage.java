@@ -11,6 +11,8 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -37,19 +39,22 @@ public class ResourceStorage {
         this.resourceRepo = resourceRepo;
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED,
+            rollbackFor = {Exception.class, RuntimeException.class})
     public void saveNewBookImage(MultipartFile image, String slug) throws IOException {
-        String filename = image.hashCode()+ UUID.randomUUID().toString()+".jpg";
+        String filename = image.hashCode() + UUID.randomUUID().toString() + ".jpg";
         Book book = bookRepo.findBookBySlug(slug);
-        if(!image.isEmpty()&&book!=null&&
+        if (!image.isEmpty() && book != null &&
                 (Objects.requireNonNull(image.getOriginalFilename()).contains(".jpg")
-                ||Objects.requireNonNull(image.getOriginalFilename()).contains(".png")
-            )){
-            if(!new File(valueUpload).exists()){
+                        || Objects.requireNonNull(image.getOriginalFilename()).contains(".png")
+                )) {
+            if (!new File(valueUpload).exists()) {
                 Files.createDirectories(Paths.get(filename));
             }
             Path path = Paths.get(valueUpload,filename);
             image.transferTo(path);
-            book.setImage("/uploads/image/"+filename);
+            book.setImage("/uploads/image/" + filename);
+            bookRepo.save(book);
         }
         //TODO: написать ошибку если не найден файл
     }

@@ -21,14 +21,14 @@ import java.util.*;
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @NotNull
     @Column(name = "id",columnDefinition = "INT NOT NULL AUTO_INCREMENT")
     private Integer id;
 
-    @Column(name ="is_bestseller", columnDefinition = "TINYINT NOT NULL")
+    @Column(name = "is_bestseller", columnDefinition = "TINYINT NOT NULL")
     @NotNull
-    private Short isBestseller;
+    private Boolean isBestseller;
 
     @Column(name = "slug",columnDefinition = "VARCHAR(255) NOT NULL")
     @NotNull
@@ -182,12 +182,12 @@ public class Book {
         this.image = image;
     }
 
-    public Boolean getIsBestseller() {
-        return this.isBestseller == 1;
+    public Boolean getBestseller() {
+        return isBestseller;
     }
 
-    public void setIsBestseller(Short isBestseller) {
-        this.isBestseller = isBestseller;
+    public void setBestseller(Boolean bestseller) {
+        isBestseller = bestseller;
     }
 
     public Integer getPrice() {

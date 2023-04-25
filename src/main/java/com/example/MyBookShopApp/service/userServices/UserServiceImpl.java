@@ -68,22 +68,16 @@ public class UserServiceImpl {
         return result;
     }
 
-    @Transactional(isolation = Isolation.REPEATABLE_READ,
-            rollbackFor = {Exception.class, RuntimeException.class})
     public User findByHash(String username) {
         User result = userRepository.findByHash(username);
         log.info("IN findByUsername - user: {} found by username: {}", result, username);
         return result;
     }
 
-    @Transactional(isolation = Isolation.REPEATABLE_READ,
-            rollbackFor = {Exception.class, RuntimeException.class})
     public User findUserByContact(String email) {
         return userRepository.findByContact(email);
     }
 
-    @Transactional(isolation = Isolation.REPEATABLE_READ,
-            rollbackFor = {Exception.class, RuntimeException.class})
     public User findByPhone(String phone) {
         return userRepository.findByContact(phone);
     }
@@ -105,6 +99,8 @@ public class UserServiceImpl {
 //    }
 
     @SneakyThrows
+    @Transactional(isolation = Isolation.READ_COMMITTED,
+            rollbackFor = {Exception.class, RuntimeException.class})
     public User createNewUserWithUserClientRole(RegistrationForm registrationForm) {
         User user = null;
         List<UserContactEntity> allApprovedMessage = new ArrayList<UserContactEntity>() {{
@@ -129,8 +125,6 @@ public class UserServiceImpl {
         return user;
     }
 
-    @Transactional(isolation = Isolation.REPEATABLE_READ,
-            rollbackFor = {Exception.class, RuntimeException.class})
     public JwtLogoutToken logoutToken(String token) {
         JwtLogoutToken jwtLogoutToken = jwtBlacklistRepo.findByName(token);
         if (jwtLogoutToken == null) {

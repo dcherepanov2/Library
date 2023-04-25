@@ -3,9 +3,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
-
-
-    <changeSet author="Danya (generated)" id="18">
+    <changeSet author="Danya (generated)" id="603">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="book_review_like"/>
@@ -28,6 +26,24 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+        <addForeignKeyConstraint baseColumnNames="review_id"
+                                 baseTableCatalogName="book_review_like"
+                                 baseTableName="book_review_like"
+                                 constraintName="fk_review_id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="id"
+                                 referencedTableCatalogName="book_review_like"
+                                 referencedTableName="book_review"/>
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableCatalogName="book_review_like"
+                                 baseTableName="book_review_like"
+                                 constraintName="fk_user_id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="id"
+                                 referencedTableCatalogName="book_review_like"
+                                 referencedTableName="users"/>
     </changeSet>
 
 </databaseChangeLog>

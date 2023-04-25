@@ -25,6 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -251,6 +253,8 @@ public class BooksController {
 
     @GetMapping("/pay")
     @SneakyThrows
+    @Transactional(isolation = Isolation.REPEATABLE_READ,
+            rollbackFor = {Exception.class, RuntimeException.class})
     public String payBook(JwtUser jwtUser, @CookieValue("cartContents") String cart, HttpServletResponse httpServletResponse) {
         List<String> strings;
         if (cart.contains("/"))

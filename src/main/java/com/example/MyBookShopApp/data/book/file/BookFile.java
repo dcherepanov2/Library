@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class BookFile {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
     @Column(name = "hash")

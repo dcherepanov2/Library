@@ -17,17 +17,17 @@ public class Role {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_roles"
-            ,joinColumns = @JoinColumn(name = "role_id")
-            ,inverseJoinColumns =  @JoinColumn(name = "user_id")
+            , joinColumns = @JoinColumn(name = "role_id")
+            , inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private List<User> users;
 

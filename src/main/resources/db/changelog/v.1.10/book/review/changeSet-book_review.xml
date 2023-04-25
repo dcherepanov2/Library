@@ -5,7 +5,7 @@
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
 
-    <changeSet author="Danya (generated)" id="17">
+    <changeSet author="Danya (generated)" id="602">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="book_review"/>
@@ -28,5 +28,23 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+        <addForeignKeyConstraint baseColumnNames="id"
+                                 baseTableCatalogName="book_review"
+                                 baseTableName="book_review"
+                                 constraintName="fk_book_id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="id"
+                                 referencedTableCatalogName="book_review"
+                                 referencedTableName="book"/>
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableCatalogName="book_review"
+                                 baseTableName="book_review"
+                                 constraintName="fk_user_id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="id"
+                                 referencedTableCatalogName="book_review"
+                                 referencedTableName="users"/>
     </changeSet>
 </databaseChangeLog>
