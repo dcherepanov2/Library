@@ -15,14 +15,4 @@ public class ResponseApproveContact extends ResultTrue implements AopDto{
         this.error = error;
     }
 
-    @Override
-    public Boolean getResult() {
-        return super.getResult();
-    }
-
-    @Override
-    public void setResult(Boolean result) {
-        super.setResult(result);
-    }
-
 }

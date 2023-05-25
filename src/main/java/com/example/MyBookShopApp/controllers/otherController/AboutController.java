@@ -1,7 +1,6 @@
 package com.example.MyBookShopApp.controllers.otherController;
 
 import com.example.MyBookShopApp.dto.CartPostponedCounterDto;
-import com.example.MyBookShopApp.security.jwt.JwtUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;

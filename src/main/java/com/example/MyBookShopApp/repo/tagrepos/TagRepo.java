@@ -17,4 +17,8 @@ public interface TagRepo extends JpaRepository<Tag, Integer> {
 
     @Query(value = "SELECT AVG(click) FROM tag", nativeQuery = true)
     Double avgClick();
+
+    List<Tag> findAllBySlugIn(List<String> tags);
+
+    Tag findByName(String name);
 }

@@ -2,8 +2,6 @@ package com.example.MyBookShopApp.data.google.api.books;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.ArrayList;
-
 public class AccessInfo{
     @JsonProperty("country")
     public String getCountry() {

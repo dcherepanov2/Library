@@ -4,6 +4,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class StringUtils {
+
+    private StringUtils(){
+
+    }
     public static String deleteStringIntoString(String removeInto, String remove) {
         if (removeInto.contains(remove)) {
             StringBuilder sb = new StringBuilder(removeInto);

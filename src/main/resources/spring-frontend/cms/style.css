@@ -1,0 +1,224 @@
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 750px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.form-input {
+    padding-top: 30px;
+}
+
+.drop-zone {
+    border: 2px dashed gray;
+    padding: 100px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 9999;
+}
+
+.dragging .overlay {
+    display: block;
+}
+
+#bookFiles {
+    display: none;
+}
+
+.drop-zone.highlight {
+    opacity: 0.5;
+}
+
+.change-author-container {
+    position: relative;
+    z-index: 1;
+    padding-right: 50%;
+}
+
+.change-author-container:hover::before {
+    content: "+";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: white;
+    z-index: 2;
+}
+
+.change-author-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+
+}
+
+.change-author-container:hover::after {
+    opacity: 1;
+}
+
+.hoverable {
+    position: relative;
+}
+
+.plus-sign {
+    display: none;
+    position: absolute;
+    top: -10px;
+    right: -15px;
+    width: 20px;
+    height: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 18px;
+    color: #555;
+}
+
+.hoverable:hover .plus-sign {
+    display: block;
+}
+
+#tag-find-name {
+    position: relative;
+}
+
+#tag-find-name::before {
+    content: '+';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    color: white;
+}
+
+#tag-find-name:hover::before {
+    opacity: 1;
+}
+
+#tag-find-name:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Стили для выпадающего списка */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    padding-top: 20px;
+}
+
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    width: 200px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.dropdown-content li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.delete-btn {
+    color: red;
+    cursor: pointer;
+    font-size: 24px; /* установите значение, которое вам нужно */
+}
+
+li {
+    width: 300px;
+}
+
+.dropdown-content1 {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-content1.active {
+    display: block;
+}
+
+.dropdown-content1 li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.delete-btn1 {
+    cursor: pointer;
+}

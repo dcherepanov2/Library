@@ -1,5 +1,8 @@
 package com.example.MyBookShopApp.dto;
 
+import lombok.Data;
+
+@Data
 public class ProfileResponse implements AopDto{
     private final String name;
 
@@ -8,6 +11,6 @@ public class ProfileResponse implements AopDto{
 
     public ProfileResponse(String name, Double wallet) {
         this.name = name;
-        this.wallet = 0.00;//TODO нельзя хранить деньги в Double, переписать этот момент, при переходе на 11 модуль
+        this.wallet = wallet;
     }
 }

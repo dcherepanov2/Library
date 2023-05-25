@@ -3,7 +3,6 @@ package com.example.MyBookShopApp.service.senders;
 import com.example.MyBookShopApp.dto.ContactRequestDtoV2;
 import com.example.MyBookShopApp.service.userServices.helpers.ThreadMailSenderExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;

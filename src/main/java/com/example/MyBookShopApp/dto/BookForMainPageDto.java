@@ -4,18 +4,13 @@ import com.example.MyBookShopApp.data.author.Author;
 import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.book.links.Book2UserEntity;
 import com.example.MyBookShopApp.data.enums.BookToUserType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.example.MyBookShopApp.data.tags.Tag;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@JsonPropertyOrder(
-        {"id", "slug", "title", "image", "authors",
-                "discount", "isBestseller", "rating", "status", "price", "discountPrice"
-        }
-)
 public class BookForMainPageDto implements AopDto {
 
     @JsonProperty("id")
@@ -30,18 +25,18 @@ public class BookForMainPageDto implements AopDto {
     @JsonProperty("image")
     private String image;
 
+
+    @JsonProperty("description")
+    private String description;
+
     @JsonProperty("authors")
     private String authors;
 
-    @JsonIgnore
+    @JsonProperty("authorList")
     private List<Author> authorList;
 
     public List<Author> getAuthorList() {
         return authorList;
-    }
-
-    public void setAuthorList(List<Author> authorList) {
-        this.authorList = authorList;
     }
 
     @JsonProperty("discount")
@@ -62,14 +57,19 @@ public class BookForMainPageDto implements AopDto {
     @JsonProperty("discountPrice")
     private Integer discountPrice;
 
+    private List<Tag> tags = new ArrayList<>();
     public BookForMainPageDto(Book book) {
         this.id = book.getId();
         this.slug = book.getSlug();
         this.title = book.getTitle();
         this.image = book.getImage();
         this.authors = this.setAuthors(book.getAuthors());
+        this.description = book.getDescription();
+        book.getAuthors().forEach(x -> x.setBooks(null));
         this.authorList = book.getAuthors();
-        if (this.authors != null)
+        book.getTags().forEach(x -> x.setBooks(null));
+        this.tags = book.getTags();
+        if (this.authors != null && this.authors.length() > 3)
             this.authors = this.authors.substring(0, this.authors.length() - 2);
         this.discount = book.getDiscount();
         this.isBestseller = book.getBestseller();
@@ -89,7 +89,7 @@ public class BookForMainPageDto implements AopDto {
         this.image = book.getImage();
         this.authors = this.setAuthors(book.getAuthors());
         this.authorList = book.getAuthors();
-        if (this.authors != null)
+        if (this.authors != null && this.authors.length() > 2)
             this.authors = this.authors.substring(0, this.authors.length() - 2);
         this.discount = book.getDiscount();
         this.isBestseller = book.getBestseller();
@@ -100,6 +100,14 @@ public class BookForMainPageDto implements AopDto {
             this.discountPrice = book.getDiscount() * (book.getPrice() / 100);
         else
             this.discountPrice = book.getPrice();
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 
     public void setAuthors(String authors) {
@@ -195,7 +203,8 @@ public class BookForMainPageDto implements AopDto {
         for (Author author : authors) {
             authorStringContainList.append(author.getName()).append(", ");
         }
-        return this.authors = authorStringContainList.toString();
+        this.authors = authorStringContainList.toString();
+        return authorStringContainList.toString();
     }
 
     public BookToUserType calculateStatus(String cartContents, String keptContents, List<Book2UserEntity> books2Users) {
@@ -215,5 +224,13 @@ public class BookForMainPageDto implements AopDto {
             return BookToUserType.FALSE;
         }
         return BookToUserType.FALSE;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

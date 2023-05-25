@@ -161,7 +161,8 @@ public class BooksController {
             throw new BookException("Книга не найдена.");
         LinkedList<Tag> tags = new LinkedList<>(book.getTags());
         model.addAttribute("tagsBook", tags);
-        model.addAttribute("lastTag", tags.get(tags.size() - 1));
+        if(tags.size() > 0)
+            model.addAttribute("lastTag", tags.get(tags.size() - 1));
         model.addAttribute("slugBook", new BookSlugDto(book, book.getAuthors()));
         List<BookReview> bookReviews = bookReviewService.reviewEntitiesBySlugBook(slug);
         List<CommentDto> commentDtos = new ArrayList<>();
@@ -176,7 +177,7 @@ public class BooksController {
                     case 1:
                         commentDtoLocal.setLike(commentDtoLocal.getLike() + localLike);
                         break;
-                    case -1:
+                    default:
                         commentDtoLocal.setDislike(commentDtoLocal.getDislike() + Math.abs(localDislike));
                         break;
                 }

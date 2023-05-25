@@ -3,9 +3,7 @@ package com.example.MyBookShopApp.controllers.userController;
 import com.example.MyBookShopApp.data.user.User;
 import com.example.MyBookShopApp.dto.CartPostponedCounterDto;
 import com.example.MyBookShopApp.dto.ContactRequestDtoV2;
-import com.example.MyBookShopApp.security.jwt.JwtTokenProvider;
 import com.example.MyBookShopApp.security.jwt.JwtUser;
-import com.example.MyBookShopApp.service.userServices.ContactService;
 import com.example.MyBookShopApp.service.userServices.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,15 +22,10 @@ public class SignInSignUpController {
     private final UserServiceImpl userService;
 
 
-    private final ContactService contactService;
-
-    private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public SignInSignUpController(UserServiceImpl userService, ContactService contactService, JwtTokenProvider jwtTokenProvider) {
+    public SignInSignUpController(UserServiceImpl userService) {
         this.userService = userService;
-        this.contactService = contactService;
-        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @ModelAttribute("countPostponed")

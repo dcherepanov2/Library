@@ -6,7 +6,6 @@ import com.example.MyBookShopApp.exception.BookException;
 import com.example.MyBookShopApp.repo.bookrepos.Book2UserRepo;
 import com.example.MyBookShopApp.repo.bookrepos.BookRepo;
 import com.example.MyBookShopApp.security.jwt.JwtUser;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -33,7 +32,7 @@ public class Book2UserService {
         List<Book2UserEntity> book2UserEntityByUserId = null;
         if (jwtUser != null)
             book2UserEntityByUserId = book2UserRepo.findAllByUserId(Math.toIntExact(jwtUser.getId()));
-        if (book2UserEntityByUserId != null && book2UserEntityByUserId.size() != 0)
+        if (book2UserEntityByUserId != null && !book2UserEntityByUserId.isEmpty())
             return book2UserEntityByUserId;
         else
             return new ArrayList<>();
@@ -48,16 +47,15 @@ public class Book2UserService {
         return bookRepo.findAllById(book2UserEntityByUserId);
     }
 
-    @SneakyThrows
     @Transactional(isolation = Isolation.READ_COMMITTED,
             rollbackFor = {Exception.class, RuntimeException.class})
-    public void save(JwtUser jwtUser, String slug, Integer typeId) {
+    public void save(JwtUser jwtUser, String slug, Integer typeId) throws BookException {
         Book2UserEntity book2UserEntity = new Book2UserEntity();
         Book bookBySlug = bookRepo.findBookBySlug(slug);
         if (bookBySlug == null)
             throw new BookException("Книга не найдена");
         if (jwtUser == null)
-            throw new UsernameNotFoundException("Книга не найдена");
+            throw new UsernameNotFoundException("Пользователь не найден.");
         book2UserEntity.setBookId(bookBySlug.getId());
         book2UserEntity.setTypeId(typeId);
         book2UserEntity.setTime(LocalDateTime.now());

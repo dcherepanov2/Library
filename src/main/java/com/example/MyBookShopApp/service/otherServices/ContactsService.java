@@ -5,7 +5,6 @@ import com.example.MyBookShopApp.data.user.User;
 import com.example.MyBookShopApp.dto.ContactMessageDto;
 import com.example.MyBookShopApp.repo.otherrepos.ContactsRepo;
 import com.example.MyBookShopApp.security.jwt.JwtUser;
-import com.example.MyBookShopApp.service.userServices.UserService;
 import com.example.MyBookShopApp.service.userServices.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

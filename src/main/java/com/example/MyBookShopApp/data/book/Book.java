@@ -8,20 +8,28 @@ import com.example.MyBookShopApp.data.book.review.BookReview;
 import com.example.MyBookShopApp.data.genre.GenreEntity;
 import com.example.MyBookShopApp.data.tags.Tag;
 import com.example.MyBookShopApp.data.user.User;
+import com.example.MyBookShopApp.dto.BookChangeRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "book")
 public class Book {
+    public Book(BookChangeRequest request) {
+        this.isBestseller = request.getIsBestseller();
+        this.datePublic = new Date();
+        this.price = request.getPrice();
+        this.description = request.getDescription();
+        this.title = request.getTitle();
+        this.discount = request.getDiscount();
+    }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_seq_gen")
+    @SequenceGenerator(name = "book_seq_gen", sequenceName = "book_sequence", allocationSize = 1, initialValue = 1001)
     @NotNull
     @Column(name = "id",columnDefinition = "INT NOT NULL AUTO_INCREMENT")
     private Integer id;
@@ -90,16 +98,13 @@ public class Book {
     )
     private List<User> bookJoinUsers;
 
-    @ManyToMany()
-    @JoinTable(
-            name = "book2author",
-            joinColumns = @JoinColumn(name = "authors_id")
-            , inverseJoinColumns = @JoinColumn(name = "book_id")
-    )
-    private List<Author> booksToAuthors;
-
 
     @OneToMany
+    @JoinTable(
+            name = "book_review",
+            joinColumns = @JoinColumn(name = "book_id")
+            , inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private List<BookReview> booksReview;
 
     @ManyToMany
@@ -142,6 +147,7 @@ public class Book {
     }
 
     public void setAuthors(List<Author> authors) {
+
         this.authors = authors;
     }
 
@@ -220,14 +226,6 @@ public class Book {
 
     public void setBookJoinUsers(List<User> bookJoinUsers) {
         this.bookJoinUsers = bookJoinUsers;
-    }
-
-    public List<Author> getBooksToAuthors() {
-        return booksToAuthors;
-    }
-
-    public void setBooksToAuthors(List<Author> booksToAuthors) {
-        this.booksToAuthors = booksToAuthors;
     }
 
 //    public List<BookReview> getBooksReview() {

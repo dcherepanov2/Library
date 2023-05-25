@@ -67,4 +67,15 @@ public class BookReview {
     public void setText(String text) {
         this.text = text;
     }
+
+    @Override
+    public String toString() {
+        return "BookReview{" +
+                "id=" + id +
+                ", bookId=" + bookId +
+                ", userId=" + userId +
+                ", time=" + time +
+                ", text='" + text + '\'' +
+                '}';
+    }
 }

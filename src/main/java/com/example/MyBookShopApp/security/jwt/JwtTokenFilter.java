@@ -31,31 +31,35 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
-        if(req.getCookies() == null){
+        if (req.getCookies() == null) {
             filterChain.doFilter(req, res);
             return;
         }
         Optional<Cookie> cookie = Arrays.stream(req.getCookies()).filter(x -> x.getName().equals("token")).findFirst();
-        if(cookie.isPresent()){
+        if (cookie.isPresent()) {
             if (jwtBlacklistRepo == null) {
                 ServletContext servletContext = req.getServletContext();
                 WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
-                jwtBlacklistRepo = webApplicationContext.getBean(JwtBlacklistRepo.class);
+                if (webApplicationContext != null) {
+                    jwtBlacklistRepo = webApplicationContext.getBean(JwtBlacklistRepo.class);
+                }
             }
             String token = jwtTokenProvider.resolveToken(req);
-            JwtLogoutToken jwtLogoutToken = jwtBlacklistRepo.findByName("Bearer_"+token);
-            if(jwtLogoutToken != null){
-                securityExceptionResolver.commence(req,
-                        res,
-                        new JwtAuthenticationException("Your token has been blocked or logout, please login again"));
+            if(jwtBlacklistRepo != null){
+                JwtLogoutToken jwtLogoutToken = jwtBlacklistRepo.findByName("Bearer_" + token);
+                if (jwtLogoutToken != null) {
+                    securityExceptionResolver.commence(req,
+                            res,
+                            new JwtAuthenticationException("Your token has been blocked or logout, please login again"));
+                }
             }
+
             if (token != null && jwtTokenProvider.validateToken(token)) {
                 Authentication auth = jwtTokenProvider.getAuthentication(token);
 
                 if (auth != null) {
                     SecurityContextHolder.getContext().setAuthentication(auth);
-                }
-                else {
+                } else {
                     securityExceptionResolver.commence(req, res,
                             new UsernameNotFoundException("Username not found in the system"));
                 }

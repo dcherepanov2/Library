@@ -60,7 +60,7 @@ public class ContactService {
                 userContactRepo.save(contactEntity);
                 return approveContactHelper.createOldCodeObject();
             }
-            contactEntity.setApproved((short) 1);
+            contactEntity.setApproved(true);
             contactEntity.setCodeTrails(contactEntity.getCodeTrails() + 1);
             userContactRepo.save(contactEntity);
             return new ResponseApproveContact();
@@ -71,7 +71,7 @@ public class ContactService {
     public UserContactEntity createNewContactEntity(ContactRequestDtoV2 contact, String code, ContactType contactType) {
         UserContactEntity contactEntity = new UserContactEntity();
         contactEntity.setContact(contact.getContact());
-        contactEntity.setApproved((short) 0);
+        contactEntity.setApproved(false);
         contactEntity.setCode(Long.valueOf(code));
         contactEntity.setType(contactType);
         contactEntity.setCodeTime(LocalDateTime.now());
@@ -93,25 +93,14 @@ public class ContactService {
     public UserContactEntity findUserContactApprovedByContactName(String contact){
         PageRequest limit = PageRequest.of(0, 1);
         List<UserContactEntity> content = userContactRepo.findUserContactEntitiesApprovedByContactName(contact, limit).getContent();
-        if(content.size()> 0)
+        if(!content.isEmpty())
             return content.get(0);
         return null;
     }
 
-    private void setApproved(UserContactEntity contactLocal) {
-        contactLocal.setApproved((short) 1);
-        userContactRepo.save(contactLocal);
-    }
-
-    private void incrementCodeTrails(UserContactEntity contactLocal) {
-        contactLocal.setApproved((short) 1);
-        contactLocal.setCodeTrails(contactLocal.getCodeTrails() + 1);
-        userContactRepo.save(contactLocal);
-    }
-
     public boolean isContactApprove(String contact) {
         UserContactEntity byContactOrderByCodeTimeDesc = userContactRepo.findByContactOrderByCodeTimeDesc(contact);
-        return byContactOrderByCodeTimeDesc != null && byContactOrderByCodeTimeDesc.getApproved() == 1;
+        return byContactOrderByCodeTimeDesc != null && byContactOrderByCodeTimeDesc.getApproved();
     }
 
     public boolean contactApproveHasUserIdNull(String contact) {
@@ -119,6 +108,6 @@ public class ContactService {
     }
 
     public boolean contactApproveHasUserIdNullButApproved(String contact) {
-        return userContactRepo.findUserContactEntitiesByContact(contact).stream().anyMatch(x -> x.getApproved() == 1 && x.getUserId() == null);
+        return userContactRepo.findUserContactEntitiesByContact(contact).stream().anyMatch(x -> x.getApproved() && x.getUserId() == null);
     }
 }

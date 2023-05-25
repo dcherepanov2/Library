@@ -1,14 +1,18 @@
 package com.example.MyBookShopApp.data.book.links;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "book2author")
 public class Book2AuthorEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book2author_sequence_gen")
+    @SequenceGenerator(name = "book2author_sequence_gen", sequenceName = "book2author_sequence", allocationSize = 1, initialValue = 1001)
+    @NotNull
+    @Column(name = "id",columnDefinition = "INT NOT NULL AUTO_INCREMENT")
+    private Integer id;
 
     @Column(name = "book_id", columnDefinition = "INT NOT NULL")
     private int bookId;
@@ -39,8 +43,8 @@ public class Book2AuthorEntity {
         return authorId;
     }
 
-    public void setAuthorId(int authorId) {
-        this.authorId = authorId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public int getSortIndex() {

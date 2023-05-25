@@ -85,6 +85,7 @@ public class GenreEntitySort implements Comparable<GenreEntitySort>{
     public Integer getBooksCount() {
         return booksCount;
     }
+
     @Override
     public int compareTo(GenreEntitySort o) {
         return this.id - o.id;

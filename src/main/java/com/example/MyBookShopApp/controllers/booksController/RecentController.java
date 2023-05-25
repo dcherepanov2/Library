@@ -2,7 +2,6 @@ package com.example.MyBookShopApp.controllers.booksController;
 
 import com.example.MyBookShopApp.dto.CartPostponedCounterDto;
 import com.example.MyBookShopApp.dto.RecommendedBooksDto;
-import com.example.MyBookShopApp.security.jwt.JwtUser;
 import com.example.MyBookShopApp.service.bookServices.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,11 +46,6 @@ public class RecentController {
 
     @GetMapping("/recent")
     public String getFilterBooksRecent() {
-        LocalDateTime ldt =
-                LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault()).minusMonths(1);
-        Date from = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
-        ldt = LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault());
-        Date to = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
         return "/books/recent";
     }
 }

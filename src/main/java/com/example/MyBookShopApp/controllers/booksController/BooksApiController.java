@@ -2,8 +2,11 @@ package com.example.MyBookShopApp.controllers.booksController;
 
 import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.book.links.Book2UserEntity;
+import com.example.MyBookShopApp.dto.BookForMainPageDto;
 import com.example.MyBookShopApp.dto.RecommendedBooksDto;
 import com.example.MyBookShopApp.enums.ErrorMessageResponse;
+import com.example.MyBookShopApp.exception.BookException;
+import com.example.MyBookShopApp.exception.BookFileException;
 import com.example.MyBookShopApp.exception.RecentBookException;
 import com.example.MyBookShopApp.security.jwt.JwtUser;
 import com.example.MyBookShopApp.service.bookServices.Book2UserService;
@@ -32,7 +35,7 @@ import java.util.List;
 public class BooksApiController {
 
     @Value("${download.path}")
-    private String PATH_DOWNLOAD;
+    private String pathDownload;
 
     private final BookService bookService;
     private final ServletContext servlet;
@@ -45,6 +48,11 @@ public class BooksApiController {
         this.servlet = servletContext;
         this.resourceStorage = resourceStorage;
         this.book2UserService = book2UserService;
+    }
+
+    @GetMapping("/find-by-name/{name}")
+    public BookForMainPageDto findBook(@PathVariable("name")String name) throws BookException {
+        return new BookForMainPageDto(bookService.findBookByTitle(name));
     }
 
     @GetMapping("/recent")
@@ -81,11 +89,11 @@ public class BooksApiController {
             HttpServletResponse response,
             @PathVariable("slug") String slug,
             @RequestParam("type") Integer type
-    ) throws IOException {
+    ) throws IOException, BookFileException, BookException {
         String fileName = resourceStorage.findBookDownloadFile(slug, type);
         if (fileName != null) {
             MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servlet, fileName);
-            File file = new File(PATH_DOWNLOAD + "/" + fileName);
+            File file = new File(pathDownload + fileName);
             // Content-Type
             // application/pdf
             response.setContentType(mediaType.getType());
@@ -96,16 +104,19 @@ public class BooksApiController {
             // Content-Length
             response.setContentLength((int) file.length());
 
-            BufferedInputStream inStream = new BufferedInputStream(Files.newInputStream(file.toPath()));
             BufferedOutputStream outStream = new BufferedOutputStream(response.getOutputStream());
+            try(BufferedInputStream inStream = new BufferedInputStream(Files.newInputStream(file.toPath()));) {
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = inStream.read(buffer)) != -1) {
+                    outStream.write(buffer, 0, bytesRead);
+                }
 
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = inStream.read(buffer)) != -1) {
-                outStream.write(buffer, 0, bytesRead);
+            }catch (IOException exception){
+                exception.printStackTrace();
             }
-            outStream.flush();
-            inStream.close();
+
+
         } else
             throw new BadRequestException(ErrorMessageResponse.NOT_FOUND_BOOK.getName());
     }

@@ -3,7 +3,6 @@ package com.example.MyBookShopApp.controllers.authorContoller;
 import com.example.MyBookShopApp.data.author.Author;
 import com.example.MyBookShopApp.dto.CartPostponedCounterDto;
 import com.example.MyBookShopApp.dto.RecommendedBooksDto;
-import com.example.MyBookShopApp.security.jwt.JwtUser;
 import com.example.MyBookShopApp.service.authorServices.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

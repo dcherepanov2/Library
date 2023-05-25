@@ -8,6 +8,10 @@ import java.util.Arrays;
 
 @Component
 public class CookieUtils {
+
+    private CookieUtils(){
+
+    }
     public static Cookie deleteSlugFromCookies(HttpServletRequest httpServletRequest, String slug, String cookieName) {
         Cookie cookie = Arrays.stream(httpServletRequest.getCookies())
                 .filter(x -> x.getName().equals(cookieName))

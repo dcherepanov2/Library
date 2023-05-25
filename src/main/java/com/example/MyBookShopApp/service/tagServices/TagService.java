@@ -10,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class TagService {
@@ -19,7 +18,7 @@ public class TagService {
     private final BookRepo bookRepo;
 
     @Autowired
-    public TagService(TagRepo tagRepo, BookRepo bookRepo) {
+    public TagService(TagRepo tagRepo, BookRepo bookRepo){
         this.tagRepo = tagRepo;
         this.bookRepo = bookRepo;
     }
@@ -29,10 +28,9 @@ public class TagService {
         return bookRepo.findBooksByTag(slug, pageable);
     }
 
-    public List<Tag> findAll() {//TODO: не возможно проверить на моудльном тестировании, т.к. pageable генерируется всегда разный
+    public List<Tag> findAll() {
         Double allTagsClicks = tagRepo.avgClick();
-        Random random = new Random();
-//        Pageable next = PageRequest.of(random.nextInt(30),30);
+
         List<Tag> tags = tagRepo.findTagsRandom();
         for (Tag tag : tags) {
             Double localCount = Double.valueOf(tag.getTagClicks());
@@ -58,5 +56,9 @@ public class TagService {
         tag.setTagClicks(clickNew);
         tagRepo.save(tag);
         return tag;
+    }
+
+    public Tag findTagByName(String name) {
+        return tagRepo.findByName(name);
     }
 }

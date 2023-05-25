@@ -9,9 +9,9 @@ public class UserInfo {
 
     private String name;
 
-    private Map.Entry<String, Short> emailAndApprove;
+    private Map.Entry<String, Boolean> emailAndApprove;
 
-    private Map.Entry<String, Short> phoneAndApprove;
+    private Map.Entry<String, Boolean> phoneAndApprove;
 
     private Double balance;
 }

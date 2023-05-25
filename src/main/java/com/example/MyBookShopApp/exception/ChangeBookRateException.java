@@ -5,8 +5,4 @@ public class ChangeBookRateException extends Exception {
         super(message);
     }
 
-    @Override
-    public String getMessage() {
-        return super.getMessage();
-    }
 }

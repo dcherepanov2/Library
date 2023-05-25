@@ -1,0 +1,90 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="hibernate_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="hibernate_sequence" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="author_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="author_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="balance_transaction_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="balance_transaction" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="book_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="book_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="book2author_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="book2author_sequence" startValue="1001" incrementBy="1" minValue="1001"/>
+    </changeSet>
+    <changeSet id="book2file_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="book2file_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="book2genre_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="book2genre_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="book2tag_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="book2tag_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="book2user_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="book2user_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="book2user_type_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="book2user_type_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="book_file_type_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="book_file_type_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="book_review_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="book_review_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="book_review_like_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="book_review_like_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="book_review_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="book_review_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="document_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="document_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="faq_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="faq_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="file_download_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="file_download_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="document_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="document_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="genre_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="genre_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="message_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="message_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="profile_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="profile_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="rating_book_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="rating_book_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="roles_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="roles_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="tag_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="tag_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="token_blacklist_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="token_blacklist_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="user_contact_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="user_contact_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="user_roles_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="user_roles_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="users_sequence" author="Danil Cherepanov">
+        <createSequence sequenceName="users_sequence" startValue="1001" incrementBy="1"/>
+    </changeSet>
+</databaseChangeLog>

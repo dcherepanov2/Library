@@ -27,4 +27,7 @@ public interface BookReviewRepo extends JpaRepository<BookReview,Integer> {
     @Query(value = "SELECT COUNT(*) FROM book_review_like as brk INNER JOIN book_review AS br ON br.id = brk.review_id AND brk.value =:flagLike AND br.id =:id",
             nativeQuery = true)
     Double calcRateBookBySlug(@Param("id") Integer slug, Integer flagLike);
+
+    @Query("SELECT br FROM BookReview br WHERE br.id IN :ids")
+    List<BookReview> findAllByIds(List<Integer> ids);
 }

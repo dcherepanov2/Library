@@ -1,6 +1,7 @@
 package com.example.MyBookShopApp.exception;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,11 +15,6 @@ public class RecentBookException extends Exception implements ExceptionLibrary {
 
     public RecentBookException(String message) {
         super(message);
-    }
-
-    @Override
-    public String getMessage() {
-        return super.getMessage();
     }
 
     public RecentBookException(HttpServletRequest httpServletRequest) {

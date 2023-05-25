@@ -1,13 +1,11 @@
 package com.example.MyBookShopApp.service.payment;
 
-import com.example.MyBookShopApp.data.book.Book;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.DatatypeConverter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 @Service
 public class RobokassaPaymentService implements PaymentService{

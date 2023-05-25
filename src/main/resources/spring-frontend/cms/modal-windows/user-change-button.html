@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<button id="openModal" class="btn btn_primary btn_outline"><span class="btn-icon"></span><span
+        class="btn-content">Форма изменения пользователя</span>
+</button>
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Форма записи</h2>
+    <form>
+      <label for="name">Имя:</label>
+      <input type="text" id="name" name="name" required><br>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required><br>
+
+      <label for="phone">Телефон:</label>
+      <textarea id="phone" name="phone" required></textarea><br>
+
+      <button type="submit">Отправить</button>
+    </form>
+  </div>
+</div>
+</body>
+
+</html>

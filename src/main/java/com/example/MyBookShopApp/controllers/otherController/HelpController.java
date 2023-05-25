@@ -1,7 +1,6 @@
 package com.example.MyBookShopApp.controllers.otherController;
 
 import com.example.MyBookShopApp.dto.CartPostponedCounterDto;
-import com.example.MyBookShopApp.security.jwt.JwtUser;
 import com.example.MyBookShopApp.service.otherServices.FaqQuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

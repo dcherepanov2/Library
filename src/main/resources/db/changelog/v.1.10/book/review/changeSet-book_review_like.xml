@@ -10,7 +10,7 @@
             </not>
         </preConditions>
         <createTable tableName="book_review_like">
-            <column name="id" type="INT" autoIncrement="true">
+            <column name="id" type="INT" autoIncrement="true" startWith="1001">
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="review_id" type="INT">

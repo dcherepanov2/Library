@@ -2,10 +2,7 @@ package com.example.MyBookShopApp.service.userServices;
 
 
 import com.example.MyBookShopApp.data.enums.ContactType;
-import com.example.MyBookShopApp.data.user.JwtLogoutToken;
-import com.example.MyBookShopApp.data.user.Role;
-import com.example.MyBookShopApp.data.user.User;
-import com.example.MyBookShopApp.data.user.UserContactEntity;
+import com.example.MyBookShopApp.data.user.*;
 import com.example.MyBookShopApp.dto.RegistrationForm;
 import com.example.MyBookShopApp.dto.UserInfo;
 import com.example.MyBookShopApp.exception.ResponseApproveContactException;
@@ -22,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,9 +67,7 @@ public class UserServiceImpl {
     }
 
     public User findByHash(String username) {
-        User result = userRepository.findByHash(username);
-        log.info("IN findByUsername - user: {} found by username: {}", result, username);
-        return result;
+        return userRepository.findByHash(username);
     }
 
     public User findUserByContact(String email) {
@@ -81,22 +77,6 @@ public class UserServiceImpl {
     public User findByPhone(String phone) {
         return userRepository.findByContact(phone);
     }
-//    @Transactional(isolation = Isolation.REPEATABLE_READ,
-//            rollbackFor = {Exception.class, RuntimeException.class})
-//    public User createNewUserWithUserClientRole(String contact) {
-//        User user = userRepository.findByContact(contact);
-//        if(user == null){
-//            user = new User();
-//            Role role = roleRepository.findByName("ROLE_USER");
-//            user.setHash(userHelper.generateHash(user));
-//            user.setRoles(Collections.singletonList(role));
-//            user.setUsername("Default name");
-//            user.setDateRegistration(LocalDate.now());
-//            user.setBalance(0.00);
-//            userRepository.save(user);
-//        }
-//        return user;
-//    }
 
     @SneakyThrows
     @Transactional(isolation = Isolation.READ_COMMITTED,
@@ -107,7 +87,7 @@ public class UserServiceImpl {
             addAll(userContactRepo.findUserContactEntitiesByContactAndCodeTime(registrationForm.getPhone(), ContactType.PHONE, Pageable.ofSize(1)).getContent());
             addAll(userContactRepo.findUserContactEntitiesByContactAndCodeTime(registrationForm.getEmail(), ContactType.EMAIL, Pageable.ofSize(1)).getContent());
         }};
-        allApprovedMessage = allApprovedMessage.stream().filter(x -> x.getApproved() == 1).collect(Collectors.toList());
+        allApprovedMessage = allApprovedMessage.stream().filter(UserContactEntity::getApproved).collect(Collectors.toList());
         if (allApprovedMessage.size() == 2) {
             user = userRepository.findByContact(allApprovedMessage.get(0).getContact());
             if (user == null) {
@@ -196,5 +176,17 @@ public class UserServiceImpl {
 
     public void saveUser(User user) {
         userRepository.save(user);
+    }
+
+    public User getUserById(Long id){
+        return userRepository.findById(id).orElse(null);
+    }
+
+    public JwtUser covertJwtUserByUsername(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return JwtUserAdapter.from(user);
     }
 }

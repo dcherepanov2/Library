@@ -1,16 +1,16 @@
 package com.example.MyBookShopApp.controllers.booksController;
 
 import com.example.MyBookShopApp.data.book.Book;
-import com.example.MyBookShopApp.dto.BookChangeStatusDto;
 import com.example.MyBookShopApp.dto.CartPostponedCounterDto;
 import com.example.MyBookShopApp.security.jwt.JwtUser;
 import com.example.MyBookShopApp.service.bookServices.Book2UserService;
 import com.example.MyBookShopApp.service.bookServices.BookService;
-import com.example.MyBookShopApp.service.payment.RobokassaPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,13 +23,14 @@ public class BookHeaderController {
 
     private final Book2UserService book2UserService;
 
-    private final RobokassaPaymentService robokassaPaymentService;
+    private static final String MODEL_KEY_NAME_BOOK_CART = "bookCart";
+
+    private static final String MODEL_KEY_NAME_BOOK_KEPT = "bookKept";
 
     @Autowired
-    public BookHeaderController(BookService bookService, Book2UserService book2UserService, RobokassaPaymentService robokassaPaymentService) {
+    public BookHeaderController(BookService bookService, Book2UserService book2UserService) {
         this.bookService = bookService;
         this.book2UserService = book2UserService;
-        this.robokassaPaymentService = robokassaPaymentService;
     }
 
     @ModelAttribute("countPostponed")
@@ -46,11 +47,11 @@ public class BookHeaderController {
     @GetMapping("/cart")
     public String cart(@CookieValue(name = "cartContents", required = false) String cartContents, Model model) {
         if (cartContents == null || cartContents.equals("")) {
-            model.addAttribute("booksCart", Collections.EMPTY_LIST);
+            model.addAttribute(MODEL_KEY_NAME_BOOK_CART,  Collections.emptyList());
         } else {
             List<String> strings = Arrays.asList(cartContents.split("/"));
             List<Book> booksCart = bookService.getBooksBySlugs(strings);
-            model.addAttribute("booksCart", booksCart);
+            model.addAttribute(MODEL_KEY_NAME_BOOK_CART, booksCart);
             Integer integer = booksCart.stream().map(Book::getPrice).reduce(Integer::sum).orElse(0);
             model.addAttribute("allСeptSum", integer.toString());
         }
@@ -61,7 +62,7 @@ public class BookHeaderController {
     public String cartV2(JwtUser jwtUser, Model model) {
         if (jwtUser != null && !jwtUser.getUsername().equals("ANONYMOUS")) {
             List<Book> booksCart = book2UserService.getBooksUser(jwtUser, 3);
-            model.addAttribute("booksCart", booksCart);
+            model.addAttribute(MODEL_KEY_NAME_BOOK_CART, booksCart);
             Integer integer = booksCart.stream().map(Book::getPrice).reduce(Integer::sum).orElse(0);
             model.addAttribute("allСeptSum", integer.toString());
         }
@@ -72,11 +73,11 @@ public class BookHeaderController {
     public String postponed(@CookieValue(name = "keptContents"
             , required = false) String keptContents, Model model) {
         if (keptContents == null || keptContents.equals(""))
-            model.addAttribute("booksKept", Collections.EMPTY_LIST);
+            model.addAttribute("booksKept", Collections.emptyList());
         else {
             List<String> strings = Arrays.asList(keptContents.split("/"));
             List<Book> booksCart = bookService.getBooksBySlugs(strings);
-            model.addAttribute("booksKept", booksCart);
+            model.addAttribute(MODEL_KEY_NAME_BOOK_KEPT, booksCart);
             Integer integer = booksCart.stream().map(Book::getPrice).reduce(Integer::sum).orElse(0);
             model.addAttribute("allKeptSum", integer.toString());
         }
@@ -86,7 +87,7 @@ public class BookHeaderController {
     @GetMapping("/postponed/v2")
     public String postponedV2(JwtUser jwtUser, Model model) {
         List<Book> booksUser = book2UserService.getBooksUser(jwtUser, 4);
-        model.addAttribute("booksKept", booksUser);
+        model.addAttribute(MODEL_KEY_NAME_BOOK_KEPT, booksUser);
         return "postponed";
     }
 }

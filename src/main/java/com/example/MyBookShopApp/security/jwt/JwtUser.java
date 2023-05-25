@@ -1,21 +1,20 @@
 package com.example.MyBookShopApp.security.jwt;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.text.DecimalFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collection;
 
-
+@Data
 public class JwtUser implements UserDetails {
 
     private Long id;
     private final String name;
     private Double balance;
-    private final LocalDate reg_time;
+    private final LocalDate regTime;
     private final String hash;
     private final boolean enabled;
     private final Collection<? extends GrantedAuthority> authorities;
@@ -31,7 +30,7 @@ public class JwtUser implements UserDetails {
     ) {
         this.name = name;
         this.balance = balance;
-        this.reg_time = date;
+        this.regTime = date;
         this.id = id;
         this.hash = hash;
         this.authorities = authorities;
@@ -98,4 +97,5 @@ public class JwtUser implements UserDetails {
     public String getHash() {
         return hash;
     }
+
 }

@@ -7,9 +7,7 @@ import com.example.MyBookShopApp.enums.ErrorCodeResponseApproveContact;
 import com.example.MyBookShopApp.exception.RegistrationException;
 import com.example.MyBookShopApp.exception.ResponseApproveContactException;
 import com.example.MyBookShopApp.exception.VerificationException;
-import com.example.MyBookShopApp.security.jwt.JwtUser;
 import com.example.MyBookShopApp.service.senders.MailSender;
-import com.example.MyBookShopApp.service.senders.TwilioService;
 import com.example.MyBookShopApp.service.senders.ValidationService;
 import com.example.MyBookShopApp.service.userServices.ContactService;
 import com.example.MyBookShopApp.service.userServices.UserServiceImpl;
@@ -25,12 +23,12 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Map;
 
 @Controller
 public class SignInSignUpApiController {
 
-    private final TwilioService twilioService;
     private final MailSender mailSender;
     private final ValidationService validationService;
 
@@ -41,8 +39,7 @@ public class SignInSignUpApiController {
     private final UserServiceImpl userService;
 
     @Autowired
-    public SignInSignUpApiController(TwilioService twilioService, MailSender mailSender, ValidationService validationService, UserHelper userHelper, UserServiceImpl userService, ContactService contactService) {
-        this.twilioService = twilioService;
+    public SignInSignUpApiController(MailSender mailSender, ValidationService validationService, UserHelper userHelper, UserServiceImpl userService, ContactService contactService) {
         this.mailSender = mailSender;
         this.validationService = validationService;
         this.userHelper = userHelper;
@@ -70,7 +67,6 @@ public class SignInSignUpApiController {
         else if (validationService.isPhone(contact.getContact())) {
             String code = userHelper.generateCode();
             contactService.saveContactDtoPhone(contact, code);
-            //twilioService.sendSecretCodeSms(contact.getContact(), code);// TODO: опять временно не работает из-за проблем с twillio-аккаутном
             ResultTrue resultTrue = new ResultTrue();
             resultTrue.setResult(true);
             return resultTrue;
@@ -127,8 +123,7 @@ public class SignInSignUpApiController {
 
     @GetMapping("/approveContactToJson")
     @ResponseBody
-    @SneakyThrows
-    public ResponseApproveContact responseApproveContact(HttpServletRequest request, HttpServletResponse httpServletResponse) {
+    public ResponseApproveContact responseApproveContact(HttpServletRequest request, HttpServletResponse httpServletResponse) throws ResponseApproveContactException, IOException {
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
         if (inputFlashMap != null) {
             String redirect = (String) inputFlashMap.get("redirect");
@@ -143,9 +138,8 @@ public class SignInSignUpApiController {
     }
 
     @PostMapping("/signup")
-    @SneakyThrows
     @ResponseBody
-    public User registration(@RequestBody RegistrationForm registrationForm) {
+    public User registration(@RequestBody RegistrationForm registrationForm) throws RegistrationException {
         if (registrationForm != null && contactService.isContactApprove(registrationForm.getEmail()) && contactService.isContactApprove(registrationForm.getPhone())) {
             if (contactService.contactApproveHasUserIdNull(registrationForm.getEmail()) && contactService.contactApproveHasUserIdNull(registrationForm.getPhone())) {
                 User user = userService.createNewUserWithUserClientRole(registrationForm);

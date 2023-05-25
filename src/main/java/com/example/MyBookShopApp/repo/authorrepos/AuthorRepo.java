@@ -3,8 +3,9 @@ package com.example.MyBookShopApp.repo.authorrepos;
 import com.example.MyBookShopApp.data.author.Author;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 public interface AuthorRepo extends JpaRepository<Author,Integer> {
     @Query(
@@ -14,5 +15,7 @@ public interface AuthorRepo extends JpaRepository<Author,Integer> {
     Author findBySlug(@Param("slug") String slug);
 
     Author findAuthorByName(String name);
+
+    List<Author> findAllBySlugIn(List<String> slugs);
 
 }

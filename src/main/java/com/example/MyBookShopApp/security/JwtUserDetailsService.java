@@ -28,10 +28,8 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String hash) throws UsernameNotFoundException {
         User user = userService.findByHash(hash);
-
         if (user == null)
             return null;
-
         JwtUser jwtUser = JwtUserFactory.create(user);
         log.info("IN loadUserByUsername - user with username: {} successfully loaded", user.getUsername());
         return jwtUser;

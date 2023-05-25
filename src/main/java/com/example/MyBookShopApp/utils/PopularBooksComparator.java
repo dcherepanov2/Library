@@ -1,13 +1,8 @@
 package com.example.MyBookShopApp.utils;
 
 import com.example.MyBookShopApp.data.book.Book;
-import com.example.MyBookShopApp.data.book.links.Book2UserEntity;
-import com.example.MyBookShopApp.data.book.links.BookRating;
 
 import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.OptionalInt;
 
 public class PopularBooksComparator implements Comparator<Book> {
     @Override
@@ -20,7 +15,7 @@ public class PopularBooksComparator implements Comparator<Book> {
         long countPostponedFirstBook = 0;
         long countKeptSecondBook = 0;
         long countPostponedSecondBook = 0;
-        if (o1.getBookJoinUsers() != null && o1.getBookJoinUsers().size() != 0) {
+        if (o1.getBookJoinUsers() != null && !o1.getBookJoinUsers().isEmpty()) {
             countSecondBook = o1.getBookJoinUsers().stream()
                     .map(x -> x.getBook2UserEntities()
                             .stream()
@@ -38,7 +33,7 @@ public class PopularBooksComparator implements Comparator<Book> {
                             .stream()
                             .filter(y -> y.getTypeId().equals(5))).count();
         }
-        if (o2.getBookJoinUsers() != null && o2.getBookJoinUsers().size() != 0) {
+        if (o2.getBookJoinUsers() != null && !o2.getBookJoinUsers().isEmpty()) {
             countSecondBook = o2.getBookJoinUsers().stream()
                     .map(x -> x.getBook2UserEntities()
                             .stream()

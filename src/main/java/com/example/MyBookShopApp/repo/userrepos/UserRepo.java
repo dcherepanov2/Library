@@ -9,10 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepo extends JpaRepository<User, Long> {
 
-
     User findByUsername(String name);
-
-    //User findByEmail(String email);
 
     @Query(
             value = "SELECT * FROM users AS u1 INNER JOIN (SELECT user_id FROM user_contact WHERE contact = :contact) AS uc1 ON u1.id = uc1.user_id limit 1",

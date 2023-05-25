@@ -31,6 +31,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String REQUEST_CONTACT_CONFIRMATION_ENDPOINT = "/requestContactConfirmation";
 
     private static final String APPROVE_CONTACT_ENDPOINT = "/approveContact";
+
+    private static final  String ADMIN_ROLE_NAME = "ADMIN";
+    private static final  String USER_ROLE_NAME = "USER";
     private final JwtTokenProvider jwtTokenProvider;
     private final SecurityExceptionResolver securityExceptionResolver;
     private final AccessDeniedHandlerJwt accessDeniedHandlerJwt;
@@ -63,21 +66,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(LOGIN_ENDPOINT).permitAll()
                 .antMatchers(REG_ENDPOINT).permitAll()
+                .antMatchers("/cms/books/add").permitAll()
+                .antMatchers("/cms/books/delete/**").permitAll()
+                .antMatchers("/cms/books/edit/**").permitAll()
+                .antMatchers("/cms/user/add/book").permitAll()
                 .antMatchers(REQUEST_CONTACT_CONFIRMATION_ENDPOINT).permitAll()
                 .antMatchers(APPROVE_CONTACT_ENDPOINT).permitAll()
                 .antMatchers(HttpMethod.GET).permitAll()
-                .antMatchers("/user/logout").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/user/logout").hasAnyRole("USER", ADMIN_ROLE_NAME)
                 .antMatchers("/books/changeBookStatus/**").permitAll()
                 .antMatchers("/signin").permitAll()
-                .antMatchers("/books/comment/**").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/rateBook").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/rateBookReview").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/books/pay").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/download/**").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/profile").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/viewed/books").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/books/**/img/save").hasRole("ADMIN")
-                .antMatchers("/crm-system").hasAnyRole("MANAGER", "ADMIN")
+                .antMatchers("/books/comment/**").hasAnyRole(USER_ROLE_NAME, ADMIN_ROLE_NAME)
+                .antMatchers("/rateBook").hasAnyRole(USER_ROLE_NAME, ADMIN_ROLE_NAME)
+                .antMatchers("/rateBookReview").hasAnyRole(USER_ROLE_NAME, ADMIN_ROLE_NAME)
+                .antMatchers("/books/pay").hasAnyRole(USER_ROLE_NAME, ADMIN_ROLE_NAME)
+                .antMatchers("/download/**").hasAnyRole(USER_ROLE_NAME, ADMIN_ROLE_NAME)
+                .antMatchers("/profile").hasAnyRole(USER_ROLE_NAME, ADMIN_ROLE_NAME)
+                .antMatchers("/viewed/books").hasAnyRole(USER_ROLE_NAME, ADMIN_ROLE_NAME)
+                .antMatchers("/books/**/img/save").hasRole(ADMIN_ROLE_NAME)
+                .antMatchers("/crm-system").hasAnyRole("MANAGER", ADMIN_ROLE_NAME)
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -95,5 +102,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
-
 }

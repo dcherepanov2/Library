@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 public class BookChangeStatusDto implements AopDto {
     @JsonProperty("booksIds")

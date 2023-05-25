@@ -8,17 +8,17 @@
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
 
-    <changeSet author="Danya (generated)" id="1">
+    <changeSet author="Danya (generated)" id="614">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="book"/>
             </not>
         </preConditions>
         <createTable tableName="book">
-            <column name="id" type="INT" autoIncrement="true">
+            <column name="id" type="INT" autoIncrement="true" startWith="1001">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="is_bestseller" type="TINYINT">
+            <column name="is_bestseller" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
             <column name="slug" type="VARCHAR(255)">

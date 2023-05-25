@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 @Setter
 public class RegistrationRequestDto implements AopDto{
 
-    public RegistrationRequestDto(String username, String firstName, String lastName, String email, String password) {
+    public RegistrationRequestDto(String username, String email) {
         this.username = username;
         this.email = email;
     }

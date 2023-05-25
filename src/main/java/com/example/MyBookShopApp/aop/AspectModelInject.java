@@ -27,12 +27,8 @@ public class AspectModelInject {
                 if (!(annotation instanceof ModelAttribute))
                     continue;
                 ModelAttribute modelAttribute = (ModelAttribute) annotation;
-                if ("key".equals(modelAttribute.value()) || "key".equals(modelAttribute.name())) {
-                    if (!foundModelAttribute) {
-                        System.out.println(thisJoinPoint);
-                        foundModelAttribute = true;
-                    }
-                    System.out.println("  " + modelAttribute);
+                if ("key".equals(modelAttribute.value()) || "key".equals(modelAttribute.name()) && (!foundModelAttribute)) {
+                    foundModelAttribute = true;
                 }
             }
         }

@@ -20,15 +20,17 @@ import java.util.Map;
 @Component
 public class SecurityExceptionResolver implements AuthenticationEntryPoint {
 
+    private static final String STATE_NAME_KEY = "state: ";
+
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e)
             throws IOException{
         Map<String, String> map = new LinkedHashMap<>();
         map.put("result: ", "false");
-        map.put("state: ", "401");
+        map.put(STATE_NAME_KEY, "401");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         if(e instanceof JwtAuthenticationException) {
-            map.put("state: ", "403");
+            map.put(STATE_NAME_KEY, "403");
             Cookie cookie = new Cookie("token", "");
             cookie.setMaxAge(0);
             response.addCookie(cookie);
@@ -36,11 +38,11 @@ public class SecurityExceptionResolver implements AuthenticationEntryPoint {
             return;
         }
         if(e instanceof BadCredentialsException){
-            map.put("state: ", "400");
+            map.put(STATE_NAME_KEY, "400");
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
         if(e instanceof UsernameNotFoundException){
-            map.put("state: ", "404");
+            map.put(STATE_NAME_KEY, "404");
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
         map.put("error", e.getMessage());

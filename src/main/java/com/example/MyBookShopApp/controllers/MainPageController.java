@@ -1,15 +1,14 @@
 package com.example.MyBookShopApp.controllers;
 
 import com.example.MyBookShopApp.data.tags.Tag;
-import com.example.MyBookShopApp.data.user.User;
-import com.example.MyBookShopApp.dto.*;
+import com.example.MyBookShopApp.dto.CartPostponedCounterDto;
+import com.example.MyBookShopApp.dto.RecommendedBooksDto;
+import com.example.MyBookShopApp.dto.SearchBookDto;
 import com.example.MyBookShopApp.security.jwt.JwtTokenProvider;
 import com.example.MyBookShopApp.security.jwt.JwtUser;
 import com.example.MyBookShopApp.service.bookServices.BookService;
 import com.example.MyBookShopApp.service.tagServices.TagService;
 import com.example.MyBookShopApp.service.userServices.ProfileService;
-import com.example.MyBookShopApp.service.userServices.UserServiceImpl;
-import com.twilio.jwt.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -87,7 +85,7 @@ public class MainPageController {
     }
 
     @GetMapping("/")
-    public String mainPage(JwtUser jwtUser, Model model, HttpServletRequest request) throws Exception {
+    public String mainPage(JwtUser jwtUser, Model model){
         if (jwtUser != null && !jwtUser.getUsername().equals("ANONYMOUS"))
             model.addAttribute("infoUserForMainPage", profileService.makeProfileResponseToMainPage(jwtUser));
         else

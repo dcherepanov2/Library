@@ -38,4 +38,8 @@ public class AuthorService {
         Pageable nextPage = PageRequest.of(0,20);
         return bookRepo.findBooksByAuthors(slug, nextPage);
     }
+
+    public Author getByName(String name) {
+        return authorRepo.findAuthorByName(name);
+    }
 }

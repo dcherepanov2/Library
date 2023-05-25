@@ -25,6 +25,8 @@ public class ProfileController {
 
     private final BookService bookService;
 
+    private static final String MODEL_NAME_PROFILE = "userInfo";
+
     public ProfileController(UserServiceImpl userService, Book2UserService book2UserService, TransactionService transactionService, BookService bookService) {
         this.userService = userService;
         this.book2UserService = book2UserService;
@@ -35,7 +37,7 @@ public class ProfileController {
     @GetMapping("/profile")
     public String getProfile(JwtUser jwtUser, Model model) {
         if (jwtUser != null && !jwtUser.getUsername().equals("ANONYMOUS"))
-            model.addAttribute("userInfo", userService.getUserInfoForProfile(jwtUser));
+            model.addAttribute(MODEL_NAME_PROFILE, userService.getUserInfoForProfile(jwtUser));
         model.addAttribute("contactDto", new ContactRequestDtoV2());
         model.addAttribute("payment", new PaymentRequestDto());
         return "profile";
@@ -76,7 +78,7 @@ public class ProfileController {
         List<Book> books = book2UserService.getBooksUser(jwtUser, 1);
         RecommendedBooksDto recommendedBooksDto = new RecommendedBooksDto(books);
         model.addAttribute("books", recommendedBooksDto.getBooks());
-        model.addAttribute("userInfo", userService.getUserInfoForProfile(token));
+        model.addAttribute(MODEL_NAME_PROFILE, userService.getUserInfoForProfile(token));
         return "my";
     }
 
@@ -85,7 +87,7 @@ public class ProfileController {
         List<Book> books = book2UserService.getBooksUser(jwtUser, 2);
         RecommendedBooksDto recommendedBooksDto = new RecommendedBooksDto(books);
         model.addAttribute("books", recommendedBooksDto.getBooks());
-        model.addAttribute("userInfo", userService.getUserInfoForProfile(token));
+        model.addAttribute(MODEL_NAME_PROFILE, userService.getUserInfoForProfile(token));
         return "myarchive";
     }
 }

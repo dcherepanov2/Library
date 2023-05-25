@@ -3,9 +3,6 @@ package com.example.MyBookShopApp.dto;
 public class SearchBookDto implements AopDto{
     private String query;
 
-    public SearchBookDto() {
-    }
-
     public String getQuery() {
         return query;
     }

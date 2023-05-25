@@ -1,12 +1,8 @@
 package com.example.MyBookShopApp.exception;
 
-public class VerificationException extends Throwable {
+public class VerificationException extends Exception {
     public VerificationException(String message) {
         super(message);
     }
 
-    @Override
-    public String getMessage() {
-        return super.getMessage();
-    }
 }

@@ -19,9 +19,10 @@ public class Author {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_seq_gen")
     @NotNull
     @Column(name = "id", columnDefinition = "INT NOT NULL AUTO_INCREMENT")
+    @SequenceGenerator(name = "author_seq_gen", sequenceName = "author_sequence", initialValue = 1001, allocationSize = 1)
     private Integer id;
 
     @Column(name = "photo", columnDefinition = "VARCHAR(255)")
@@ -38,12 +39,22 @@ public class Author {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
+
+
     @ManyToMany
     @JoinTable(
             name = "book2author",
             joinColumns = @JoinColumn(name = "authors_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Book> books;
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
 
     public Integer getId() {
         return id;

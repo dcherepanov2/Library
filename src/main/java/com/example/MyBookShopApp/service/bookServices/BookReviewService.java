@@ -83,4 +83,8 @@ public class BookReviewService {
         Double b = bookReviewRepo.calcRateBookBySlug(id, -1);
         return b != null ? a * 2 / b : a * 2;
     }
+
+    public BookReview getBySlug(Integer bookReviewId){
+        return bookReviewRepo.findBookReviewById(bookReviewId);
+    }
 }

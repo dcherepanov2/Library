@@ -24,7 +24,7 @@
         <main class="Middle-main">
             <h1 class="Middle-title" th:text="#{basket.cart}">Корзина
             </h1>
-            <form class="form Cart" action="#" method="post" th:if="${booksCart.size()}!= 0">
+            <form class="form Cart" action="#" method="post">
                 <div class="Cart-product" th:each="book : ${booksCart}">
                     <div class="Cart-block Cart-block_row" th:href="@{'/books/'+${book.slug}}">
                         <div class="Cart-block Cart-block_pict"><a class="Cart-pict" ><img class="Cart-img"

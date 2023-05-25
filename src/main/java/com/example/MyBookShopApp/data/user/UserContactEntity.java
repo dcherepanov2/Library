@@ -15,9 +15,6 @@ public class UserContactEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
-//
-//    @Column(columnDefinition = "INT NOT NULL")
-//    private int userId;
 
     @ManyToOne()
     @JoinColumn(name = "user_id",referencedColumnName = "id", columnDefinition = "INT NOT NULL")
@@ -28,7 +25,7 @@ public class UserContactEntity {
     private ContactType type;
 
     @Column(columnDefinition = "SMALLINT NOT NULL")
-    private short approved;
+    private Boolean approved;
 
     @Column(columnDefinition = "BIGINT")
     private Long code;
@@ -58,11 +55,11 @@ public class UserContactEntity {
         this.type = type;
     }
 
-    public short getApproved() {
+    public Boolean getApproved() {
         return approved;
     }
 
-    public void setApproved(short approved) {
+    public void setApproved(Boolean approved) {
         this.approved = approved;
     }
 

@@ -1,7 +1,6 @@
 package com.example.MyBookShopApp.repo.userrepos;
 
 import com.example.MyBookShopApp.data.enums.ContactType;
-import com.example.MyBookShopApp.data.user.User;
 import com.example.MyBookShopApp.data.user.UserContactEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +11,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface UserContactRepo extends JpaRepository<UserContactEntity, Integer> {
-    //TODO: написать свой Query этот работает некорректно
     @Query(value = "SELECT * FROM user_contact WHERE contact = :contact AND code = :code"
             , nativeQuery = true)
     UserContactEntity findByContact(String contact, Long code);
@@ -30,8 +28,8 @@ public interface UserContactRepo extends JpaRepository<UserContactEntity, Intege
             , nativeQuery = true)
     Page<UserContactEntity> findUserContactEntitiesByUserIdAndCodeTime(@Param("userId") Long userId, @Param("type") Short type, Pageable pageable);
 
-    @Query(value = "from UserContactEntity WHERE contact =:contact AND approved = 1 AND userId != null order by codeTime DESC",
-            countQuery = "select count(*) from UserContactEntity WHERE contact =:contact AND approved = 1 AND userId != null")
+    @Query(value = "from UserContactEntity WHERE contact =:contact AND approved = true AND userId != null order by codeTime DESC",
+            countQuery = "select count(*) from UserContactEntity WHERE contact =:contact AND approved = true AND userId != null")
     Page<UserContactEntity> findUserContactEntitiesApprovedByContactName(@Param("contact") String contact, Pageable pageable);
 
     List<UserContactEntity> findUserContactEntitiesByContact(String contact);

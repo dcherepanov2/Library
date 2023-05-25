@@ -11,9 +11,9 @@ public interface BookReviewLikeRepo extends JpaRepository<BookReviewLikeEntity, 
 
     List<BookReviewLikeEntity> findBookReviewLikeEntitiesByReviewId(Integer id);
 
-    BookReviewLikeEntity findBookReviewLikeEntityByUserIdAndReviewId(Integer user_id, Integer review_id);
+    BookReviewLikeEntity findBookReviewLikeEntityByUserIdAndReviewId(Integer userId, Integer reviewId);
 
     @Modifying
     @Transactional
-    void deleteBookReviewLikeEntitiesByUserIdAndReviewId(Integer user_id, Integer review_id);
+    void deleteBookReviewLikeEntitiesByUserIdAndReviewId(Integer userId, Integer reviewId);
 }

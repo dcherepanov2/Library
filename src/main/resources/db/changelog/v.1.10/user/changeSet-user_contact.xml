@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <changeSet author="Danya (generated)" id="610">
+    <changeSet author="Danya (generated)" id="615">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="user_contact"/>
@@ -19,7 +19,7 @@
             <column name="type" type="TINYINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="approved" type="TINYINT">
+            <column name="approved" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
             <column name="code" type="BIGINT"/>

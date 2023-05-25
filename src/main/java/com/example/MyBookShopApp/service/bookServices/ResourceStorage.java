@@ -5,9 +5,8 @@ import com.example.MyBookShopApp.data.book.file.BookFile;
 import com.example.MyBookShopApp.enums.ErrorMessageResponse;
 import com.example.MyBookShopApp.exception.BookException;
 import com.example.MyBookShopApp.exception.BookFileException;
+import com.example.MyBookShopApp.repo.bookrepos.BookFilesRepo;
 import com.example.MyBookShopApp.repo.bookrepos.BookRepo;
-import com.example.MyBookShopApp.repo.resourcesrepos.ResourceRepo;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,14 +14,15 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletContext;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class ResourceStorage {
@@ -30,13 +30,19 @@ public class ResourceStorage {
     @Value("${upload.path}")
     private String valueUpload;
 
+    private final ServletContext servlet;
+
+    private final BookFilesRepo bookFilesRepo;
+
+
+
     private final BookRepo bookRepo;
-    private final ResourceRepo resourceRepo;
 
     @Autowired
-    public ResourceStorage(BookRepo bookRepo, ResourceRepo resourceRepo) {
+    public ResourceStorage(ServletContext servlet, BookFilesRepo bookFilesRepo, BookRepo bookRepo) {
+        this.servlet = servlet;
+        this.bookFilesRepo = bookFilesRepo;
         this.bookRepo = bookRepo;
-        this.resourceRepo = resourceRepo;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED,
@@ -56,11 +62,10 @@ public class ResourceStorage {
             book.setImage("/uploads/image/" + filename);
             bookRepo.save(book);
         }
-        //TODO: написать ошибку если не найден файл
+        throw new FileNotFoundException("Файл не найден!");
     }
 
-    @SneakyThrows
-    public String findBookDownloadFile(String slug, final Integer type) {
+    public String findBookDownloadFile(String slug, final Integer type) throws BookException, BookFileException {
         Book bookBySlug = bookRepo.findBookBySlug(slug);
         if (bookBySlug == null)
             throw new BookException(ErrorMessageResponse.NOT_FOUND_BOOK.getName());
@@ -71,5 +76,25 @@ public class ResourceStorage {
         if (file == null)
             throw new BookFileException(ErrorMessageResponse.FILE_NOT_FOUND_EXCEPTION.getName());
         return file.getPath();
+    }
+
+    public List<BookFile> createListBooksFiles(List<MultipartFile> bookFilesFromRequest, String pathUpload) throws IOException {
+        List<BookFile> bookFiles = new ArrayList<>();
+        for(MultipartFile x: bookFilesFromRequest){
+            String filename = x.hashCode() + UUID.randomUUID().toString() + x.getOriginalFilename();
+            if (!new File(pathUpload).exists()) {
+                Files.createDirectories(Paths.get(filename));
+            }
+            Path path = Paths.get(pathUpload,filename);
+            x.transferTo(path);
+            BookFile file = new BookFile();
+            file.setPath(pathUpload+"/"+filename);
+            file.setHash(filename);
+            Integer typeFromMediaType = MediaTypeUtils.getTypeFromMediaTypeToInteger(path.toFile());
+            file.setTypeId(typeFromMediaType);
+            bookFilesRepo.save(file);
+            bookFiles.add(file);
+        }
+        return bookFiles;
     }
 }

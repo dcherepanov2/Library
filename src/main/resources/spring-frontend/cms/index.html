@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Тут название страницы написать</title>
+    <meta name="description" content="Описание страницы">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <link href="../favicon.ico" rel="shortcut icon">
+    <link rel="preload" href="/assets/fonts/Montserrat/Montserrat-SemiBold.woff2" as="font" crossorigin="anonymous">
+    <link rel="preload" href="/assets/fonts/Montserrat/Montserrat-Light.woff2" as="font" crossorigin="anonymous">
+    <link rel="preload" href="/assets/fonts/Montserrat/Montserrat-Medium.woff2" as="font" crossorigin="anonymous">
+    <link rel="preload" href="/assets/fonts/Montserrat/Montserrat-ExtraBold.woff2" as="font" crossorigin="anonymous">
+    <link rel="stylesheet" href="/assets/css/fonts.min.css?v=33498857">
+    <link rel="stylesheet" href="/assets/css/basic.min.css?v=33498857">
+    <link rel="stylesheet" href="/assets/css/extra.min.css?v=33498857">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="Site">
+<header class="Header" th:replace="~{fragments/common_header_fragment :: head(status='unauthorized')}"></header>
+<div class="Middle Middle_search">
+    <div class="wrap">
+        <main class="Middle-main">
+            <h1 class="Middle-title">CMS</h1>
+            <div class="Section" style="display: flex; flex-wrap: wrap;">
+                <div class="search" >
+                    <button id="openModal" class="btn btn_primary btn_outline">Форма изменения пользователя
+                    </button>
+                    <div id="myModal" class="modal">
+                        <div class="modal-content">
+                            <span id ="close-change-user" class="close">&times;</span>
+                            <h2 class="Card-description">Форма изменения пользователя</span></h2>
+                            <div style="padding-bottom: 30px" class="Section">
+                                <div class="search">
+                                    <form class="form form_search" data-searchlimit="1">
+                                        <input class="search-input" id="querypage" name="querypage" type="text" placeholder="Впишите почту или телефон пользователя" />
+                                        <button class="search-button" type="button" name="searchpage" id="searchpage" onclick="findUser()">Поиск</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div id="search-result"></div>
+                        </div>
+                    </div>
+                    <button id="authorChangeButton" class="btn btn_primary btn_outline">Форма изменения автора
+                    </button>
+                    <div id="authorChange" class="modal">
+                        <div class="modal-content">
+                            <span id = "author-change-close" class="close">&times;</span>
+                            <h2 class="Card-description">Форма изменения автора</span></h2>
+                            <div style="padding-bottom: 30px" class="Section">
+                                <div class="search">
+                                    <form class="form form_search" data-searchlimit="1">
+                                        <input class="search-input" id="query-page-author-change" name="query-page-author-change" type="text" placeholder="Найти автора" />
+                                        <button class="search-button" type="button" name="search-page-author-change" id="search-page-author-change" onclick="findAuthor()">Поиск</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div id="search-result-author-change"></div>
+                        </div>
+                    </div>
+                    <button id="add-book-btn" class="btn btn_primary btn_outline" onclick="addBookBtn2()">Добавить книгу</button>
+
+                    <div id="modal" style="display:none;" class="modal">
+                        <div class="modal-content">
+                            <span id = "add-book-close" class="close">&times;</span>
+                            <form id="book-form">
+                                <label class="form-input" for="title">Название:</label>
+                                <input type="text" name="title" id="title" required>
+                                <br>
+                                <label class="form-input" for="description">Описание:</label>
+                                <textarea name="description" id="description" required></textarea>
+                                <br>
+                                <label  for="price" class="form-input">Цена:</label>
+                                <input type="number" name="price" id="price" required>
+                                <br>
+                                <label for="discount" class="form-input">Скидка:</label>
+                                <input type="number" name="discount" id="discount" value="0" required>
+                                <br class="form-input">
+                                <label class="form-input" >Авторы:</label>
+                                <br class="form-input">
+                                <form class="form form_search" data-searchlimit="1" style=" display: flex; width: 300px;">
+                                    <input class="search-input" id="query-page-author-add-book" name="query-page-author-change" type="text" placeholder="Найти автора" />
+                                    <button class="search-button" type="button" name="search-page-author-change" id="query-page-author-add-book-btn" onclick="findAuthorAddBook2()">Поиск</button>
+                                </form>
+                                <span id="selected-author-slugs" style="padding-top: 20px"></span>
+                                <div id="search-result-author-change-1"></div>
+                                <label class="form-input" >Теги:</label>
+                                <form class="form form_search" data-searchlimit="1" style="width: 300px;">
+                                    <input class="search-input" id="query-page-tag-add-book-2" name="query-page-author-change" type="text" placeholder="Найти тег" />
+                                    <button class="search-button" type="button" name="search-page-author-change" id="query-page-tag-add-book-btn" onclick="findTag2()">Поиск</button>
+                                </form>
+
+                                <div style="padding-top: 30px" id="search-result-tag-add-book-1"></div>
+                                <br class="form-input">
+                                <label for="bookFiles" class="form-input">Файлы:</label>
+                                <div class="drop-zone" id="drop-zone">
+                                    <span>Перетащите файлы сюда</span>
+                                </div>
+                                <input type="file" class="btn btn_primary btn_outline" name="bookFiles" id="bookFiles" hidden multiple style="display: none;" required>
+                                <label for="isBestseller" class="form-input" >Бестселлер:</label>
+                                <input class="form-input"  type="checkbox" name="isBestseller" id="isBestseller" required>
+                                <br class="form-input">
+                            </form>
+                            <div class="form-input"></div>
+                            <button id="save-book-btn" class="btn btn_primary btn_outline" onclick="addBookBt2()">Сохранить</button>
+                        </div>
+                    </div>
+                    <div id="bookChanges" class="modal">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <h2 class="Card-description">Форма изменения книги</span></h2>
+                            <div style="padding-bottom: 30px" class="Section">
+                                <div class="search">
+                                    <form class="form form_search" data-searchlimit="1">
+                                        <input class="search-input" id="query-page-book-change" name="query-page-author-change" type="text" placeholder="Найти книгу" />
+                                        <button class="search-button" type="button" name="search-page-author-change" id="search-page-book-change">Поиск</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div id="search-result-book-change"></div>
+                        </div>
+                    </div>
+                    <div style="padding-top: 10px">
+                        <button id="bookChangeButton" class="btn btn_primary btn_outline">Форма изменения книги
+                        </button>
+                    </div>
+                    <div style="padding-top: 10px">
+                        <button id="addBooksToUser" class="btn btn_primary btn_outline">Добавить книгу пользователю</button>
+                    </div>
+
+                    <!-- Модальное окно -->
+                    <div id="myModal2" class="modal">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <h2 class="Card-description">Форма добавления книг пользователям</h2>
+                            <div style="padding-bottom: 30px" class="Section">
+                                <div class="search">
+                                    <form class="form form_search" data-searchlimit="1">
+                                        <input class="search-input" id="query-page-find-user" name="query-page-book-change" type="text" placeholder="Найти пользователя " />
+                                        <button class="search-button" type="button" name="search-page-book-change" id="query-page-find-btn" onclick="findUserAddBook()">Поиск</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div id="search-result-user-add-book"></div>
+                            <div class="Section" style="padding-bottom: 30px">
+                                <div class="search">
+                                    <form class="form form_search" data-searchlimit="1">
+                                        <input class="search-input" id="query-page-find-user-add-book" name="query-page-book-change" type="text" placeholder="Найти книгу по названию " />
+                                        <button class="search-button" type="button" name="search-page-book-change" id="query-page-find-user-add-book-btn" onclick="findBookUserAddBook()">Поиск</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div id="search-result-add-book-user"></div>
+                            <div style="padding-top: 10px; padding-left: 20%">
+                                <button  class="btn btn_primary btn_outline" onclick="addBookToUserPost()">Добавить книгу пользователю</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id = "change-review-btn" style="padding-top: 10px; padding-left: 20%">
+                        <button class="btn btn_primary btn_outline">Отредактировать комментарий</button>
+                    </div>
+                    <div id="modal-change-review" class="modal">
+                        <div class="modal-content">
+                            <div class="search">
+                                <form class="form form_search" data-searchlimit="1">
+                                    <input class="search-input" id="query-page-find-reviews-book" name="query-page-book-change" type="text" placeholder="Найти комментарии книги по ее названию." />
+                                    <button class="search-button" type="button" name="search-page-book-change" id="query-page-find-reviews-book-btn" onclick="findReviewBooks()">Поиск</button>
+                                </form>
+                                <div id="result-find-reviews-books"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="modal-delete-book" class="modal">
+                        <div class="modal-content">
+                            <div class="search">
+                                <form class="form form_search" data-searchlimit="1">
+                                    <input class="search-input" id="query-page-find-delete-book" name="query-page-book-change" type="text" placeholder="Найти книгу по ее названию." />
+                                    <button class="search-button" type="button" name="search-page-book-change" id="query-page-find-delete-book-btn" onclick="findBookDelete()">Поиск</button>
+                                </form>
+                                <div id="delete-book"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id = "find-del-book-btn" style="padding-top: 10px; padding-left: 20%">
+                        <button class="btn btn_primary btn_outline">Удалить книгу</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<footer class="Footer" th:replace="~{fragments/common_footer_fragment :: footer}"></footer>
+<script src="model-open-script.js"></script>
+</body>
+</html>

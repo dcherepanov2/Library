@@ -2,6 +2,7 @@ package com.example.MyBookShopApp.data.user;
 
 import com.example.MyBookShopApp.data.book.links.Book2UserEntity;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,6 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @Data
+@ToString
 public class User{
     public User(){
 
@@ -35,7 +37,7 @@ public class User{
     @NotNull
     private String hash;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles"
             , joinColumns = @JoinColumn(name = "user_id")

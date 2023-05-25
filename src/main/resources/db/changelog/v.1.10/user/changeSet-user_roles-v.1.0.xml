@@ -14,7 +14,7 @@
             </not>
         </preConditions>
         <createTable tableName="user_roles">
-            <column name="user_id" type="BIGINT" autoIncrement="true">
+            <column name="user_id" type="BIGINT" autoIncrement="true" startWith="4">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="role_id" type="BIGINT" autoIncrement="true">

@@ -3,7 +3,6 @@ package com.example.MyBookShopApp.dto;
 import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.data.payments.BalanceTransactionEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Data;
 
 import java.time.Instant;

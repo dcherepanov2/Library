@@ -25,6 +25,8 @@ public class CreateAnonymousUser {
 
     private final JwtTokenProvider jwtTokenProvider;
 
+    private static final String COOKIE_NAME = "token";
+
     private final UserServiceImpl userService;
 
     @Autowired
@@ -40,6 +42,7 @@ public class CreateAnonymousUser {
 
     @Before("pointcut()")
     public Cookie applicationLogger() {
+
         Cookie cookieResponse = null;
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
@@ -47,11 +50,11 @@ public class CreateAnonymousUser {
         if (request.getCookies() != null && request.getCookies().length != 0 && response != null) {
             Cookie token = Arrays.stream(request.getCookies())
                     .filter(x -> x.getName()
-                            .equals("token")).findFirst().orElse(null);
+                            .equals(COOKIE_NAME)).findFirst().orElse(null);
             if (token == null) {
                 User anonymous = userService.createNewAnonymousUser();
                 String tokenString = jwtTokenProvider.createToken(anonymous.getHash(), anonymous.getRoles());
-                cookieResponse = new Cookie("token", tokenString);
+                cookieResponse = new Cookie(COOKIE_NAME, "Bearer_"+tokenString);
                 response.addCookie(cookieResponse);
             } else {
                 cookieResponse = token;
@@ -60,7 +63,7 @@ public class CreateAnonymousUser {
         } else if (request.getCookies() == null || request.getCookies().length != 0 && response != null) {
             User anonymous = userService.createNewAnonymousUser();
             String tokenString = jwtTokenProvider.createToken(anonymous.getHash(), anonymous.getRoles());
-            cookieResponse = new Cookie("token", tokenString);
+            cookieResponse = new Cookie(COOKIE_NAME, "Bearer_"+tokenString);
             Objects.requireNonNull(response).addCookie(cookieResponse);
         }
         return cookieResponse;
@@ -74,10 +77,10 @@ public class CreateAnonymousUser {
         if (request.getCookies() != null && request.getCookies().length == 0) {
             Cookie token = Arrays.stream(request.getCookies())
                     .filter(x -> x.getName()
-                            .equals("token")).findFirst().orElse(null);
+                            .equals(COOKIE_NAME)).findFirst().orElse(null);
             if (token != null && response != null) {
                 String tokenString = StringUtils.deleteStringIntoString(token.getValue(), "\\u0005�z��Ș[\\u0019Ȏ��\\u0014̍M��");
-                Cookie cookie = new Cookie("token", tokenString);
+                Cookie cookie = new Cookie(COOKIE_NAME, tokenString);
                 response.addCookie(cookie);
             }
         }

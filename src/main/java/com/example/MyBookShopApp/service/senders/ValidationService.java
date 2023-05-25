@@ -1,10 +1,15 @@
 package com.example.MyBookShopApp.service.senders;
 
+import com.example.MyBookShopApp.data.book.Book;
+import com.example.MyBookShopApp.data.book.file.BookFile;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 import javax.ws.rs.BadRequestException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,7 +17,7 @@ import java.util.regex.Pattern;
 public class ValidationService {
 
     public String validate(BindingResult bindingResult){
-        StringBuilder errors = new StringBuilder();
+        StringBuilder errors;
         if(bindingResult.hasErrors()){
             errors = new StringBuilder("Errors validation: ");
             for (Object object : bindingResult.getAllErrors()) {
@@ -46,4 +51,12 @@ public class ValidationService {
         return matcher.matches();
     }
 
+    public boolean checkAllFilesAddToBook(Book book){
+        List<Integer> typeFiles = new ArrayList<>(Arrays.asList(1,2,3));
+        List<BookFile> bookFiles = new ArrayList<>(book.getBookFiles());
+        for(Integer type: typeFiles){
+            bookFiles.removeIf(x -> x.getTypeId().equals(type));
+        }
+        return bookFiles.isEmpty();
+    }
 }

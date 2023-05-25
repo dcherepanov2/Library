@@ -15,7 +15,7 @@
             </not>
         </preConditions>
         <createTable tableName="book_file">
-            <column name="id" type="INT" autoIncrement="true">
+            <column name="id" type="INT" autoIncrement="true" startWith="1001">
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="hash" type="VARCHAR(255)">

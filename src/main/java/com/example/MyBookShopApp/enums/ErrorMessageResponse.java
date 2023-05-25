@@ -12,7 +12,9 @@ public enum ErrorMessageResponse {
 
     JWT_TOKEN_IS_NOT_FOUND("Указанный jwt token не найден"),
 
-    ILLEGAL_MOVE_CHANGE_BOOK("Действие, производимое над книгой не найдено");
+    ILLEGAL_MOVE_CHANGE_BOOK("Действие, производимое над книгой не найдено"),
+
+    NOT_FOUND_BOOK_WITH_ID_EXCEPTION("Книга с данным id не была найдена.");
     private final String name;
 
     ErrorMessageResponse(String name) {

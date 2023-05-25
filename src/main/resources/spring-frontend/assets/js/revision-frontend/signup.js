@@ -1,4 +1,4 @@
-let domen = 'http://localhost:8080'
+let domen = 'http://localhost:8081'
 let signUpEndpoint = '/signup'
 
 async function postData(url = '', data = {}) {
