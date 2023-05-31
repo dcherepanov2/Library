@@ -12,10 +12,14 @@ import com.example.MyBookShopApp.service.bookServices.BookReviewService;
 import com.example.MyBookShopApp.service.bookServices.BookService;
 import com.example.MyBookShopApp.service.cms.ChangeReviewBooksService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/cms/book-review")
+@Validated
 public class ChangeReviewBooksAndUserController {
 
     private final ChangeReviewBooksService changeReviewBooksService;
@@ -23,8 +27,9 @@ public class ChangeReviewBooksAndUserController {
     private final BookReviewService bookReviewService;
 
     private final BookService bookService;
+
     @Autowired
-    public ChangeReviewBooksAndUserController(ChangeReviewBooksService changeReviewBooksService, BookReviewService bookReviewService, BookService bookService) {
+    public ChangeReviewBooksAndUserController(@Valid ChangeReviewBooksService changeReviewBooksService, BookReviewService bookReviewService, BookService bookService) {
         this.changeReviewBooksService = changeReviewBooksService;
         this.bookReviewService = bookReviewService;
         this.bookService = bookService;
@@ -39,17 +44,17 @@ public class ChangeReviewBooksAndUserController {
     }
 
     @PostMapping("/edit/{id}")
-    public void editReviewBook(CommentDtoInput commentDtoInput, @PathVariable("id")Integer id) throws BookReviewException {
+    public void editReviewBook(@Valid CommentDtoInput commentDtoInput, @PathVariable("id") Integer id) throws BookReviewException {
         BookReview bySlug = bookReviewService.getBySlug(id);
-        if(bySlug == null)
+        if (bySlug == null)
             throw new BookReviewException(ErrorMessageResponse.NOT_FOUND_BOOK.getName());
         changeReviewBooksService.editBookReview(bySlug, commentDtoInput);
     }
 
     @PostMapping("/editListComment/{slug}")
-    public void editReviewListBook(@RequestBody ReviewEditListDto reviews, @PathVariable("slug") String slug) throws BookException {
+    public void editReviewListBook(@RequestBody @Valid ReviewEditListDto reviews, @PathVariable("slug") String slug) throws BookException {
         Book bookBySlug = bookService.getBookBySlug(slug);
-        if(bookBySlug == null)
+        if (bookBySlug == null)
             throw new BookException(ErrorMessageResponse.NOT_FOUND_BOOK.getName());
         changeReviewBooksService.editListBook(reviews, bookBySlug);
     }

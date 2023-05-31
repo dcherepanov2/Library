@@ -46,8 +46,7 @@ public class ContactService {
         return userContactRepo.save(userContact);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED,
-            rollbackFor = {Exception.class, RuntimeException.class})
+    @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
     public ResponseApproveContact approveContact(ApproveContactDto contact) {
         UserContactEntity contactEntity = userContactRepo.findByContact(contact.getContact(), Long.valueOf(contact.getCode().replace(" ", "")));
         Long approve = Long.valueOf(contact.getCode().replace(" ", ""));

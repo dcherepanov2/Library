@@ -47,8 +47,7 @@ public class BooksChangeStatusService {
     public void addBook2Kept(JwtUser jwtUser, String slug) throws BookException {
         book2UserService.save(jwtUser, slug, 4);
     }
-    @Transactional(isolation = Isolation.READ_COMMITTED,
-            rollbackFor = {Exception.class, RuntimeException.class})
+    @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
     public void deleteBook2UserBySlug(JwtUser jwtUser, String slug) throws BookException{
         Book book = bookService.getBookBySlug(slug);
         if (book == null)

@@ -1,7 +1,12 @@
 package com.example.MyBookShopApp.dto;
 
-public class CommentDtoInput implements AopDto{
+import javax.validation.constraints.NotBlank;
+
+public class CommentDtoInput implements AopDto {
+    @NotBlank(message = "Slug is required")
     private String slug;
+
+    @NotBlank(message = "Description is required")
     private String description;
 
     public String getSlug() {

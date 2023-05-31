@@ -10,11 +10,12 @@ import com.example.MyBookShopApp.repo.authorrepos.AuthorRepo;
 import com.example.MyBookShopApp.repo.bookrepos.BookFilesRepo;
 import com.example.MyBookShopApp.repo.bookrepos.BookRepo;
 import com.example.MyBookShopApp.repo.tagrepos.TagRepo;
+import com.example.MyBookShopApp.service.bookServices.BookService;
 import com.example.MyBookShopApp.service.bookServices.ResourceStorage;
-import com.example.MyBookShopApp.service.senders.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ public class AddAndDeleteBookService {
 
     @Value("${download.path}")
     private String valueUploadDownloadFiles;
+
+    private final BookService bookService;
     private final BookRepo bookRepo;
 
     private final BookFilesRepo bookFilesRepo;
@@ -35,98 +38,61 @@ public class AddAndDeleteBookService {
 
     private final ResourceStorage resourceStorage;
 
-    private final ValidationService validationService;
 
     @Autowired
-    public AddAndDeleteBookService(BookRepo bookRepo, BookFilesRepo bookFilesRepo, AuthorRepo authorRepo, TagRepo tagRepo, ResourceStorage resourceStorage, ValidationService validationService) {
+    public AddAndDeleteBookService(BookService bookService, BookRepo bookRepo, BookFilesRepo bookFilesRepo, AuthorRepo authorRepo, TagRepo tagRepo, ResourceStorage resourceStorage) {
+        this.bookService = bookService;
         this.bookRepo = bookRepo;
         this.bookFilesRepo = bookFilesRepo;
         this.authorRepo = authorRepo;
         this.tagRepo = tagRepo;
         this.resourceStorage = resourceStorage;
-        this.validationService = validationService;
     }
 
+    @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
     public void save(BookChangeRequest request) throws BookException, IOException {
-        if (request.getIsBestseller() == null)
-            throw new BookException("Поле бестселлер не было заполнено");
-        if (request.getTitle() == null)
-            throw new BookException("Поле название не было заполнено");
-        if (request.getDiscount() == null)
-            throw new BookException("Поле скидка не было заполнено");
-        if (request.getPrice() == null)
-            throw new BookException("Поле цена не было заполнено");
-        if (request.getDescription() == null)
-            throw new BookException("Поле описание не было заполнено");
-        if (request.getBookFiles() == null)
-            throw new BookException("Не указаны файлы для скачивания книги");
-        if (request.getBookFiles().size() != 3)
-            throw new BookException("Добавьте три файла типа: EPUB, FB2, PDF");
-        if (request.getAuthorsIds() == null)
-            throw new BookException("Не указаны авторы для создания книги");
-
         Book book = new Book(request);
-
-        if (request.getTags() != null) {
-            List<Tag> allTagsBySlugs = tagRepo.findAllBySlugIn(request.getTags());
-            book.setTags(allTagsBySlugs);
-        }
-
-        if (request.getAuthorsIds() != null) {
-            List<Author> authors = authorRepo.findAllBySlugIn(request.getAuthorsIds());
-            book.setAuthors(authors);
-        }
-
+        List<Tag> allTagsBySlugs = tagRepo.findAllBySlugIn(request.getTags());
+        book.setTags(allTagsBySlugs);
+        List<Author> authors = authorRepo.findAllBySlugIn(request.getAuthorsIds());
+        book.setAuthors(authors);
         List<BookFile> listBooksFiles = resourceStorage.createListBooksFiles(request.getBookFiles(), valueUploadDownloadFiles);
         book.setBookFiles(listBooksFiles);
-
-        if (validationService.checkAllFilesAddToBook(book))
-            throw new BookException("Не были добавлены все нужные файлы. Проверьте, что было добавлено 3 файла типа: EPUB, PDF, FB2");
-
         bookRepo.save(book);
     }
 
-    public void deleteBook(Book bookBySlug) {
+    @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
+    public void deleteBook(String slug) throws BookException {
+        Book bookBySlug = bookService.getBookBySlug(slug);
+        if (bookBySlug == null)
+            throw new BookException("Книга не найдена");
         bookRepo.delete(bookBySlug);
     }
 
-    public void editBook(BookChangeRequest request, Book bookBySlug) throws IOException {
-        if (request.getIsBestseller() != null) {
-            bookBySlug.setBestseller(request.getIsBestseller());
-        }
-        if (request.getPrice() != null) {
-            bookBySlug.setPrice(request.getPrice());
-        }
-        if (request.getDescription() != null) {
-            bookBySlug.setDescription(request.getDescription());
-        }
-        if (request.getTitle() != null) {
-            bookBySlug.setTitle(request.getTitle());
-        }
-        if (request.getDiscount() != null) {
-            bookBySlug.setDiscount(request.getDiscount());
-        }
-        if (request.getBookFiles() != null && request.getBookFiles().size() <= 3) {
-            List<BookFile> newBooksFile = new ArrayList<>(bookBySlug.getBookFiles());
-            List<BookFile> listBooksFiles = resourceStorage.createListBooksFiles(request.getBookFiles(), valueUploadDownloadFiles);
-            for (BookFile bookFile : listBooksFiles) {
-                for (int i = 0; i < bookBySlug.getBookFiles().size(); i++) {
-                    BookFile bookFile1 = bookBySlug.getBookFiles().get(i);
-                    if (bookFile1.getTypeId().equals(bookFile.getTypeId())) {
-                        newBooksFile.set(i, bookFile);
-                    }
+    @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
+    public void editBook(BookChangeRequest request, String slug) throws IOException, BookException {
+        Book bookBySlug = bookService.getBookBySlug(slug);
+        if (bookBySlug == null)
+            throw new BookException("Книга не найдена");
+        bookBySlug.setBestseller(request.getIsBestseller());
+        bookBySlug.setPrice(request.getPrice());
+        bookBySlug.setDescription(request.getDescription());
+        bookBySlug.setTitle(request.getTitle());
+        bookBySlug.setDiscount(request.getDiscount());
+        List<BookFile> newBooksFile = new ArrayList<>(bookBySlug.getBookFiles());
+        List<BookFile> listBooksFiles = resourceStorage.createListBooksFiles(request.getBookFiles(), valueUploadDownloadFiles);
+        for (BookFile bookFile : listBooksFiles) {
+            for (int i = 0; i < bookBySlug.getBookFiles().size(); i++) {
+                BookFile bookFile1 = bookBySlug.getBookFiles().get(i);
+                if (bookFile1.getTypeId().equals(bookFile.getTypeId())) {
+                    newBooksFile.set(i, bookFile);
                 }
             }
-
-            bookBySlug.setBookFiles(newBooksFile);
-            bookFilesRepo.deleteAll(newBooksFile); // Исправлено на newBooksFile
         }
-
-        if (request.getAuthorsIds() != null) {
-            List<Author> allBySlugIn = authorRepo.findAllBySlugIn(request.getAuthorsIds());
-            bookBySlug.setAuthors(allBySlugIn);
-        }
-
+        bookBySlug.setBookFiles(newBooksFile);
+        bookFilesRepo.deleteAll(newBooksFile);
+        List<Author> allBySlugIn = authorRepo.findAllBySlugIn(request.getAuthorsIds());
+        bookBySlug.setAuthors(allBySlugIn);
         bookRepo.save(bookBySlug);
     }
 }

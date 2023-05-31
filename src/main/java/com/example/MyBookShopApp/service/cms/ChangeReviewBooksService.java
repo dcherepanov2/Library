@@ -5,14 +5,13 @@ import com.example.MyBookShopApp.data.book.review.BookReview;
 import com.example.MyBookShopApp.dto.CommentDtoInput;
 import com.example.MyBookShopApp.dto.ReviewDto;
 import com.example.MyBookShopApp.dto.ReviewEditListDto;
-import com.example.MyBookShopApp.repo.bookrepos.BookRepo;
 import com.example.MyBookShopApp.repo.bookrepos.BookReviewRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -27,13 +26,13 @@ public class ChangeReviewBooksService {
         this.bookReviewRepo = bookReviewRepo;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
+    @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
     public void editBookReview(BookReview bySlug, CommentDtoInput commentDtoInput) {
-        if (commentDtoInput.getDescription() != null)
-            bySlug.setText(commentDtoInput.getDescription());
+        bySlug.setText(commentDtoInput.getDescription());
         bookReviewRepo.save(bySlug);
     }
 
+    @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
     public void editListBook(ReviewEditListDto reviews, Book bookBySlug) {
         List<BookReview> bookReviews = bookBySlug.getBooksReview();
         List<ReviewDto> reviewDtos = reviews.getReviews();

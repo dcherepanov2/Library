@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class EditUserInfo {
+
     private String name;
 
     private String email;

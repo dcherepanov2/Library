@@ -5,6 +5,7 @@ import com.example.MyBookShopApp.dto.AuthorEditDto;
 import com.example.MyBookShopApp.repo.authorrepos.AuthorRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ChangeInAuthorService {
@@ -16,11 +17,10 @@ public class ChangeInAuthorService {
         this.authorRepo = authorRepo;
     }
 
-    public void editAuthor(AuthorEditDto request, Author author){
-        if(request.getName() != null)
-            author.setName(request.getName());
-        if(request.getDescription() != null)
-            author.setDescription(request.getDescription());
+    @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
+    public void editAuthor(AuthorEditDto request, Author author) {
+        author.setName(request.getName());
+        author.setDescription(request.getDescription());
         authorRepo.save(author);
     }
 }

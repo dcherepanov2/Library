@@ -47,8 +47,7 @@ public class Book2UserService {
         return bookRepo.findAllById(book2UserEntityByUserId);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED,
-            rollbackFor = {Exception.class, RuntimeException.class})
+    @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
     public void save(JwtUser jwtUser, String slug, Integer typeId) throws BookException {
         Book2UserEntity book2UserEntity = new Book2UserEntity();
         Book bookBySlug = bookRepo.findBookBySlug(slug);

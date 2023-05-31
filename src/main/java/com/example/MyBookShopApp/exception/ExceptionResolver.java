@@ -30,6 +30,17 @@ public class ExceptionResolver {
         return response;
     }
 
+    @ExceptionHandler(UserHelperException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Map<String, String> internalError(Exception e) {
+        HashMap<String, String> response = new HashMap<>();
+        response.put("status", "fail");
+        response.put("message", e.getLocalizedMessage());
+        response.put("class error", e.getClass().getName());
+        response.put("http status", String.valueOf(HttpStatus.NOT_FOUND));
+        return response;
+    }
+
     @ExceptionHandler(BookFileException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String, String> bookFileNotFound() {

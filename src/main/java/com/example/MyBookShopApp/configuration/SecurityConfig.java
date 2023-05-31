@@ -32,8 +32,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String APPROVE_CONTACT_ENDPOINT = "/approveContact";
 
-    private static final  String ADMIN_ROLE_NAME = "ADMIN";
-    private static final  String USER_ROLE_NAME = "USER";
+    private static final String ADMIN_ROLE_NAME = "ADMIN";
+    private static final String USER_ROLE_NAME = "USER";
+
+    private static final String MANAGER_ROLE_NAME = "MANAGER";
     private final JwtTokenProvider jwtTokenProvider;
     private final SecurityExceptionResolver securityExceptionResolver;
     private final AccessDeniedHandlerJwt accessDeniedHandlerJwt;
@@ -64,27 +66,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandlerJwt)
                 .and()
                 .authorizeRequests()
-                .antMatchers(LOGIN_ENDPOINT).permitAll()
-                .antMatchers(REG_ENDPOINT).permitAll()
-                .antMatchers("/cms/books/add").permitAll()
-                .antMatchers("/cms/books/delete/**").permitAll()
-                .antMatchers("/cms/books/edit/**").permitAll()
-                .antMatchers("/cms/user/add/book").permitAll()
-                .antMatchers(REQUEST_CONTACT_CONFIRMATION_ENDPOINT).permitAll()
-                .antMatchers(APPROVE_CONTACT_ENDPOINT).permitAll()
-                .antMatchers(HttpMethod.GET).permitAll()
-                .antMatchers("/user/logout").hasAnyRole("USER", ADMIN_ROLE_NAME)
                 .antMatchers("/books/changeBookStatus/**").permitAll()
                 .antMatchers("/signin").permitAll()
-                .antMatchers("/books/comment/**").hasAnyRole(USER_ROLE_NAME, ADMIN_ROLE_NAME)
-                .antMatchers("/rateBook").hasAnyRole(USER_ROLE_NAME, ADMIN_ROLE_NAME)
-                .antMatchers("/rateBookReview").hasAnyRole(USER_ROLE_NAME, ADMIN_ROLE_NAME)
-                .antMatchers("/books/pay").hasAnyRole(USER_ROLE_NAME, ADMIN_ROLE_NAME)
-                .antMatchers("/download/**").hasAnyRole(USER_ROLE_NAME, ADMIN_ROLE_NAME)
-                .antMatchers("/profile").hasAnyRole(USER_ROLE_NAME, ADMIN_ROLE_NAME)
-                .antMatchers("/viewed/books").hasAnyRole(USER_ROLE_NAME, ADMIN_ROLE_NAME)
-                .antMatchers("/books/**/img/save").hasRole(ADMIN_ROLE_NAME)
-                .antMatchers("/crm-system").hasAnyRole("MANAGER", ADMIN_ROLE_NAME)
+                .antMatchers("/user/logout").hasAnyRole(USER_ROLE_NAME, MANAGER_ROLE_NAME, ADMIN_ROLE_NAME)
+                .antMatchers("/books/comment/**").hasAnyRole(USER_ROLE_NAME, MANAGER_ROLE_NAME, ADMIN_ROLE_NAME)
+                .antMatchers("/rateBook").hasAnyRole(USER_ROLE_NAME, MANAGER_ROLE_NAME, ADMIN_ROLE_NAME)
+                .antMatchers("/rateBookReview").hasAnyRole(USER_ROLE_NAME, MANAGER_ROLE_NAME, ADMIN_ROLE_NAME)
+                .antMatchers("/books/pay").hasAnyRole(USER_ROLE_NAME, MANAGER_ROLE_NAME, ADMIN_ROLE_NAME)
+                .antMatchers("/download/**").hasAnyRole(USER_ROLE_NAME, MANAGER_ROLE_NAME, ADMIN_ROLE_NAME)
+                .antMatchers("/profile").hasAnyRole(USER_ROLE_NAME, MANAGER_ROLE_NAME, ADMIN_ROLE_NAME)
+                .antMatchers("/viewed/books").hasAnyRole(USER_ROLE_NAME, MANAGER_ROLE_NAME, ADMIN_ROLE_NAME)
+                .antMatchers("/books/**/img/save").hasAnyRole(ADMIN_ROLE_NAME, MANAGER_ROLE_NAME)
+                .antMatchers("/cms/index").hasAnyRole(MANAGER_ROLE_NAME, ADMIN_ROLE_NAME)
+                .antMatchers("/cms/books/**").hasAnyRole(MANAGER_ROLE_NAME, ADMIN_ROLE_NAME)
+                .antMatchers("/cms/user/**").hasAnyRole(MANAGER_ROLE_NAME, ADMIN_ROLE_NAME)
+                .antMatchers("/cms/book-review/**").hasAnyRole(MANAGER_ROLE_NAME, ADMIN_ROLE_NAME)
+                .antMatchers("/cms/authors/**").hasAnyRole(MANAGER_ROLE_NAME, ADMIN_ROLE_NAME)
+                .antMatchers(HttpMethod.GET).permitAll()
+                .antMatchers(LOGIN_ENDPOINT).permitAll()
+                .antMatchers(REG_ENDPOINT).permitAll()
+                .antMatchers(REQUEST_CONTACT_CONFIRMATION_ENDPOINT).permitAll()
+                .antMatchers(APPROVE_CONTACT_ENDPOINT).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

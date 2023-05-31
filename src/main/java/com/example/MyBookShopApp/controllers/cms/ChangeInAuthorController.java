@@ -6,10 +6,14 @@ import com.example.MyBookShopApp.exception.AuthorException;
 import com.example.MyBookShopApp.service.authorServices.AuthorService;
 import com.example.MyBookShopApp.service.cms.ChangeInAuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/cms/authors")
+@Validated
 public class ChangeInAuthorController {
 
     private final ChangeInAuthorService changeInAuthorService;
@@ -23,9 +27,9 @@ public class ChangeInAuthorController {
     }
 
     @PostMapping("/edit/{slug}")
-    public String editAuthor(@RequestBody AuthorEditDto request, @PathVariable("slug")String slug) throws AuthorException {
+    public String editAuthor(@RequestBody @Valid AuthorEditDto request, @PathVariable("slug") String slug) throws AuthorException {
         Author author = authorService.getBySlug(slug);
-        if(author == null)
+        if (author == null)
             throw new AuthorException("Автор с указанным индетификатором не найден");
         changeInAuthorService.editAuthor(request, author);
         return "index";

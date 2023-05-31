@@ -1,6 +1,7 @@
 package com.example.MyBookShopApp.controllers.tagController;
 
 import com.example.MyBookShopApp.data.tags.Tag;
+import com.example.MyBookShopApp.dto.TagDto;
 import com.example.MyBookShopApp.exception.TagException;
 import com.example.MyBookShopApp.service.tagServices.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,10 @@ public class TagApiController {
     }
 
     @GetMapping("/find-by-tag-name/{name}")
-    public Tag getTagByName(@PathVariable("name")String name) throws TagException {
+    public TagDto getTagByName(@PathVariable("name") String name) throws TagException {
         Tag tagByName = tagService.findTagByName(name);
-        if(tagByName == null)
+        if (tagByName == null)
             throw new TagException("Tag с таким именем не был найден.");
-        tagByName.setBooks(null);
-        return tagByName;
+        return new TagDto(tagByName);
     }
 }

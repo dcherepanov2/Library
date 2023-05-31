@@ -1,6 +1,7 @@
 package com.example.MyBookShopApp.service.userServices.helpers;
 
 import com.example.MyBookShopApp.data.user.User;
+import com.example.MyBookShopApp.exception.UserHelperException;
 import jdk.nashorn.internal.runtime.regexp.joni.exception.InternalException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class UserHelper {
         try {
             random = SecureRandom.getInstanceStrong();
         } catch (NoSuchAlgorithmException e) {
-            throw new InternalException(e.getMessage());
+            throw new UserHelperException(e.getMessage());
         }
     }
 

@@ -45,8 +45,7 @@ public class ResourceStorage {
         this.bookRepo = bookRepo;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED,
-            rollbackFor = {Exception.class, RuntimeException.class})
+    @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
     public void saveNewBookImage(MultipartFile image, String slug) throws IOException {
         String filename = image.hashCode() + UUID.randomUUID().toString() + ".jpg";
         Book book = bookRepo.findBookBySlug(slug);

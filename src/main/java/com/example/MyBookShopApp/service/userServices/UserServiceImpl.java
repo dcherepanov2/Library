@@ -79,8 +79,7 @@ public class UserServiceImpl {
     }
 
     @SneakyThrows
-    @Transactional(isolation = Isolation.READ_COMMITTED,
-            rollbackFor = {Exception.class, RuntimeException.class})
+    @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
     public User createNewUserWithUserClientRole(RegistrationForm registrationForm) {
         User user = null;
         List<UserContactEntity> allApprovedMessage = new ArrayList<UserContactEntity>() {{

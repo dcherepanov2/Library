@@ -5,6 +5,9 @@ import com.example.MyBookShopApp.dto.deserializetor.ReviewDtoDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -12,10 +15,13 @@ import java.time.format.DateTimeFormatter;
 @JsonDeserialize(using = ReviewDtoDeserializer.class)
 public class ReviewDto {
 
+    @NotBlank(message = "Text is required")
     private final String text;
 
+    @NotNull
     private final Integer id;
 
+    @NotEmpty
     private final String time;
     public ReviewDto(BookReview bookReview) {
         this.id =bookReview.getId();
