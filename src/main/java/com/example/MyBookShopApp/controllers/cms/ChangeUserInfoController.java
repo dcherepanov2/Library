@@ -1,16 +1,12 @@
 package com.example.MyBookShopApp.controllers.cms;
 
-import com.example.MyBookShopApp.data.user.User;
-import com.example.MyBookShopApp.data.user.UserContactEntity;
-import com.example.MyBookShopApp.dto.*;
+import com.example.MyBookShopApp.dto.AddBook2UserDto;
+import com.example.MyBookShopApp.dto.EditUserInfo;
+import com.example.MyBookShopApp.dto.ResultTrue;
+import com.example.MyBookShopApp.dto.UserInfo;
 import com.example.MyBookShopApp.exception.BookException;
-import com.example.MyBookShopApp.security.jwt.JwtUser;
-import com.example.MyBookShopApp.service.bookServices.Book2UserService;
 import com.example.MyBookShopApp.service.cms.ChangeUserService;
-import com.example.MyBookShopApp.service.userServices.ContactService;
-import com.example.MyBookShopApp.service.userServices.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
