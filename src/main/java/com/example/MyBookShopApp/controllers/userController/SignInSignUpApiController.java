@@ -85,6 +85,9 @@ public class SignInSignUpApiController {
     @GetMapping("/user/logout")
     public void logout(@CookieValue(value = "token", required = false) String token, HttpServletResponse httpServletResponse) {
         userService.logoutToken(token);
+        Cookie cookie = new Cookie("token", "");
+        cookie.setMaxAge(0);
+        httpServletResponse.addCookie(cookie);
         httpServletResponse.sendRedirect(httpServletResponse.encodeRedirectURL("/"));
     }
 

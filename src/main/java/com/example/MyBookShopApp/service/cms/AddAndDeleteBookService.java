@@ -62,7 +62,7 @@ public class AddAndDeleteBookService {
     }
 
     @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
-    public void deleteBook(String slug) throws BookException {
+    public void deleteBookBySlug(String slug) throws BookException {
         Book bookBySlug = bookService.getBookBySlug(slug);
         if (bookBySlug == null)
             throw new BookException("Книга не найдена");
@@ -70,8 +70,8 @@ public class AddAndDeleteBookService {
     }
 
     @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
-    public void editBook(BookChangeRequest request, String slug) throws IOException, BookException {
-        Book bookBySlug = bookService.getBookBySlug(slug);
+    public void editBook(BookChangeRequest request, Integer id) throws IOException, BookException {
+        Book bookBySlug = bookService.getBookById(id);
         if (bookBySlug == null)
             throw new BookException("Книга не найдена");
         bookBySlug.setBestseller(request.getIsBestseller());
@@ -80,19 +80,31 @@ public class AddAndDeleteBookService {
         bookBySlug.setTitle(request.getTitle());
         bookBySlug.setDiscount(request.getDiscount());
         List<BookFile> newBooksFile = new ArrayList<>(bookBySlug.getBookFiles());
-        List<BookFile> listBooksFiles = resourceStorage.createListBooksFiles(request.getBookFiles(), valueUploadDownloadFiles);
-        for (BookFile bookFile : listBooksFiles) {
-            for (int i = 0; i < bookBySlug.getBookFiles().size(); i++) {
-                BookFile bookFile1 = bookBySlug.getBookFiles().get(i);
-                if (bookFile1.getTypeId().equals(bookFile.getTypeId())) {
-                    newBooksFile.set(i, bookFile);
+        List<BookFile> listBooksFiles = null;
+        if (request.getBookFiles() != null) {
+            listBooksFiles = resourceStorage.createListBooksFiles(request.getBookFiles(), valueUploadDownloadFiles);
+            for (BookFile bookFile : listBooksFiles) {
+                for (int i = 0; i < bookBySlug.getBookFiles().size(); i++) {
+                    BookFile bookFile1 = bookBySlug.getBookFiles().get(i);
+                    if (bookFile1.getTypeId().equals(bookFile.getTypeId())) {
+                        newBooksFile.set(i, bookFile);
+                    }
                 }
             }
+            bookBySlug.setBookFiles(newBooksFile);
+            bookFilesRepo.deleteAll(newBooksFile);
         }
-        bookBySlug.setBookFiles(newBooksFile);
-        bookFilesRepo.deleteAll(newBooksFile);
-        List<Author> allBySlugIn = authorRepo.findAllBySlugIn(request.getAuthorsIds());
-        bookBySlug.setAuthors(allBySlugIn);
+        if (request.getAuthorsIds() != null) {
+            List<Author> allBySlugIn = authorRepo.findAllBySlugIn(request.getAuthorsIds());
+            bookBySlug.setAuthors(allBySlugIn);
+        }
         bookRepo.save(bookBySlug);
+    }
+
+    public void deleteBookById(Integer id) throws BookException {
+        Book book = bookRepo.getById(id);
+        if (book == null)
+            throw new BookException("Книга не была найдена по заданному индетификатору.");
+        bookRepo.delete(book);
     }
 }

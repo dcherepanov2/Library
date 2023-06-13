@@ -240,9 +240,13 @@ public class BookService {
     }
 
     public Book findBookByTitle(String name) throws BookException {
-        Book bookByName = books.findBookByTitle(name);
-        if(bookByName == null)
+        Pageable page = PageRequest.of(0, 1);
+        Book bookByName = books.findBookByTitle(name, page).stream()
+                .findFirst()
+                .orElse(null);
+        if (bookByName == null)
             throw new BookException("Книга не найдена!");
         return bookByName;
     }
+
 }

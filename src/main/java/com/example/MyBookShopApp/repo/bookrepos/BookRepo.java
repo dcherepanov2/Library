@@ -182,5 +182,5 @@ public interface BookRepo extends JpaRepository<Book, Integer> {
             ");", nativeQuery = true)
     List<Book> getAllViewedBooks(@Param("userId") Integer userId);
 
-    Book findBookByTitle(String name);
+    Page<Book> findBookByTitle(String name, Pageable pageable);
 }

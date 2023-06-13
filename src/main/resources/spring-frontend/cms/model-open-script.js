@@ -819,7 +819,7 @@ searchButton.addEventListener('click', () => {
             document.getElementById('discount1').setAttribute("value", data.discount);
             document.getElementById('price1').setAttribute( "value", data.price);
             document.getElementById("isBestseller1").checked = data.bestseller;
-            bookSlug = data.slug;
+            bookSlug = data.id;
 
             const list = document.getElementById('list');
             const list1 = document.getElementById('list1');
@@ -919,6 +919,7 @@ function editBookBt2(){
     formData.append("title", title)
     formData.append("price", price)
     formData.append("description", description)
+    formData.append("isBestseller", isBestseller)
     console.log(authorListLocal)
     console.log(tagListLocal)
     authorListLocal.forEach(x => formData.append("authorsIds[]", x))
@@ -1035,7 +1036,7 @@ function findReviewBooks() {
             if (data.error) {
                 throw new Error(data.error);
             }
-            bookSlug = data.slug;
+            bookSlug = data.id;
             const reviews = data.reviews;
             const resultDiv = document.getElementById('result-find-reviews-books');
             resultDiv.innerHTML = ''
@@ -1118,7 +1119,7 @@ function findBookDelete(){
                                     <button id="save-book-btn" class="btn btn_primary btn_outline" onclick="deleteBook()" >Удалить книгу</button>
                                 </div>
                             </div>`;
-            bookSlug = data.slug
+            bookSlug = data.id
         })
         .catch(error => alert(error));
 

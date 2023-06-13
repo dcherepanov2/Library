@@ -1,9 +1,7 @@
 package com.example.MyBookShopApp.controllers.cms;
 
-import com.example.MyBookShopApp.data.book.Book;
 import com.example.MyBookShopApp.dto.BookChangeRequest;
 import com.example.MyBookShopApp.exception.BookException;
-import com.example.MyBookShopApp.service.bookServices.BookService;
 import com.example.MyBookShopApp.service.cms.AddAndDeleteBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -32,13 +30,13 @@ public class ChangesInBooksController {
         addAndDeleteBookService.save(request);
     }
 
-    @PostMapping("/delete/{slug}")
-    public void deleteBook(@PathVariable("slug") String slug) throws BookException {
-        addAndDeleteBookService.deleteBook(slug);
+    @PostMapping("/delete/{id}")
+    public void deleteBookById(@PathVariable("id") Integer id) throws BookException {
+        addAndDeleteBookService.deleteBookById(id);
     }
 
-    @PostMapping("/edit/{slug}")
-    public void editBook(@Valid BookChangeRequest request, @PathVariable("slug") String slug) throws BookException, IOException {
-        addAndDeleteBookService.editBook(request, slug);
+    @PostMapping("/edit/{id}")
+    public void editBook(@Valid BookChangeRequest request, @PathVariable("id") Integer id) throws BookException, IOException {
+        addAndDeleteBookService.editBook(request, id);
     }
 }
